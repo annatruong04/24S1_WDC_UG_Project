@@ -1,15 +1,7 @@
---
--- Current Database: `volunteer`
---
-
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `volunteer` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+-- Create Database if not exists
+CREATE DATABASE IF NOT EXISTS `volunteer` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 
 USE `volunteer`;
-
---
--- Table structure for table `event`
---
-
 
 -- Create 'Role' table
 CREATE TABLE IF NOT EXISTS Role (
@@ -77,8 +69,8 @@ CREATE TABLE IF NOT EXISTS User_Event (
     FOREIGN KEY (EventID) REFERENCES Event(EventID)
 );
 
--- Create 'Update' table
-CREATE TABLE IF NOT EXISTS `Update` (
+-- Create 'OrgUpdate' table to avoid using reserved keyword
+CREATE TABLE IF NOT EXISTS OrgUpdate (
     UpdateID INT AUTO_INCREMENT PRIMARY KEY,
     Time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     OrganizationID INT,
@@ -88,7 +80,6 @@ CREATE TABLE IF NOT EXISTS `Update` (
     FOREIGN KEY (ManagerID) REFERENCES User(User_ID)
         ON DELETE CASCADE ON UPDATE CASCADE
 );
-
 
 -- Insert data into 'Role'
 INSERT INTO Role (Role_name) VALUES
@@ -110,7 +101,6 @@ INSERT INTO User (Username, First_name, Last_name, Phone_number, Email, Password
 ('asmith', 'Anna', 'Smith', '555-0456', 'asmith@example.com', 'password123', FALSE, 2, 2),
 ('bwilliams', 'Bob', 'Williams', '555-0789', 'bwilliams@example.com', 'password123', TRUE, 3, 3),
 ('ljones', 'Lisa', 'Jones', '555-1011', 'ljones@example.com', 'password123', FALSE, 4, 4);
-
 
 -- Insert data into 'Event'
 INSERT INTO Event (Name, Description, Date, Location, Participant) VALUES
@@ -138,54 +128,35 @@ INSERT INTO User_Event (User_ID, EventID) VALUES
 (3, 3),
 (4, 1);
 
--- Insert data into 'Update'
-INSERT INTO Update (Time_stamp, OrganizationID, Manager) VALUES
+-- Insert data into 'OrgUpdate'
+INSERT INTO OrgUpdate (Time_stamp, OrganizationID, ManagerID) VALUES
 (CURRENT_TIMESTAMP, 1, 1),
 (CURRENT_TIMESTAMP, 2, 2),
 (CURRENT_TIMESTAMP, 3, 3),
 (CURRENT_TIMESTAMP, 4, 4);
 
-
--- MySQL dump 10.13  Distrib 8.0.36, for Win64 (x86_64)
---
--- Host: localhost    Database: volunteer
--- ------------------------------------------------------
--- Server version	8.3.0
-
+-- Ensure consistency and correct settings
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8mb4 */;
+SET NAMES utf8mb4;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
+SET TIME_ZONE='+00:00';
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+SET SQL_MODE='NO_AUTO_VALUE_ON_ZERO';
 
-
-LOCK TABLES `event` WRITE;
-/*!40000 ALTER TABLE `event` DISABLE KEYS */;
-INSERT INTO `event` VALUES (1,'Youx Event - Graduation Ceremony','The event is dope','14/05/2024','Bar Smith Lawns',10);
-/*!40000 ALTER TABLE `event` ENABLE KEYS */;
+LOCK TABLES Event WRITE;
+ALTER TABLE Event DISABLE KEYS;
+INSERT INTO Event (EventID, Name, Description, Date, Location, Participant) VALUES
+(1,'Youx Event - Graduation Ceremony','The event is dope','2024-05-14','Bar Smith Lawns',10);
+ALTER TABLE Event ENABLE KEYS;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+SET SQL_MODE=@OLD_SQL_MODE;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2024-04-11 10:23:34
-
-INSERT INTO Role (Role_name) VALUES
-('Administrator'),
-('Manager'),
-('Employee'),
-('Guest');
-
-
-
+SET SQL_NOTES=@OLD_SQL_NOTES;

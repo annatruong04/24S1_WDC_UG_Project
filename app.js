@@ -37,18 +37,9 @@ app.use(express.json()); // This line is crucial
 // }));
 
 // Create a connection object
-// const connection = mysql.createConnection({
-//   host: 'db', // or the IP address of your MySQL server
-//   user: 'root', // your MySQL username
-//   password: 'password', // your MySQL password
-//   database: 'volunteer', // the name of the database you want to connect to
-//   port:3306
-// });
-
 const connection = mysql.createConnection({
   database: 'volunteer', // the name of the database you want to connect to
 });
-
 
 // Connect to the database
 connection.connect(error => {

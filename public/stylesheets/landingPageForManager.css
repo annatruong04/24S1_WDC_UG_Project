@@ -1,193 +1,169 @@
 body {
     font-family: "Open Sans", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 500;
-    font-style: normal;
-    font-variation-settings:
-    "wdth" 100;
+    margin: 0;
+    padding: 0;
 }
 
-.AboutUs{
-    padding-top: 130px;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+::-webkit-scrollbar{
+    width: 8px;
 }
-.AboutUs img{
+::-webkit-scrollbar-track{
+    background-color: transparent;
+}
+::-webkit-scrollbar-thumb{
+    background-color: #999;
+    border-radius: 100px;
+}
+.topHeadlines .right .topNews::-webkit-scrollbar{
+    width: 6px;
+}
+.topHeadlines .right .topNews::-webkit-scrollbar-thumb{
+    background-color: #777;
+}
+#banner {
+    position: relative;
+}
+#banner img{
     max-width: 100%;
-    height: 50%;
+    height: auto;
 }
 
-.InfoBody{
+.banner-content {
+    position: absolute;
+    background-color: lightgray;
+    opacity: 0.7;
+    top: 25%;
+    padding: 20px;
+    color: black;
+}
+.topHeadlines {
+    padding: 100px 50px 50px 0px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr; 
+}
+
+.topHeadlines .left {
+    padding: 10px 30px; 
+    /*background-color: #999; */ 
+}
+.topHeadlines .left > .title{
+    font-size: 20px;
+    padding: 15px;
+    text-align: center;
+}
+.topHeadlines .left .img {
+    width: 100%;
+    height: 400px;
+    background-color: #77B0AA; 
+}
+.topHeadlines .left .text {
+    padding: 20px 15px 10px;
+}
+.topHeadlines .left .text .title h2{
+    font-size: 20px;
+    letter-spacing: 1px;
+    display:inline;
+    cursor: pointer;
+}
+.topHeadlines .left .text .title h2:hover {
+    text-decoration: underline;
+}
+.topHeadlines .left .text .description {
+    font-size: 15px;
+    margin-top: 10px;
+    color: #aaa;
+    letter-spacing: 1px;
+}
+.topHeadlines .right {
+    padding: 10px;
+    width: 1005;
+    height: 500px;
+    /*background-color: #E3FEF7; */}
+
+
+.topHeadlines .right > .title {
+    font-size: 20px;
+    padding: 15px;
+    text-align: center;
+}
+.topHeadlines .right .topNews {
+    padding: 15px;
+    height: 85%;
+    border: 1px solid black;
+    border-radius: 4px;
+    overflow: scroll;
+}
+.topHeadlines .right .topNews .news{
+    display: grid;
+    grid-template-columns: auto auto;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.topHeadlines .right .topNews .news .img{
+    width: 170px;
+    height: 120px;
+    background-color: #77B0AA;
+}
+.topHeadlines .right .topNews .news .text{
+    margin-inline: 10px;
+}
+.topHeadlines .right .topNews .news .text .title{
+    cursor: pointer;
+}
+.topHeadlines .right .topNews .news .text .title:hover{
+    text-decoration: underline;
+}
+
+.page2{
+    width: 100%;
+    background-color: #77B0AA;
+    min-height: 100vh;
+    padding: 50px;
+}
+
+.page2 .news {
+    padding: 30px 0;
+}
+
+.JoinButton{
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+input[type="button"]{
+    width: 110px;
+    height: 50px;
+    margin-top: 20px;
+    border: none;
     background-color: white;
+    color: #003c43;
+    font-weight: 900;
+    font-size: larger;
+    border-radius: 7px;
+    text-align: center;
 }
-h1 h2 {
-    color: #003C43;
+/* icons */
+.Card{
+    display: inline-block;
 }
-
-
-
-
-/*
- css for header
-*/
+.icon {
+    font-size: 170px;
+    opacity: 0.9;
+    color: #E3FEF7;
+}
+.Card .text {
+    font-family: "SemiBold 600";
+}
+.page2 .news .display .Card {
+    width: 300px;
+    min-height: 400px;
+    border: none
+}
 
 .page-header {
-    position: absolute;
-    width: 100%;
-    height: 110px;
-    background-color:  #135D66;
-    z-index: 1000;
-  }
-  
-  .upper-header{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 50%; 
-    width: 100%;
-    background-color:  #135D66;
-    padding: 0 20px; 
-  }
-  
-  .logo-container {
-    flex: 0 1 auto; /* Don't grow, allow shrink, base size as needed */
-    margin-right: auto; /* Pushes everything else to the right */
-    margin-left: 20px;
-  }
-  
-  .logo-container a{
-    text-decoration: none;
-    color: white;
-  }
-  
-  .logo-container a h1{
-    font-size: 1.7em;
-  }
-  
-  .search-box {
-    margin-right: 13em; 
-    margin-left: 70px;
-    flex: 1; /* Allows the search box to grow and take available space */
-    display: flex;
-    justify-content: center; /* Center the search bar within its container */
-    align-items: center;
-    max-width: 600px; /* Maximum width for the search box */
-    position: relative;
-  }
-  
-  .search-bar {
-    width: 100%; /* Full width to fill its container */
-    padding: 8px 40px; /* Adequate padding for placing the icon */
-    font-size: 1.2em;
-    color: white;
-    background: rgb(70, 69, 72);
-    border-radius: 2em;
-    border: none;
-    outline: none;
-  }
-  
-  .search-icon {
-    position: absolute;
-    left: 15px; /* Position icon within the search bar */
-    color: #ccc;
-  }
-  
-  
-  .rightcontent-container img {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #fff;
-  }
-  
-  .rightcontent-container {
-    position: relative; /* Ensures dropdown menu is positioned relative to this container */
-    flex: 0 1 auto; 
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    margin-left: auto;
-    margin-right: 60px;
-  }
-  
-  .lower-header{
-    display: flex;
-    align-items: justify;
-    justify-content: space-between;
-    height: 50%;
-    width: 100%;
-    background-color: white;
-    border-bottom: 1px solid rgb(232, 232, 232);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding-left: 50px;
-    padding-right: 8px;
-  }
-  
-  .lower-header nav{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-  }
-  
-  .lower-header nav ul{
-    display: flex;
-    height: 100%;
-    padding: 0px;
-    list-style: none;
-    margin: 0px;
-  }
-  
-  .lower-header nav li{
-    display: flex;
-    padding-left: 20px;
-    padding-right: 20px;
-    text-decoration: none;
-    align-items: center;
-    justify-content: center;
-    color: black;
-    position: relative;
-    cursor: pointer;
-    background: none;
-    border: none;
-    height: 100%;
-  }
-  
-  .lower-header nav a{
-    width: 100%;
-    text-decoration: none;
-    color: black;
-  }
-  
-  .lower-header nav li::after{
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px; /* Thickness of the underline */
-    bottom: 0;
-    left: 50%;
-    background-color: black; /* Color of the underline */
-    transition: all 0.3s ease; /* Smooth transition for moving and resizing the underline */
-  
-  }
-  
-  .lower-header nav li:hover::after, .lower-header nav li.active::after{
-    width: 100%; /* Full width on hover or when active */
-    left: 0; /* Start from the left edge */
-  }
-  
-  .navbar-link {
-    font-size: large;
-  }
-  /*
-   css for header
-  */
-  
-  .page-header {
     position: fixed;
     width: 100%;
     height: 110px;
@@ -338,8 +314,9 @@ h1 h2 {
   .navbar-link {
     font-size: large;
   }
-  
-  
+
+
+
 
 
   body {

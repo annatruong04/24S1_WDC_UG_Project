@@ -1,4 +1,10 @@
-mysql -h db -P 3306 -u root -p // connect to mysql
-// run web app server
-mysqldump --databases volunteer -h db -P 3306 -u root -p  > new_backup.sql //dumpdatabase
-nodemon -L --polling-interval 1000 app.js 
+#start mysql
+sudo usermod -d /var/lib/mysql/ mysql #change permission
+service mysql start #start mysql server
+mysql < db_backup.sql #restore database backup
+mysql #access mysql database
+
+#run application
+npm install # install dependencies
+npm start # run application
+

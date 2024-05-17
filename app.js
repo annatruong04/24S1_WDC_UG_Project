@@ -31,24 +31,19 @@ app.use('/users', usersRouter);
 app.use(express.json()); // This line is crucial
 
 // app.use(session({
-//   secret: process.env.SESSION_SECRET,
-//   resave: false,
+//   secret: process.env.SESSION_SECRET, 
+//   resave: false, 
 //   saveUninitialized: true
 // }));
 
 // Create a connection object
-// const connection = mysql.createConnection({
-//   host: 'db', // or the IP address of your MySQL server
-//   user: 'root', // your MySQL username
-//   password: 'password', // your MySQL password
-//   database: 'volunteer', // the name of the database you want to connect to
-//   port:3306
-// });
-
 const connection = mysql.createConnection({
+  host: 'db', // or the IP address of your MySQL server
+  user: 'root', // your MySQL username
+  password: 'password', // your MySQL password
   database: 'volunteer', // the name of the database you want to connect to
+  port:3306
 });
-
 
 // Connect to the database
 connection.connect(error => {
@@ -61,7 +56,7 @@ connection.connect(error => {
 });
 
 app.get('/api/read/events', (req, res) => {
-  connection.query(`SELECT * FROM Event`, (error, results) => {
+  connection.query(`SELECT * FROM Event`, (error, results) => { 
     if (error) {
       return res.status(500).send(error);
     }
@@ -70,7 +65,7 @@ app.get('/api/read/events', (req, res) => {
 });
 
 app.get('/api/read/users', (req, res) => {
-  connection.query(`SELECT * FROM User`, (error, results) => {
+  connection.query(`SELECT * FROM User`, (error, results) => { 
     if (error) {
       return res.status(500).send(error);
     }
@@ -92,7 +87,7 @@ app.post('/api/create/events', (req, res) => {
 
 app.get('/api/get/user', async (req, res) => {
   try {
-    connection.query(`SELECT * FROM USER`, (error, results) => {
+    connection.query(`SELECT * FROM USER`, (error, results) => { 
       if (error) {
         return res.status(500).send(error);
       }
@@ -102,7 +97,7 @@ app.get('/api/get/user', async (req, res) => {
     console.error('Error fetching user data:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
-
+  
 });
 
 

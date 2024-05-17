@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="stylesheets/profile.css">
+</head>
+
+
+<body>
+  
+<header id="mydiv" class="page-header">
+  <div class="upper-header">
+      <div class="logo-container">
+          <a href="">
+              <h1>Youx's Organisation</h1>
+          </a>
+      </div>
+      <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <input type="search" placeholder="Search..." class="search-bar">
+      </div>
+      <div class="rightcontent-container">
+          <img src="/images/profile.png" @click="toggleDropdown" alt="Profile Picture" onerror="this.onerror=null; this.src=''; this.style.backgroundColor='white'; this.style.borderRadius='50%';">
+          <div class="dropdown-menu" id="dropdownMenu" data-show="false">
+            <ul>
+                <li><a href="/profile.html">Your Profile</a></li>
+                <li><a href="/logout.html">Logout</a></li>
+            </ul>
+        </div>
+      </div>
+  </div>
+  <div class="lower-header">
+      <nav class="navbar">
+          <ul>
+              <li class="active">
+                  <a href="manager_page/Home.html">
+                      <div class="navbar-link">Home</div>
+                  </a>
+              </li>
+              <li class="">
+                  <a href="manager_page/Event.html">
+                       <div class="navbar-link">Event</div>
+                  </a>
+              </li>
+              <li class="">
+                  <a href="manager_page/Member.html">
+                      <div class="navbar-link">Member</div>
+                  </a>
+              </li>
+          </ul>
+      </nav>
+  </div>
+</header> 
+
+  <div id="app">
+    <!-- <header>
+      <h1>User Profile</h1>
+    </header> --> 
+    <main>
+      <div class="profile">
+        <div class="user-info">
+          <div class="avatar">
+            <img :src="user.avatar" alt="User Avatar">
+          </div>
+          <div class="user-details">
+            <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+            <p>{{ user.role }}</p>
+            <div class="info-columns">
+              <div class="info-column">
+                <ul>
+                  <li><strong>Email:</strong> {{ user.email }}</li>
+                  <li><strong>Phone:</strong> {{ user.phonenumber }}</li>
+                </ul>
+              </div>
+              <div class="info-column">
+                <ul>
+                  <li><strong>Location:</strong> {{ user.location }}</li>
+                  <li><strong>Role:</strong> {{ user.role }}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button @click="LogOut" class="change-btn">Log Out</button>
+    </main>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+  <script src="javascripts/profile.js" defer></script>
+</body>
+
+</html>

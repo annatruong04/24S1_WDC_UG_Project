@@ -1,0 +1,23 @@
+
+
+# Install necessary packages for building MySQL
+RUN apt-get update && apt-get install -y \
+    wget \
+    gnupg \
+    lsb-release \
+    cmake \
+    gcc \
+    libncurses5-dev \
+    libssl-dev \
+    libboost-all-dev
+
+# Add MySQL repository
+RUN echo "deb http://repo.mysql.com/apt/debian/ $(lsb_release -cs) mysql-8.0" | tee /etc/apt/sources.list.d/mysql.list
+
+
+# Set up MySQL APT repository and install MySQL Server
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys B7B3B788A8D3785C
+RUN wget https://repo.mysql.com//mysql-apt-config_0.8.16-1_all.deb
+RUN echo "mysql-apt-config mysql-apt-config/select-server select mysql-8.0" | debconf-set-selections
+RUN dpkg -i mysql-apt-config_0.8.16-1_all.deb
+RUN apt-get update && apt-get install -y mysql-server

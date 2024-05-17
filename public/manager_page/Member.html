@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Manager-page</title>
+    <link rel="stylesheet" href="../stylesheets/manager.css">
+    <script src="https://kit.fontawesome.com/4cf720d27e.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+
+<body>
+    <div id="mydiv" class="page-header">
+        <div class="upper-header">
+            <div class="logo-container">
+                <a href="">
+                    <h1>Youx's Organisation</h1>
+                </a>
+            </div>
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="search" placeholder="Search..." class="search-bar">
+            </div>
+            <div class="rightcontent-container">
+                <img src="../images/profile.png" @click="toggleDropdown" alt="Profile Picture" onerror="this.onerror=null; this.src=''; this.style.backgroundColor='white'; this.style.borderRadius='50%';">
+                <div class="dropdown-menu" :data-show="clicked.toString()">
+                    <ul>
+                        <li><a href="/profile.html">Your Profile</a></li>
+                        <li><a href="/logout.html">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="lower-header">
+            <nav class="navbar">
+                <ul>
+                    <li class="">
+                        <a href="Home.html">
+                            <div class="navbar-link">Home</div>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="Event.html">
+                             <div class="navbar-link">Event</div>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="Member.html">
+                            <div class="navbar-link">Member</div>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>    
+    </div>    
+    <div id="manager-page" class="body-container">
+        <div class="member-header">
+            <h1>Member</h1>
+            <div class="search-and-invite">
+                <div class="member-searchbar">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Search by name or email">
+                </div>
+                <button class="invite-button">Add Member +</button>
+            </div>
+        </div>
+        <table class="member-table">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Roles</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="user in users" :key="user.User_ID" @click="directUser(user)">
+                    <td> {{user.Username}} </td>
+                    <td> <span>{{user.First_name}} {{user.Last_name}} </span>  </td>
+                    <td> {{user.Email}}</td>
+                    <td>
+                        <span class="role member">Member</span>
+                    </td>
+                    <td><button class="edit-button"><i class="fa-solid fa-pencil"></i></button> <button class="more-button"><i class="fa-solid fa-trash"></i></button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script src="https://kit.fontawesome.com/4cf720d27e.js" crossorigin="anonymous"></script>
+    <script src="../javascripts/manager_js/member.js"></script>
+</body>
+
+</html>

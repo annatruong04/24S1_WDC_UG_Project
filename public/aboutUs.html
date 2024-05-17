@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>About us</title>
+        <link rel="stylesheet" type="text/css" href="stylesheets/aboutUs.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    </head>
+    <body>
+
+        <header id="mydiv" class="page-header">
+            <div class="upper-header">
+                <div class="logo-container">
+                    <a href="">
+                        <h1>Youx's Organisation</h1>
+                    </a>
+                </div>
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="search" placeholder="Search..." class="search-bar">
+                </div>
+                <div class="rightcontent-container">
+                    <img src="/images/profile.png" @click="toggleDropdown" alt="Profile Picture" onerror="this.onerror=null; this.src=''; this.style.backgroundColor='white'; this.style.borderRadius='50%';">
+                    <div class="dropdown-menu" id="dropdownMenu" data-show="false">
+                      <ul>
+                          <li><a href="/profile.html">Your Profile</a></li>
+                          <li><a href="/logout.html">Logout</a></li>
+                      </ul>
+                  </div>
+                </div>
+            </div>
+            <div class="lower-header">
+                <nav class="navbar">
+                    <ul>
+                        <li class="active">
+                            <a href="manager_page/Home.html">
+                                <div class="navbar-link">Home</div>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="manager_page/Event.html">
+                                 <div class="navbar-link">Event</div>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="manager_page/Member.html">
+                                <div class="navbar-link">Member</div>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+          </header> 
+        <div class="AboutUs">
+            <header></header>
+            <div><img src="aboutUs.jpg" alt="Volunteer image"></div>
+            <div class="InfoBody">
+        <h1>About Us</h1>
+        <p>Welcome to [group name] - a Volunteer Organization from The University of Adelaide team, dedicated to helping students get along well with campus life.</p>
+        <h2>Why Volunteer?</h2>
+        <p>We may not solve world hunger immediately, but we're convinced that by serving with each other in our local communities, we're paving the way for much broader
+        changes. Our individual efforts don't need to be huge—a little bit of change here, a few hours there—but even small efforts quickly add up to make a real difference.
+        <br>
+        As we work side-by-side and learn from each other, mutual understanding increases, misconceptions can be corrected, and new friendships are built.</p>
+        <h2>Our Mission</h2>
+        <p>Our mission is to provide support and resources to ensure that students have a positive and enriching experience during their time at the University of Adelaide.</p>
+
+        <h2>Our Team</h2>
+        <p>Meet the passionate individuals who make our organization thrive:</p>
+        <ul>
+            <li>Duc - [Role/Position]</li>
+            <li>Khanh - [Role/Position]</li>
+            <li>Thao - [Role/Position]</li>
+            <li>Khoi - [Role/Position]</li>
+            <!-- Add more team members as needed -->
+        </ul>
+
+        <h2>Get Involved</h2>
+        <p>Interested in volunteering with us? Contact us at [contact email/phone] or visit our <a href="[volunteer page URL]">Social media</a> page for more information.</p>
+
+        <h2>Contact Us</h2>
+        <p>If you have any questions or feedback, feel free to reach out to us:</p>
+        <ul>
+            <li>Email: [Email Address]</li>
+            <li>Phone: [Phone Number]</li>
+            <!-- Add more contact information as needed -->
+        </ul>
+            </div>
+            <footer></footer>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Event description</title>
+    <link rel="stylesheet" href="../stylesheets/manager.css">
+    <script src="https://kit.fontawesome.com/4cf720d27e.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="mydiv" class="page-header">
+        <div class="upper-header">
+            <div class="logo-container">
+                <a href="">
+                    <h1>Youx's Organisation</h1>
+                </a>
+            </div>
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="search" placeholder="Search..." class="search-bar">
+            </div>
+            <div class="rightcontent-container">
+                <img src="../images/profile.png" @click="toggleDropdown" alt="Profile Picture" onerror="this.onerror=null; this.src=''; this.style.backgroundColor='white'; this.style.borderRadius='50%';">
+                <div class="dropdown-menu" v-show="clicked">
+                    <ul>
+                        <li><a href="/profile.html">Your Profile</a></li>
+                        <li><a href="/logout.html">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="lower-header">
+            <nav class="navbar">
+                <ul>
+                    <li class="">
+                        <a href="Home.html">
+                            <div class="navbar-link">Home</div>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="Event.html">
+                             <div class="navbar-link">Event</div>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="Member.html">
+                            <div class="navbar-link">Member</div>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div> 
+    <div class="img-div">
+        <img src="../images/meeting.jpg">
+    </div>
+    <div id="app" class="event-body-container">
+        <div class="event-detail">
+            <p>14th, June</p>
+            <h1>
+                {{name}}
+            </h1> 
+            <h2>
+                Date and time
+            </h2>
+            <div class="date-info">
+                <i class="fa-solid fa-calendar"></i>
+                <p>{{date}}</p>
+            </div>
+            <h2>
+                Location
+            </h2>
+            <div class="date-info">
+                <i class="fa-solid fa-location-pin"></i>
+                <p>{{location}}</p>
+            </div>
+            <h2>
+                About this event
+            </h2>
+            <p>{{description}}</p>
+            
+            <div class="container"> 
+                <div class="container-header">
+                    <div class="header-content"> 
+                        <h2>Comment</h2>
+                    </div>
+                </div>
+                <div class="container-body">
+                    <p id="comment-para">Post a comment</p>  
+                    <form class="comment-form">
+                        <input type="text" placeholder="Title">
+                        <textarea rows="10" placeholder="Your comment"></textarea>
+                        <br>
+                        <button type="button" onclick="">Submit</button>
+                    </form>
+                </div>
+            </div> 
+        </div>
+        
+        <div class="ticket-selection">
+            <div class="price-display">
+                <p>Price</p>
+                <p style="font-weight: bold;">Free</p>
+            </div>
+            <button class="checkout-btn">Get ticket</button>
+
+
+        </div>
+
+    </div>
+    <script src="../javascripts/description_page.js"></script>
+</body>
+</html>

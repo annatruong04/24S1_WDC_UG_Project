@@ -1,0 +1,4 @@
+mysql -h db -P 3306 -u root -p // connect to mysql
+// run web app server
+mysqldump --databases volunteer -h db -P 3306 -u root -p  > new_backup.sql //dumpdatabase
+nodemon -L --polling-interval 1000 app.js 

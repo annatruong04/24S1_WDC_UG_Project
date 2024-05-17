@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Manager-page</title>
+    <link rel="stylesheet" href="../stylesheets/manager.css">
+    <script src="https://kit.fontawesome.com/4cf720d27e.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+
+<body>
+    <div id="mydiv" class="page-header">
+        <div class="upper-header">
+            <div class="logo-container">
+                <a href="">
+                    <h1>Youx's Organisation</h1>
+                </a>
+            </div>
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="search" placeholder="Search..." class="search-bar">
+            </div>
+            <div class="rightcontent-container">
+                <img src="../images/profile.png" @click="toggleDropdown" alt="Profile Picture" onerror="this.onerror=null; this.src=''; this.style.backgroundColor='white'; this.style.borderRadius='50%';">
+                <div class="dropdown-menu" :data-show="clicked.toString()">
+                    <ul>
+                        <li><a href="/profile.html">Your Profile</a></li>
+                        <li><a href="/logout.html">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="lower-header">
+            <nav class="navbar">
+                <ul>
+                    <li class="active">
+                        <a href="Home.html">
+                            <div class="navbar-link">Home</div>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="Event.html">
+                             <div class="navbar-link">Event</div>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="Member.html">
+                            <div class="navbar-link">Member</div>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>    
+    <div id="manager-page" class="body-container">
+        <div class="welcome_div">
+            <h1>🎉 Welcome to You'x Organisation!</h1>
+            <h2>Have a good day!</h2>
+        </div>
+        <hr>
+        <div id="left-container" class="container">
+            <div class="container-header">
+                <div class="header-content">
+                    <h2>Announcement</h2>
+                </div>
+            </div>
+            <div class="container-body">
+                <p>New Announcement !</p>
+                <p>New Announcement !</p>
+                <p>New Announcement !</p>
+                <p>New Announcement !</p>
+            </div>
+        </div>
+        <div id="right-container" class="container">
+            <div class="container-header">
+                <div class="header-content">
+                    <h2>Members</h2>
+                </div>
+            </div>
+            <div class="container-body">
+                <p>Duc Nam Khanh Le</p>
+                <p>Minh Duc Kieu</p>
+                <p>Thi Phuong Thao Truong</p>
+                <p>Khoi Lu</p>
+            </div>
+        </div>
+    </div>
+    </div>
+    <script src="https://kit.fontawesome.com/4cf720d27e.js" crossorigin="anonymous"></script>
+    <script src="../javascripts/manager_js/home.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Manager-page</title>
+    <link rel="stylesheet" href="../stylesheets/manager.css">
+    <script src="https://kit.fontawesome.com/4cf720d27e.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+
+<body>
+    <div id="mydiv-event" class="page-header">
+        <div class="upper-header">
+            <div class="logo-container">
+                <a href="">
+                    <h1>Youx's Organisation</h1>
+                </a>
+            </div>
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="search" placeholder="Search..." class="search-bar">
+            </div>
+            <div class="rightcontent-container">
+                <img src="../images/profile.png" @click="toggleDropdown" alt="Profile Picture" onerror="this.onerror=null; this.src=''; this.style.backgroundColor='white'; this.style.borderRadius='50%';">
+                <div class="dropdown-menu" :data-show="clicked.toString()">
+                    <ul>
+                        <li><a href="/profile.html">Your Profile</a></li>
+                        <li><a href="/logout.html">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="lower-header">
+            <nav class="navbar">
+                <ul>
+                    <li class="">
+                        <a href="Home.html">
+                            <div class="navbar-link">Home</div>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="Event.html">
+                             <div class="navbar-link">Event</div>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="Member.html">
+                            <div class="navbar-link">Member</div>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>    
+    <div id="manager-home-page" class="body-container">
+        <div v-if="showPopUp" class="popupbox-event" @click.self="showPopUp = false">
+            <div class="popup-box-content">
+                <div class="container">
+                    <div class="container-header">
+                        <div class="header-content">
+                            <h2>Create event</h2>
+                            <div class="close" @click="showPopUp = false">
+                                <i id="close-icon" class="fa-solid fa-xmark"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="popup-container" class="container-body">
+                        <form @submit.prevent="submitForm">
+                            <p>Name</p>
+                            <input type="text" name="Name" v-model="form.name" placeholder="Enter event name">
+                            <p>Location</p>
+                            <input type="text" name="Location" v-model="form.location"
+                                placeholder="Enter event location">
+                            <p>Date</p>
+                            <input type="date" name="Date" v-model="form.date" placeholder="Enter event date">
+                            <p>Description</p>
+                            <textarea rows="10" name="Description" v-model="form.description"
+                                placeholder="Enter event description"></textarea>
+                            <br>
+                            <div class="buttons">
+                                <button type="submit">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="container-footer">
+                        <div class="buttons">
+                            <button id="closePopup" @click="showPopUp = false">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="event-search-container">
+            <i class="fa-solid fa-magnifying-glass event-search-icon"></i>
+            <input type="text" placeholder="Search for events" class="event-search-input">
+            <div class="separator"></div>
+            <i class="fa-solid fa-location-dot event-search-icon"></i>
+            <input type="text" placeholder="Search places" class="event-search-input">
+            <i class="fa-solid fa-magnifying-glass event-search-btn"></i>
+        </div>
+        
+        <div class="filters">
+            <select class="filter-dropdown">
+                <option value="" disabled selected>Dates</option>
+                <option value="">All Dates</option>
+                <option value="">Today</option>
+                <option value="">Tomorrow</option>
+                <option value="">This week</option>
+                <option value="">Next week</option>
+            </select>   
+            <select class="filter-dropdown">
+                <option value="" disabled selected>Price</option>
+                <option value="">Free</option>
+                <option value="">Paid</option>
+            </select>
+        </div>
+        <hr>
+        <div class="event-grid">
+            <div v-for="event in events" :key="event.EventID" class="event-card" @click="directEvent(event)">
+                <img src="../images/meeting.jpg" alt="Event Image" @error="imgErr = true" v-show="!imgErr">
+                <div class="fallback" v-if="imgErr"></div>
+                <div class="event-info">
+                    <p class="date-time">{{event.Date}}</p>
+                    <h2>{{event.Name}}</h2>   
+                    <p class="location">{{event.Location}}</p>
+                    <p class="followers">
+                        <span><i class="fa-solid fa-user"></i></span>
+                        <span>{{event.Participant}} </span> 
+                    </p>
+                </div>  
+            </div>
+        </div>
+
+        <!-- <div class="container">
+            <div class="container-header">
+                <div class="header-content">
+                    <h2>Events</h2>
+                    <div class="buttons">
+                        <button type="submit" @click="popup()">Create event</button>
+                        <button type="submit" @click="">Delete event</button>
+                    </div>
+                </div>
+            </div>
+            <div class="container-body">
+                <div id="list-table">
+                    <table id="table">
+                        <thead>
+                            <tr>
+                                <th>Event Name</th>
+                                <th>Number of participates</th>
+                                <th>Date</th>
+                                <th>Location</th>
+                            </tr>
+                        </thead>
+                        <tbody v-for="event in events" :key="event.EventID" @click="directEvent(event)">
+                            <td> {{event.Name}} </td>
+                            <td> {{event.Participant}} </td>
+                            <td> {{event.Date}} </td>
+                            <td> {{event.Location}} </td>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    </div>
+    <script src="https://kit.fontawesome.com/4cf720d27e.js" crossorigin="anonymous"></script>
+    <script src="../javascripts/manager_js/event.js"></script>
+</body>
+
+</html>

@@ -54,7 +54,7 @@ body {
 }
 .topHeadlines .left .img {
   width: 100%;
-  height: 400px;
+  height: 450px;
   background-color: #77B0AA;
 }
 .topHeadlines .left .text {
@@ -331,6 +331,7 @@ body {
   background-color: #135D66;
   color: white;
   padding: 40px 0;
+  margin-top: 100px;
 }
 
 .site-footer .container {

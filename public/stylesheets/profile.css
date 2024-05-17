@@ -14,7 +14,6 @@ body {
 header {
   background-color: #135D66;
   color: #E3FEF7;
-  padding: 20px 0;
   text-align: center;
 }
 
@@ -126,10 +125,10 @@ main {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 50%; 
+  height: 50%;
   width: 100%;
   background-color:  #135D66;
-  padding: 0 20px; 
+  padding: 0 20px;
 }
 
 .logo-container {
@@ -148,7 +147,7 @@ main {
 }
 
 .search-box {
-  margin-right: 13em; 
+  margin-right: 13em;
   margin-left: 70px;
   flex: 1; /* Allows the search box to grow and take available space */
   display: flex;
@@ -186,7 +185,7 @@ main {
 
 .rightcontent-container {
   position: relative; /* Ensures dropdown menu is positioned relative to this container */
-  flex: 0 1 auto; 
+  flex: 0 1 auto;
   display: flex;
   align-items: center;
   justify-content: flex-end;

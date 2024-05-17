@@ -5,17 +5,18 @@ body {
     font-style: normal;
     font-variation-settings:
     "wdth" 100;
+    margin: 0;
 }
 
 .AboutUs{
-    padding-top: 130px;
+    padding-top: 100px;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 .AboutUs img{
-    max-width: 100%;
-    height: 50%;
+   width: 100%;
+   height: 300px;
 }
 
 .InfoBody{
@@ -39,397 +40,398 @@ h1 h2 {
     background-color:  #135D66;
     z-index: 1000;
   }
-  
-  .upper-header{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 50%; 
-    width: 100%;
-    background-color:  #135D66;
-    padding: 0 20px; 
-  }
-  
-  .logo-container {
-    flex: 0 1 auto; /* Don't grow, allow shrink, base size as needed */
-    margin-right: auto; /* Pushes everything else to the right */
-    margin-left: 20px;
-  }
-  
-  .logo-container a{
-    text-decoration: none;
-    color: white;
-  }
-  
-  .logo-container a h1{
-    font-size: 1.7em;
-  }
-  
-  .search-box {
-    margin-right: 13em; 
-    margin-left: 70px;
-    flex: 1; /* Allows the search box to grow and take available space */
-    display: flex;
-    justify-content: center; /* Center the search bar within its container */
-    align-items: center;
-    max-width: 600px; /* Maximum width for the search box */
-    position: relative;
-  }
-  
-  .search-bar {
-    width: 100%; /* Full width to fill its container */
-    padding: 8px 40px; /* Adequate padding for placing the icon */
-    font-size: 1.2em;
-    color: white;
-    background: rgb(70, 69, 72);
-    border-radius: 2em;
-    border: none;
-    outline: none;
-  }
-  
-  .search-icon {
-    position: absolute;
-    left: 15px; /* Position icon within the search bar */
-    color: #ccc;
-  }
-  
-  
-  .rightcontent-container img {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #fff;
-  }
-  
-  .rightcontent-container {
-    position: relative; /* Ensures dropdown menu is positioned relative to this container */
-    flex: 0 1 auto; 
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    margin-left: auto;
-    margin-right: 60px;
-  }
-  
-  .lower-header{
-    display: flex;
-    align-items: justify;
-    justify-content: space-between;
-    height: 50%;
-    width: 100%;
-    background-color: white;
-    border-bottom: 1px solid rgb(232, 232, 232);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding-left: 50px;
-    padding-right: 8px;
-  }
-  
-  .lower-header nav{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-  }
-  
-  .lower-header nav ul{
-    display: flex;
-    height: 100%;
-    padding: 0px;
-    list-style: none;
-    margin: 0px;
-  }
-  
-  .lower-header nav li{
-    display: flex;
-    padding-left: 20px;
-    padding-right: 20px;
-    text-decoration: none;
-    align-items: center;
-    justify-content: center;
-    color: black;
-    position: relative;
-    cursor: pointer;
-    background: none;
-    border: none;
-    height: 100%;
-  }
-  
-  .lower-header nav a{
-    width: 100%;
-    text-decoration: none;
-    color: black;
-  }
-  
-  .lower-header nav li::after{
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px; /* Thickness of the underline */
-    bottom: 0;
-    left: 50%;
-    background-color: black; /* Color of the underline */
-    transition: all 0.3s ease; /* Smooth transition for moving and resizing the underline */
-  
-  }
-  
-  .lower-header nav li:hover::after, .lower-header nav li.active::after{
-    width: 100%; /* Full width on hover or when active */
-    left: 0; /* Start from the left edge */
-  }
-  
-  .navbar-link {
-    font-size: large;
-  }
-  /*
-   css for header
-  */
-  
-  .page-header {
-    position: fixed;
-    width: 100%;
-    height: 110px;
-    background-color:  #135D66;
-    z-index: 1000;
-  }
-  
-  .upper-header{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 50%; 
-    width: 100%;
-    background-color:  #135D66;
-    padding: 0 20px; 
-  }
-  
-  .logo-container {
-    flex: 0 1 auto; /* Don't grow, allow shrink, base size as needed */
-    margin-right: auto; /* Pushes everything else to the right */
-    margin-left: 20px;
-  }
-  
-  .logo-container a{
-    text-decoration: none;
-    color: white;
-  }
-  
-  .logo-container a h1{
-    font-size: 1.7em;
-  }
-  
-  .search-box {
-    margin-right: 13em; 
-    margin-left: 70px;
-    flex: 1; /* Allows the search box to grow and take available space */
-    display: flex;
-    justify-content: center; /* Center the search bar within its container */
-    align-items: center;
-    max-width: 600px; /* Maximum width for the search box */
-    position: relative;
-  }
-  
-  .search-bar {
-    width: 100%; /* Full width to fill its container */
-    padding: 8px 40px; /* Adequate padding for placing the icon */
-    font-size: 1.2em;
-    color: white;
-    background: rgb(70, 69, 72);
-    border-radius: 2em;
-    border: none;
-    outline: none;
-  }
-  
-  .search-icon {
-    position: absolute;
-    left: 15px; /* Position icon within the search bar */
-    color: #ccc;
-  }
-  
-  
-  .rightcontent-container img {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #fff;
-  }
-  
-  .rightcontent-container {
-    position: relative; /* Ensures dropdown menu is positioned relative to this container */
-    flex: 0 1 auto; 
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    margin-left: auto;
-    margin-right: 60px;
-  }
-  
-  .lower-header{
-    display: flex;
-    align-items: justify;
-    justify-content: space-between;
-    height: 50%;
-    width: 100%;
-    background-color: white;
-    border-bottom: 1px solid rgb(232, 232, 232);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding-left: 50px;
-    padding-right: 8px;
-  }
-  
-  .lower-header nav{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-  }
-  
-  .lower-header nav ul{
-    display: flex;
-    height: 100%;
-    padding: 0px;
-    list-style: none;
-    margin: 0px;
-  }
-  
-  .lower-header nav li{
-    display: flex;
-    padding-left: 20px;
-    padding-right: 20px;
-    text-decoration: none;
-    align-items: center;
-    justify-content: center;
-    color: black;
-    position: relative;
-    cursor: pointer;
-    background: none;
-    border: none;
-    height: 100%;
-  }
-  
-  .lower-header nav a{
-    width: 100%;
-    text-decoration: none;
-    color: black;
-  }
-  
-  .lower-header nav li::after{
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px; /* Thickness of the underline */
-    bottom: 0;
-    left: 50%;
-    background-color: black; /* Color of the underline */
-    transition: all 0.3s ease; /* Smooth transition for moving and resizing the underline */
-  
-  }
-  
-  .lower-header nav li:hover::after, .lower-header nav li.active::after{
-    width: 100%; /* Full width on hover or when active */
-    left: 0; /* Start from the left edge */
-  }
-  
-  .navbar-link {
-    font-size: large;
-  }
-  
-  
+
+.upper-header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 50%;
+  width: 100%;
+  background-color:  #135D66;
+  padding: 0 20px;
+}
+
+.logo-container {
+  flex: 0 1 auto; /* Don't grow, allow shrink, base size as needed */
+  margin-right: auto; /* Pushes everything else to the right */
+  margin-left: 20px;
+}
+
+.logo-container a{
+  text-decoration: none;
+  color: white;
+}
+
+.logo-container a h1{
+  font-size: 1.7em;
+}
+
+.search-box {
+  margin-right: 13em;
+  margin-left: 70px;
+  flex: 1; /* Allows the search box to grow and take available space */
+  display: flex;
+  justify-content: center; /* Center the search bar within its container */
+  align-items: center;
+  max-width: 600px; /* Maximum width for the search box */
+  position: relative;
+}
+
+.search-bar {
+  width: 100%; /* Full width to fill its container */
+  padding: 8px 40px; /* Adequate padding for placing the icon */
+  font-size: 1.2em;
+  color: white;
+  background: rgb(70, 69, 72);
+  border-radius: 2em;
+  border: none;
+  outline: none;
+}
+
+.search-icon {
+  position: absolute;
+  left: 15px; /* Position icon within the search bar */
+  color: #ccc;
+}
 
 
-  body {
-    font-family: "Open Sans", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 500;
-    font-style: normal;
-    font-variation-settings: "wdth" 100;
-  }
-  
-  .site-footer {
-    background-color: #135D66;
-    color: white;
-    padding: 40px 0;
-  }
-  
-  .site-footer .container {
-    text-align: center;
-  }
-  
-  .footer-columns {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-  }
-  
+.rightcontent-container img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff;
+}
+
+.rightcontent-container {
+  position: relative; /* Ensures dropdown menu is positioned relative to this container */
+  flex: 0 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-left: auto;
+  margin-right: 60px;
+}
+
+.lower-header{
+  display: flex;
+  align-items: justify;
+  justify-content: space-between;
+  height: 50%;
+  width: 100%;
+  background-color: white;
+  border-bottom: 1px solid rgb(232, 232, 232);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding-left: 50px;
+  padding-right: 8px;
+}
+
+.lower-header nav{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.lower-header nav ul{
+  display: flex;
+  height: 100%;
+  padding: 0px;
+  list-style: none;
+  margin: 0px;
+}
+
+.lower-header nav li{
+  display: flex;
+  padding-left: 20px;
+  padding-right: 20px;
+  text-decoration: none;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  position: relative;
+  cursor: pointer;
+  background: none;
+  border: none;
+  height: 100%;
+}
+
+.lower-header nav a{
+  width: 100%;
+  text-decoration: none;
+  color: black;
+}
+
+.lower-header nav li::after{
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px; /* Thickness of the underline */
+  bottom: 0;
+  left: 50%;
+  background-color: black; /* Color of the underline */
+  transition: all 0.3s ease; /* Smooth transition for moving and resizing the underline */
+
+}
+
+.lower-header nav li:hover::after, .lower-header nav li.active::after{
+  width: 100%; /* Full width on hover or when active */
+  left: 0; /* Start from the left edge */
+}
+
+.navbar-link {
+  font-size: large;
+}
+/*
+  css for header
+*/
+
+.page-header {
+  position: fixed;
+  width: 100%;
+  height: 110px;
+  background-color:  #135D66;
+  z-index: 1000;
+}
+
+.upper-header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 50%;
+  width: 100%;
+  background-color:  #135D66;
+  padding: 0 20px;
+}
+
+.logo-container {
+  flex: 0 1 auto; /* Don't grow, allow shrink, base size as needed */
+  margin-right: auto; /* Pushes everything else to the right */
+  margin-left: 20px;
+}
+
+.logo-container a{
+  text-decoration: none;
+  color: white;
+}
+
+.logo-container a h1{
+  font-size: 1.7em;
+}
+
+.search-box {
+  margin-right: 13em;
+  margin-left: 70px;
+  flex: 1; /* Allows the search box to grow and take available space */
+  display: flex;
+  justify-content: center; /* Center the search bar within its container */
+  align-items: center;
+  max-width: 600px; /* Maximum width for the search box */
+  position: relative;
+}
+
+.search-bar {
+  width: 100%; /* Full width to fill its container */
+  padding: 8px 40px; /* Adequate padding for placing the icon */
+  font-size: 1.2em;
+  color: white;
+  background: rgb(70, 69, 72);
+  border-radius: 2em;
+  border: none;
+  outline: none;
+}
+
+.search-icon {
+  position: absolute;
+  left: 15px; /* Position icon within the search bar */
+  color: #ccc;
+}
+
+
+.rightcontent-container img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff;
+}
+
+.rightcontent-container {
+  position: relative; /* Ensures dropdown menu is positioned relative to this container */
+  flex: 0 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-left: auto;
+  margin-right: 60px;
+}
+
+.lower-header{
+  display: flex;
+  align-items: justify;
+  justify-content: space-between;
+  height: 50%;
+  width: 100%;
+  background-color: white;
+  border-bottom: 1px solid rgb(232, 232, 232);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding-left: 50px;
+  padding-right: 8px;
+}
+
+.lower-header nav{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.lower-header nav ul{
+  display: flex;
+  height: 100%;
+  padding: 0px;
+  list-style: none;
+  margin: 0px;
+}
+
+.lower-header nav li{
+  display: flex;
+  padding-left: 20px;
+  padding-right: 20px;
+  text-decoration: none;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  position: relative;
+  cursor: pointer;
+  background: none;
+  border: none;
+  height: 100%;
+}
+
+.lower-header nav a{
+  width: 100%;
+  text-decoration: none;
+  color: black;
+}
+
+.lower-header nav li::after{
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px; /* Thickness of the underline */
+  bottom: 0;
+  left: 50%;
+  background-color: black; /* Color of the underline */
+  transition: all 0.3s ease; /* Smooth transition for moving and resizing the underline */
+
+}
+
+.lower-header nav li:hover::after, .lower-header nav li.active::after{
+  width: 100%; /* Full width on hover or when active */
+  left: 0; /* Start from the left edge */
+}
+
+.navbar-link {
+  font-size: large;
+}
+
+
+
+
+body {
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+}
+
+.site-footer {
+  background-color: #135D66;
+  color: white;
+  padding: 40px 0;
+}
+
+.site-footer .container {
+  text-align: center;
+}
+
+.footer-columns {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.footer-column {
+  flex: 1;
+  min-width: 200px;
+  padding: 0 20px;
+}
+
+.footer-column h6 {
+  font-size: 16px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.footer-column .text-justify {
+  text-align: left;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links li {
+  margin-bottom: 10px;
+}
+
+.footer-links a {
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover {
+  color: #00bcd4;
+}
+
+.footer-social {
+  margin-top: 20px;
+}
+
+.social-icons {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.social-icons li {
+  margin: 0 10px;
+}
+
+.social-icons a {
+  color: white;
+  font-size: 20px;
+  transition: color 0.3s;
+}
+
+.social-icons a:hover {
+  color: #00bcd4;
+}
+
+@media (max-width: 768px) {
   .footer-column {
-    flex: 1;
-    min-width: 200px;
-    padding: 0 20px;
-  }
-  
-  .footer-column h6 {
-    font-size: 16px;
-    text-transform: uppercase;
+    flex: 0 0 100%;
     margin-bottom: 20px;
   }
-  
-  .footer-column .text-justify {
-    text-align: left;
-  }
-  
-  .footer-links {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .footer-links li {
-    margin-bottom: 10px;
-  }
-  
-  .footer-links a {
-    color: white;
-    text-decoration: none;
-    transition: color 0.3s;
-  }
-  
-  .footer-links a:hover {
-    color: #00bcd4;
-  }
-  
-  .footer-social {
-    margin-top: 20px;
-  }
-  
-  .social-icons {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-  }
-  
-  .social-icons li {
-    margin: 0 10px;
-  }
-  
-  .social-icons a {
-    color: white;
-    font-size: 20px;
-    transition: color 0.3s;
-  }
-  
-  .social-icons a:hover {
-    color: #00bcd4;
-  }
-  
-  @media (max-width: 768px) {
-    .footer-column {
-      flex: 0 0 100%;
-      margin-bottom: 20px;
-    }
-  }
+}
+

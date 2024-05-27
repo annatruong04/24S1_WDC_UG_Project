@@ -8,19 +8,20 @@
   <title>Login & Registration Form</title>
   <link rel="stylesheet" href="stylesheets/login.css">
   <script src="https://accounts.google.com/gsi/client" async></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 </head>
 
 <body>
 
-  <div class="container">
+  <div class="container" id="app">
     <input type="checkbox" id="check">
     <div class="login form">
       <header>Login</header>
       <form action="#">
-        <input type="text" placeholder="Enter your email">
-        <input type="password" placeholder="Enter your password">
+        <input type="text" v-model="username" placeholder="Enter your User name">
+        <input type="password" v-model="password" placeholder="Enter your password">
         <a href="#">Forgot password?</a>
-        <input type="button" class="button" value="Login">
+        <input type="button" @click="login()" class="button" value="Login">
 
         <div id="g_id_onload"
             data-client_id="613277374446-c0gve4793drm7ensis45lgv036m6s503.apps.googleusercontent.com"
@@ -83,7 +84,7 @@
     </div>
   </div>
 
-
+  <script src="./javascripts/login.js"></script>
 </body>
 
 </html>

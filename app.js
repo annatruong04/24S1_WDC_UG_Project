@@ -6,8 +6,6 @@ var logger = require('morgan');
 const mysql = require('mysql2');
 const session = require('express-session');
 require('dotenv').config();
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 
 const cors = require('cors');
 
@@ -25,81 +23,35 @@ app.use(cookieParser());
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: false
 }));
 
-
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'landingPage.html'));
-});
-
-app.use('/', indexRouter);
-
-app.use('/users', usersRouter);
-
-
 // Create a connection object
-const connection = mysql.createConnection({
+const dbConnectionPool = mysql.createPool({
   database: 'volunteer', // the name of the database you want to connect to
 });
 
-// Connect to the database
-connection.connect(error => {
-  if (error) {
-    console.error('An error occurred while connecting to the database:', error);
-    return;
-  }
-
-  console.log('Connected to the database successfully.');
+app.use(function(req,res,next){
+  req.pool = dbConnectionPool;
+  next();
 });
 
-app.get('/api/read/events', (req, res) => {
-  connection.query(`SELECT * FROM Event`, (error, results) => {
-    if (error) {
-      return res.status(500).send(error);
-    }
-    res.json(results);
-  });
+app.use(function(req,res,next){
+  console.log("Current user: " + req.session.user.username);
+  next();
 });
 
-app.get('/api/read/users', (req, res) => {
-  connection.query(`SELECT * FROM User`, (error, results) => {
-    if (error) {
-      return res.status(500).send(error);
-    }
-    res.json(results);
-  });
-});
+app.use(express.static(path.join(__dirname, 'public')));
 
+// Import routes for auth
+const authRoutes = require('./routes/authentication');
+const pageRoutes = require('./routes/pages');
+const apiRoute = require('./routes/api');
 
-app.post('/api/create/events', (req, res) => {
-  const data = req.body;
-  console.log(req.body);
-  const sql = "INSERT INTO event (name, location, date, description) VALUES (?, ?, ?, ?)";
-  connection.query(sql, [data.Name, data.Location, data.Date, data.Description], (error, results, fields) => {
-    if (error) throw res.send(res.body);
-    res.send('Data inserted');
-  });
-});
-
-
-app.get('/api/get/user', async (req, res) => {
-  try {
-    connection.query(`SELECT * FROM USER`, (error, results) => {
-      if (error) {
-        return res.status(500).send(error);
-      }
-      res.json(results);
-    });
-  } catch (error) {
-    console.error('Error fetching user data:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-
-});
-
+// Use routes for auth
+app.use('/api', apiRoute);
+app.use('/auth', authRoutes);
+app.use('/', pageRoutes);
 
 
 app.listen(3000, () => {

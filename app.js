@@ -5,7 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const mysql = require('mysql2');
 const session = require('express-session');
-
+require('dotenv').config();
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
@@ -13,8 +13,9 @@ const cors = require('cors');
 
 var app = express();
 
-app.use(cors());
+
 // view engine setup
+app.use(cors());
 app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(express.json());
@@ -30,8 +31,12 @@ app.use(session({
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'landingPage.html'));
+});
 
 app.use('/', indexRouter);
+
 app.use('/users', usersRouter);
 
 

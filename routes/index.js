@@ -4,7 +4,7 @@ const path = require('path');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('landingPage', { title: 'Express' });
+  res.sendFile(path.join(__dirname, 'public', 'landingPage.html'));
 });
 
 

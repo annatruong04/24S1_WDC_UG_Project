@@ -10,6 +10,10 @@ var app = new Vue({
 
             xhttp.onreadystatechange = () => {
                 if (xhttp.readyState === 4 && xhttp.status === 200) {
+                    console.log(xhttp.responseText);
+                    if (xhttp.responseText === "User") window.location.href = `http://localhost:3000/`;
+                    else if (xhttp.responseText === "Manager") window.location.href = `http://localhost:3000/manager/home.html`;
+                    else if (xhttp.responseText === "Administrator") window.location.href = `http://localhost:3000/admin/admin.html`;
                     console.log("insert successfull");
                 }
             };

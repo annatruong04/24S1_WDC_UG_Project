@@ -41,7 +41,7 @@ var appdiv = new Vue({
           // Add other event details as needed
         }).toString();
 
-        window.location.href = `http://localhost:3000/manager_page/event-description.html?${queryParams}`;
+        window.location.href = `http://localhost:3000/manager/event-description.html?${queryParams}`;
       },
       popup(){
         this.showPopUp = true;

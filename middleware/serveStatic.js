@@ -2,7 +2,7 @@ const path = require('path');
 const express = require('express');
 
 function serveUserFiles(req, res, next) {
-  if (req.session.user && req.session.user.role === 'User') {
+  if (req.session.username && req.session.role === 'User') {
     express.static(path.join(__dirname, '../views/user_page'))(req, res, next);
   } else {
     res.status(403).send('Access denied.');
@@ -10,7 +10,7 @@ function serveUserFiles(req, res, next) {
 }
 
 function serveAdminFiles(req, res, next) {
-  if (req.session.user && req.session.user.role === 'Admin') {
+  if (req.session.username && req.session.role === 'Administrator') {
     express.static(path.join(__dirname, '../views/admin_page'))(req, res, next);
   } else {
     res.status(403).send('Access denied.');
@@ -18,7 +18,7 @@ function serveAdminFiles(req, res, next) {
 }
 
 function serveManagerFiles(req, res, next) {
-  if (req.session.user && req.session.user.role === 'Manager') {
+  if (req.session.username && req.session.role === 'Manager') {
     express.static(path.join(__dirname, '../views/manager_page'))(req, res, next);
   } else {
     res.status(403).send('Access denied.');

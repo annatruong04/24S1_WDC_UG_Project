@@ -23,12 +23,22 @@ app.use(cookieParser());
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  secure: false
 }));
 
 // Create a connection object
 const dbConnectionPool = mysql.createPool({
   database: 'volunteer', // the name of the database you want to connect to
+});
+
+dbConnectionPool.getConnection(function(err, connection){
+  if (err){
+    console.log(err);
+    return;
+  }
+
+  console.log("database connected");
 });
 
 app.use(function(req,res,next){
@@ -37,7 +47,7 @@ app.use(function(req,res,next){
 });
 
 app.use(function(req,res,next){
-  console.log("Current user: " + req.session.user.username);
+  console.log("Current user: " + req.session.username);
   next();
 });
 
@@ -49,9 +59,10 @@ const pageRoutes = require('./routes/pages');
 const apiRoute = require('./routes/api');
 
 // Use routes for auth
+app.use('/', pageRoutes);
 app.use('/api', apiRoute);
 app.use('/auth', authRoutes);
-app.use('/', pageRoutes);
+
 
 
 app.listen(3000, () => {

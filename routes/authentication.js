@@ -3,17 +3,26 @@ const path = require('path');
 const router = express.Router();
 
 router.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public', 'login.html'));
+    if (req.session.username) {
+        if (req.session.role == "Administrator") res.redirect("/admin/admin.html");
+        else if (req.session.role == "Manager") res.redirect("/manager/Home.html");
+        else if (req.session.role == "User") res.redirect("/");
+    }
+    res.sendFile(path.join(__dirname, '../views', 'login.html'));
 });
 
 router.post('/login', (req, res) => {
+
+
     const username = req.body.param1;
     const password = req.body.param2;
+
     req.pool.getConnection(function(err,connection) {
         if (err) {
         res.sendStatus(500);
         return;
         }
+
         var query = 'select B.User_ID, B.Username, B.Password, A.Role_name from Role as A inner join User as B on A.RoleID = B.Role_ID where B.Username = ?';
         connection.query(query, [username], (error, results) => {
             if (error){
@@ -30,16 +39,14 @@ router.post('/login', (req, res) => {
                 return res.status(400).send('Incorrect password');
             }
 
-            console.log("Login successful");
+            req.session.username = user.Username;
+            req.session.id = user.User_ID;
+            req.session.role = user.Role_name;
 
-            req.session.user = {
-                id: user.User_ID,
-                username: user.Username,
-                role: user.Role_name,
-            };
-            res.redirect("/");
+            return res.send(req.session.role);
         });
     });
+
 });
 
 router.get('/logout', (req, res) => {

@@ -435,3 +435,124 @@ body {
   }
 }
 
+
+/*new*/
+.about-container {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 1000px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.header-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+  gap: 20px;
+}
+
+.header-image {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  margin: 0 auto;
+}
+
+.header-text {
+  text-align: left;
+  max-width: 600px;
+}
+
+.header-text h1 {
+  color: #2b2b2b;
+  font-size: 2em;
+  margin: 0;
+}
+
+.header-text p {
+  font-size: 1.2em;
+  color: #3a3a3a;
+  margin-top: 10px;
+}
+
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.value-item {
+  background: #f9f9f9;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.value-item h2 {
+  font-size: 1.2em;
+  margin: 10px 0;
+}
+
+.value-item p {
+  font-size: 1em;
+  color: #3a3a3a;
+}
+
+.value-icon {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 10px;
+  background-size: cover;
+}
+
+.integrity-icon {
+  background-image: url('path_to_integrity_icon.png');
+}
+
+.excellence-icon {
+  background-image: url('path_to_excellence_icon.png');
+}
+
+.participation-icon {
+  background-image: url('path_to_participation_icon.png');
+}
+
+.sustainability-icon {
+  background-image: url('path_to_sustainability_icon.png');
+}
+
+.leadership-icon {
+  background-image: url('path_to_leadership_icon.png');
+}
+
+.diversity-icon {
+  background-image: url('path_to_diversity_icon.png');
+}
+
+@media (min-width: 768px) {
+  .header-flex {
+    justify-content: space-between;
+  }
+
+  .header-image {
+    width: auto;
+    max-height: 150px;
+    margin-right: 20px;
+  }
+
+  .header-text {
+    text-align: left;
+  }
+}
+
+@media (min-width: 1200px) {
+  .about-container {
+    padding: 40px;
+  }
+}

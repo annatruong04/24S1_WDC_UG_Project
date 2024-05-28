@@ -5,9 +5,10 @@ function isAuthenticated(req, res, next) {
     next();
   }
 
-  function hasRole(role) {  
+  function hasRole(role) {
     return (req, res, next) => {
-      if (!req.session.username || req.session.role !== role) {
+      if (req.session.role === 'Administrator') next();
+      if (!req.session.username || req.session.role !== role ) {
         return res.status(403).send('You do not have permission to access this resource.');
       }
       next();

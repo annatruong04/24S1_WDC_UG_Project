@@ -931,3 +931,8 @@ body{
       margin-bottom: 20px;
     }
   }
+
+  .login-btn{
+    color: white;
+    text-decoration: none;
+  }

@@ -42,6 +42,7 @@ body{
   display: none;
 }
 .container .form{
+  width: 600px;
   padding: 2rem;
 }
 .form header{
@@ -96,18 +97,16 @@ body{
 }
 
 
-
-
 .flex-container {
   display: flex;
   flex-wrap: wrap;
-  
+
 }
 .option {
   display: flex; /* Use flexbox to align items */
   flex-direction: row; /* Stack items vertically */
   justify-content:space-evenly;
-  
+
 }
 
 .option input[type="radio"] {
@@ -127,6 +126,27 @@ box-sizing: unset;
   text-align: left; /* Align label text center */
 }
 
+.separator {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.separator::before,
+.separator::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #ccc;
+}
+
+.separator:not(:empty)::before {
+  margin-right: .25em;
+}
+
+.separator:not(:empty)::after {
+  margin-left: .25em;
+}
 
 
 .flex-row-left {
@@ -139,8 +159,17 @@ box-sizing: unset;
   flex: 50%;
 }
 
+.wrong-info{
+  color: red;
+  font-size: medium;
+  margin-bottom: 20px;
+}
 
-
-
+.google-signin{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
 
 

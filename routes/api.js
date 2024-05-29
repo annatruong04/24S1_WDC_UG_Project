@@ -13,6 +13,7 @@ router.get('/read/events', isAuthenticated, (req, res) => {
       }
 
       connection.query(`SELECT * FROM Event`, (error, results) => {
+        connection.release();
         if (error) {
           return res.status(500).send(error);
         }
@@ -28,6 +29,7 @@ req.pool.getConnection(function(err,connection) {
     return;
     }
     connection.query(`SELECT * FROM User`, (error, results) => {
+      connection.release();
     if (error) {
         return res.status(500).send(error);
     }
@@ -47,7 +49,8 @@ req.pool.getConnection(function(err,connection) {
     console.log(req.body);
     const sql = "INSERT INTO event (name, location, date, description) VALUES (?, ?, ?, ?)";
     connection.query(sql, [data.Name, data.Location, data.Date, data.Description], (error, results, fields) => {
-    if (error) throw res.send(res.body);
+      connection.release();
+      if (error) throw res.send(res.body);
     res.send('Data inserted');
     });
 });
@@ -61,9 +64,10 @@ req.pool.getConnection(function(err,connection) {
     return;
     }
     connection.query(`SELECT * FROM USER`, (error, results) => {
+      connection.release();
     if (error) {
         return res.status(500).send(error);
-    }
+    } 
     res.json(results);
     });
 });

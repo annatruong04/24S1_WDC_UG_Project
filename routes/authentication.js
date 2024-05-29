@@ -2,6 +2,8 @@ const express = require('express');
 const path = require('path');
 const router = express.Router();
 
+const argon2 = require('argon2');
+
 const CLIENT_ID = '613277374446-c0gve4793drm7ensis45lgv036m6s503.apps.googleusercontent.com';
 const {OAuth2Client} = require('google-auth-library');
 const client = new OAuth2Client(CLIENT_ID);
@@ -33,14 +35,18 @@ router.post('/signup', function(req,res,next){
     const su_email = req.body.param5;
     const su_password = req.body.param6;
 
-    req.pool.getConnection(function(err,connection) {
+
+
+    req.pool.getConnection(async function(err,connection) {
         if (err) {
         res.sendStatus(500);
         return;
         }
+        const hash = await argon2.hash(su_password);
 
         var query = 'select Username from User where Username = ?';
         connection.query(query, [username], (error, results) => {
+            connection.release();
             if (error){
                 return res.status(401).send(error);
             }
@@ -52,7 +58,8 @@ router.post('/signup', function(req,res,next){
                         return res.sendStatus(401);
                     }
                     var query2 = `insert into User(Username, First_name, Last_name, Phone_number, Email, Role_ID, Password) values(?, ?, ?, ?, ?, '3', ?)`;
-                    connection2.query(query2, [username, firstname, lastname, phonenum, su_email, su_password], (error, results) => {
+                    connection2.query(query2, [username, firstname, lastname, phonenum, su_email, hash], (error, results) => {
+                        connection.release();
                         if (error){
                             console.log("Query error" + error);
                             return res.sendStatus(401);
@@ -91,6 +98,7 @@ router.post('/login', async function(req, res,next){
 
             var query = 'select B.User_ID, B.First_Name, B.Last_name, B.Username from User as B where B.Username = ?';
             connection.query(query, [payload['email']], (error, results) => {
+                connection.release();
                 if (error){
                     console.log("Query error" + error);
                     return ;
@@ -104,6 +112,7 @@ router.post('/login', async function(req, res,next){
                         }
                         var query2 = `insert into User(Username, First_name, Last_name, Email, Role_ID, Password) values(?, ?, ?, ?, '3', '')`;
                         connection2.query(query2, [payload['email'], payload['given_name'], payload['family_name'], payload['email']], (error, results) => {
+                            connection.release();
                             if (error){
                                 console.log("Query error" + error);
                                 return ;
@@ -137,20 +146,25 @@ router.post('/login', async function(req, res,next){
         }
 
         var query = 'select B.User_ID, B.First_Name, B.Last_name, B.Username, B.Password, A.Role_name from Role as A inner join User as B on A.RoleID = B.Role_ID where B.Username = ?';
-        connection.query(query, [username], (error, results) => {
+        connection.query(query, [username], async (error, results) => {
+            connection.release();
             if (error){
                 return res.status(401).send(error);
             }
 
             if (results.length === 0) {
                 return res.status(400).send('User not found');
-              }
+            }
 
             const user = results[0];
 
-            if (user.Password !== password) {
+            if (!await argon2.verify(user.Password, password)) {
                 return res.status(400).send('Incorrect password');
             }
+
+            // if (user.Password !== password) {
+
+            // }
             req.session.id = user.User_ID;
             req.session.username = user.Username;
             req.session.name = user.First_name + " " + user.Last_name;

@@ -9,9 +9,13 @@ const {OAuth2Client} = require('google-auth-library');
 const client = new OAuth2Client(CLIENT_ID);
 
 router.get('/getUser', function(req,res,next){
+
     if (req.session.username) res.status(200).send(JSON.stringify({
         Username: req.session.username,
         Name: req.session.name,
+        Phone_num: req.session.phonenum,
+        Email: req.session.email,
+        Role: req.session.role
     }));
     else res.sendStatus(401);
 });
@@ -145,7 +149,7 @@ router.post('/login', async function(req, res,next){
         return;
         }
 
-        var query = 'select B.User_ID, B.First_Name, B.Last_name, B.Username, B.Password, A.Role_name from Role as A inner join User as B on A.RoleID = B.Role_ID where B.Username = ?';
+        var query = 'select B.User_ID, B.Phone_number, B.Email, B.First_Name, B.Last_name, B.Username, B.Password, A.Role_name from Role as A inner join User as B on A.RoleID = B.Role_ID where B.Username = ?';
         connection.query(query, [username], async (error, results) => {
             connection.release();
             if (error){
@@ -167,8 +171,10 @@ router.post('/login', async function(req, res,next){
             // }
             req.session.id = user.User_ID;
             req.session.username = user.Username;
-            req.session.name = user.First_name + " " + user.Last_name;
+            req.session.name = user.First_Name + " " + user.Last_name;
             req.session.role = user.Role_name;
+            req.session.email = user.Email;
+            req.session.phonenum = user.Phone_number;
 
             return res.send(req.session.role);
         });

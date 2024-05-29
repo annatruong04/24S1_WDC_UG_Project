@@ -18,7 +18,7 @@
         <div class="upper-header">
             <div class="logo-container">
                 <a href="">
-                    <h1>Youx's Organisation</h1>
+                    <h1>GreenEarth</h1>
                 </a>
             </div>
             <div class="search-box">
@@ -29,8 +29,8 @@
                 <img src="../images/profile.png" @click="toggleDropdown" alt="Profile Picture" onerror="this.onerror=null; this.src=''; this.style.backgroundColor='white'; this.style.borderRadius='50%';">
                 <div class="dropdown-menu" :data-show="clicked.toString()">
                     <ul>
-                        <li><a href="/profile.html">Your Profile</a></li>
-                        <li><a href="/logout.html">Logout</a></li>
+                        <li><a href="/user/profile.html">Your Profile</a></li>
+                        <li><a href="/auth/logout">Logout</a></li>
                     </ul>
                 </div>
             </div>
@@ -56,7 +56,7 @@
                 </ul>
             </nav>
         </div>
-    </div>    
+    </div>
     <div id="manager-page" class="body-container">
         <div class="welcome_div">
             <h1>🎉 Welcome to You'x Organisation!</h1>

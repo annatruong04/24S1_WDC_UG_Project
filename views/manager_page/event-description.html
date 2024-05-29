@@ -15,7 +15,7 @@
         <div class="upper-header">
             <div class="logo-container">
                 <a href="">
-                    <h1>Youx's Organisation</h1>
+                    <h1>GreenEarth</h1>
                 </a>
             </div>
             <div class="search-box">
@@ -26,8 +26,8 @@
                 <img src="../images/profile.png" @click="toggleDropdown" alt="Profile Picture" onerror="this.onerror=null; this.src=''; this.style.backgroundColor='white'; this.style.borderRadius='50%';">
                 <div class="dropdown-menu" v-show="clicked">
                     <ul>
-                        <li><a href="/profile.html">Your Profile</a></li>
-                        <li><a href="/logout.html">Logout</a></li>
+                        <li><a href="/user/profile.html">Your Profile</a></li>
+                        <li><a href="/auth/logout">Logout</a></li>
                     </ul>
                 </div>
             </div>
@@ -53,7 +53,7 @@
                 </ul>
             </nav>
         </div>
-    </div> 
+    </div>
     <div class="img-div">
         <img src="../images/meeting.jpg">
     </div>
@@ -62,7 +62,7 @@
             <p>14th, June</p>
             <h1>
                 {{name}}
-            </h1> 
+            </h1>
             <h2>
                 Date and time
             </h2>
@@ -81,15 +81,15 @@
                 About this event
             </h2>
             <p>{{description}}</p>
-            
-            <div class="container"> 
+
+            <div class="container">
                 <div class="container-header">
-                    <div class="header-content"> 
+                    <div class="header-content">
                         <h2>Comment</h2>
                     </div>
                 </div>
                 <div class="container-body">
-                    <p id="comment-para">Post a comment</p>  
+                    <p id="comment-para">Post a comment</p>
                     <form class="comment-form">
                         <input type="text" placeholder="Title">
                         <textarea rows="10" placeholder="Your comment"></textarea>
@@ -97,9 +97,9 @@
                         <button type="button" onclick="">Submit</button>
                     </form>
                 </div>
-            </div> 
+            </div>
         </div>
-        
+
         <div class="ticket-selection">
             <div class="price-display">
                 <p>Price</p>

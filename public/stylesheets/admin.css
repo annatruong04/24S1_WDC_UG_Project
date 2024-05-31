@@ -106,9 +106,10 @@ body {
     border: 1px solid #E0E0E0;
     border-radius: 4px;
     position: absolute;
-    left: 50%;
+    left: 53%;
     margin-right: -50%;
     transform: translate(-50%, -50%);
+    margin-top: 40px;
 }
 
 #interface .navigation .search input{
@@ -284,3 +285,83 @@ body {
     border-collapse: separate;
     border-spacing: 0;
 }
+
+.rightcontent-container {
+    position: absolute; /* Ensures dropdown menu is positioned relative to this container */
+    flex: 0 1 auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-left: auto;
+
+    left: 95%;
+}
+
+.rightcontent-container img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
+}
+
+
+.dropdown-menu {
+    position: absolute;
+    /* display: none; */
+    margin-top: 0.2em;
+    transform: translateX(-10%);
+    top: 50px; /* Adjust this value to position it below the profile image */
+    right: 0; /* Aligns the dropdown to the right edge of the profile container */
+    width: 120px; /* Control the width to avoid overflow */
+    background-color: rgba(255, 255, 255, 0.886);
+    border: 1px solid rgb(232, 232, 232);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    visibility: hidden; /* Hide the menu initially */
+    opacity: 0; /* Start fully transparent */
+    transform: translateY(-10px) translateX(-10%); /* Start slightly above the final position */
+    transition: opacity 0.3s, transform 0.3s;
+  }
+
+  .dropdown-menu::after {
+    content: "";
+    position: absolute;
+    top: -8px; /* Slightly above the dropdown to show the pointer */
+    left: 50%; /* Center the pointer relative to the dropdown */
+    margin-left: 27px; /* This centers the triangle (half the total width of 10px) */
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 10px 10px 10px; /* Creates an upward-pointing triangle */
+    border-color: transparent transparent rgb(197, 194, 194) transparent; /* Bottom border is white, others are transparent */
+  }
+
+  .dropdown-menu[data-show="true"] { /* Added for Vue.js control */
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0) translateX(2%);
+  }
+
+
+
+  .dropdown-menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .dropdown-menu ul li {
+    padding: 12px 16px;
+    text-align: left;
+  }
+
+  .dropdown-menu ul li a {
+    text-decoration: none;
+    color: black;
+    display: block;
+  }
+
+  .dropdown-menu ul li:hover {
+    background-color: #f1f1f1;
+  }

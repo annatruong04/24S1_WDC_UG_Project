@@ -29,6 +29,7 @@
                 <img src="../images/profile.png" @click="toggleDropdown" alt="Profile Picture" onerror="this.onerror=null; this.src=''; this.style.backgroundColor='white'; this.style.borderRadius='50%';">
                 <div class="dropdown-menu" :data-show="clicked.toString()">
                     <ul>
+                        <li><a href="/">Home Page</a></li>
                         <li><a href="/user/profile.html">Your Profile</a></li>
                         <li><a href="/auth/logout">Logout</a></li>
                     </ul>
@@ -59,7 +60,7 @@
     </div>
     <div id="manager-page" class="body-container">
         <div class="welcome_div">
-            <h1>🎉 Welcome to You'x Organisation!</h1>
+            <h1>🎉 Welcome to GreenEarth Organisation!</h1>
             <h2>Have a good day!</h2>
         </div>
         <hr>
@@ -89,7 +90,6 @@
                 <p>Khoi Lu</p>
             </div>
         </div>
-    </div>
     </div>
     <script src="https://kit.fontawesome.com/4cf720d27e.js" crossorigin="anonymous"></script>
     <script src="../javascripts/manager_js/home.js"></script>

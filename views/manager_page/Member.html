@@ -29,6 +29,7 @@
                 <img src="../images/profile.png" @click="toggleDropdown" alt="Profile Picture" onerror="this.onerror=null; this.src=''; this.style.backgroundColor='white'; this.style.borderRadius='50%';">
                 <div class="dropdown-menu" :data-show="clicked.toString()">
                     <ul>
+                        <li><a href="/">Home Page</a></li>
                         <li><a href="/user/profile.html">Your Profile</a></li>
                         <li><a href="/auth/logout">Logout</a></li>
                     </ul>
@@ -65,7 +66,7 @@
                     <i class="fa-solid fa-magnifying-glass"></i>
                     <input type="text" placeholder="Search by name or email">
                 </div>
-                <button class="invite-button">Add Member +</button>
+                <button type="button" class="invite-button">Add Member +</button>
             </div>
         </div>
         <table class="member-table">
@@ -74,19 +75,15 @@
                     <th>Username</th>
                     <th>Name</th>
                     <th>Email</th>
-                    <th>Roles</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="user in users" :key="user.User_ID" @click="directUser(user)">
+                <tr v-for="user in users" :key="user.User_ID">
                     <td> {{user.Username}} </td>
                     <td> <span>{{user.First_name}} {{user.Last_name}} </span>  </td>
                     <td> {{user.Email}}</td>
-                    <td>
-                        <span class="role member">Member</span>
-                    </td>
-                    <td><button class="edit-button"><i class="fa-solid fa-pencil"></i></button> <button class="more-button"><i class="fa-solid fa-trash"></i></button></td>
+                    <td><button type="button" @click="deleteUser(user.Username)" class="more-button"><i class="fa-solid fa-trash"></i></button></td>
                 </tr>
             </tbody>
         </table>

@@ -78,7 +78,8 @@ window.onload = function () {
         el: "#mydiv-login",
         data: {
             clicked: false,
-            loginStatus: false
+            loginStatus: false,
+            user: []
         },
         mounted(){
             this.getUser();
@@ -92,6 +93,8 @@ window.onload = function () {
 
                 xhttp.onreadystatechange = () => {
                     if (xhttp.readyState === 4 && xhttp.status === 200) {
+                        var data = JSON.parse(xhttp.responseText);
+                        this.user = data;
                         this.loginStatus = true;
                     }
                 };

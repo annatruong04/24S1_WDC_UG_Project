@@ -21,7 +21,6 @@ body {
 
 .InfoBody{
     background-color: white;
-    padding: 30px;
 }
 h1 h2 {
     color: #003C43;
@@ -613,8 +612,92 @@ body {
   }
 }
 
+/* IMPACT */
+.impact-section {
+  text-align: center;
+  padding: 50px 20px;
+}
+.impact-header {
+  font-size: 36px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+.impact-stats {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 40px;
+}
+.impact-stats div {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+}
+.impact-stats div img {
+  margin-right: 10px;
+}
+.impact-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+  max-width: 1120px;
+}
+.impact-image img {
+  max-width: 560px;
+  height: auto;
+  border-radius: 10px;
+}
+.impact-quote {
+  background-color: #fceaea;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: left;
+  max-width: 560px;
+}
+.impact-quote p {
+  margin: 0;
+}
+.impact-quote p.quote {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+.impact-quote p.author {
+  font-weight: bold;
+}
+.impact-quote p.title {
+  font-size: 14px;
+  color: #6e6e6e;
+}
+@media (max-width: 768px) {
+  .impact-stats {
+    flex-direction: column;
+    align-items: center;
+  }
+  .impact-content {
+    flex-direction: column;
+  }
+}
 
 /* OUR TEAM */
+.Our-Team {
+  padding-bottom: 10px;
+  padding-top: 5px;
+}
+.Our-Team h2 {
+  font-size: 35px;
+  text-align: center;
+}
+
+.Our-Team p {
+  text-align: center;
+  font-size: 18px;
+}
+.ourteam-background{
+  background-color: #f8f9fa;
+}
 /* General styles */
 .persons {
   display: flex;

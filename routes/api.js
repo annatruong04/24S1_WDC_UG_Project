@@ -67,11 +67,29 @@ req.pool.getConnection(function(err,connection) {
       connection.release();
     if (error) {
         return res.status(500).send(error);
-    } 
+    }
     res.json(results);
     });
 });
 });
+
+router.post('/delete/user', isAuthenticated, (req, res) => {
+  req.pool.getConnection(function(err,connection) {
+      if (err) {
+        console.log(err);
+      res.sendStatus(500);
+      return;
+      }
+      connection.query(`SET FOREIGN_KEY_CHECKS = 0; delete from User where Username = ?; SET FOREIGN_KEY_CHECKS = 1;`, [req.body.username], (error, results) => {
+        connection.release();
+      if (error) {
+          console.log(error);
+          return res.status(500).send(error);
+      }
+      res.sendStatus(200);
+      });
+  });
+  });
 
 
 module.exports = router;

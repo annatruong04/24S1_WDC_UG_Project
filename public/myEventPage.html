@@ -67,95 +67,43 @@
                 </nav>
             </div>
           </header>
-        <!-- <div id="banner">
-            <img src="banner.jpg" alt="Volunteer image">
-            <div class="banner-content">
-                <h1>[Volunteer Organization name]</h1>
-                <p>We are a dedicated volunteer organization committed to making a positive impact on our community and beyond.</p>
-            </div>
-        </div> -->
-
-        <div class="topHeadlines">
-            <div class="left">
-                <div class="title"><h2>Events</h2></div>
-                <div class="img" id="newsImage">add image here</div>
-                <!-- <div class="text" id="News">
-                    <div class="title">
-                        <h2>Recruiting members!</h2>
-                    </div>
-                    <div class="description">
-                        Organization XYZ need participants for project ABC...
-                    </div>
-                </div> -->
-            </div>
-            <div class="right">
-                <div class="title"><h2>Environmental News</h2></div>
-                <div class="topNews">
-                    <div class="news">
-                        <div class="img"><img src="images/news1.jpeg" alt="Image 1"></div>
-                        <div class="text">
-                            <div class="title">Protecting Biodiversity: A Global Effort</div>
-                            <p>Efforts to conserve biodiversity are increasing globally as awareness grows about the importance of preserving ecosystems and wildlife.</p>
-                        </div>
-                    </div>
-                    <div class="news">
-                        <div class="img"><img src="images/news2.jpeg" alt="Image 2"></div>
-                        <div class="text">
-                            <div class="title">Renewable Energy Revolution: Solar Power Surges Ahead</div>
-                            <p>Solar power adoption continues to surge worldwide, contributing significantly to reducing greenhouse gas emissions and combating climate change.</p>
-                        </div>
-                    </div>
-                    <div class="news">
-                        <div class="img"><img src="images/news3.jpeg" alt="Image 3"></div>
-                        <div class="text">
-                            <div class="title">Plastic Pollution Crisis: Urgent Action Needed</div>
-                            <p>The global plastic pollution crisis is worsening, threatening marine life and ecosystems. Urgent action is needed to curb plastic waste and promote sustainable alternatives.</p>
-                       </div>
-                    </div>
-                    <div class="news">
-                        <div class="img"><img src="images/news4.jpeg" alt="Image 4"></div>
-                        <div class="text">
-                            <div class="title">Rising Temperatures: Impact on Biodiversity</div>
-                            <p>Rising temperatures due to climate change are disrupting ecosystems and threatening biodiversity worldwide, leading to habitat loss and species extinction.</p>
-                    </div>
-                    </div>
-                    <!-- Add more news items here -->
-                    <!-- Add more news items here -->
-                </div>
-            </div>
-
+          <div class="event-search-container">
+            <i class="fa-solid fa-magnifying-glass event-search-icon"></i>
+            <input type="text" placeholder="Search for events" class="event-search-input">
+            <div class="separator"></div>
+            <i class="fa-solid fa-location-dot event-search-icon"></i>
+            <input type="text" placeholder="Search places" class="event-search-input">
+            <i class="fa-solid fa-magnifying-glass event-search-btn"></i>
         </div>
-        <div class="page2">
-            <div class="news" id="briefIntro">
-                <div class="title">
-                    <h2>We're Activating hundred thounsand Volunteers By 2025</h2>
-                    <div class="display"> <!--add icons-->
-                        <div class="Card">
-                            <div class="icon">
-                                <i class="fa-solid fa-people-group"></i>
-                            </div>
-                            <div class="text"><p>100,000+ Volunteers</p></div>
-                        </div>
-                        <div class="Card">
-                            <div class="icon">
-                                <i class="fa-solid fa-rectangle-list"></i>
-                            </div>
-                            <div class="text"><p>10,000+ Projects</p></div>
-                        </div>
-                        <div class="Card">
-                            <div class="icon">
-                                <i class="fa-solid fa-globe"></i>
-                            </div>
-                            <div class="text"><p>5000+ Partnering Organizations</p></div>
-                        </div>
-                    </div>
-                    <h2>We connect volunteers to the organizations that need them</h2>
-                    <p>[group name] does the work of researching organizations, finding service projects,
-                        coordinating schedules, and bringing local service projects to your fingertips. All you have to do is register to join a community of volunteers who are already changing the world.</p>
-                    <!--Join us button - link to Sign up/ Log in page-->
-                    <div class="JoinButton">
-                        <input type="button" value="Join Us">
-                    </div>
+
+        <div class="filters">
+            <select class="filter-dropdown">
+                <option value="" disabled selected>Dates</option>
+                <option value="">All Dates</option>
+                <option value="">Today</option>
+                <option value="">Tomorrow</option>
+                <option value="">This week</option>
+                <option value="">Next week</option>
+            </select>
+            <select class="filter-dropdown">
+                <option value="" disabled selected>Price</option>
+                <option value="">Free</option>
+                <option value="">Paid</option>
+            </select>
+        </div>
+        <hr>
+        <div class="event-grid">
+            <div v-for="event in events" :key="event.EventID" class="event-card" @click="directEvent(event)">
+                <img src="../images/meeting.jpg" alt="Event Image" @error="imgErr = true" v-show="!imgErr">
+                <div class="fallback" v-if="imgErr"></div>
+                <div class="event-info">
+                    <p class="date-time">{{event.Date}}</p>
+                    <h2>{{event.Name}}</h2>
+                    <p class="location">{{event.Location}}</p>
+                    <p class="followers">
+                        <span><i class="fa-solid fa-user"></i></span>
+                        <span>{{event.Participant}} </span>
+                    </p>
                 </div>
             </div>
         </div>

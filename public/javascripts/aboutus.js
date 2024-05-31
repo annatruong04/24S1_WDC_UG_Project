@@ -2,7 +2,8 @@ var app = new Vue({
     el: "#mydiv",
     data: {
         clicked: false,
-        loginStatus: false
+        loginStatus: false,
+        user: []
     },
     mounted(){
         this.getUser();
@@ -16,6 +17,8 @@ var app = new Vue({
 
             xhttp.onreadystatechange = () => {
                 if (xhttp.readyState === 4 && xhttp.status === 200) {
+                    var data = JSON.parse(xhttp.responseText);
+                    this.user = data;
                     this.loginStatus = true;
                 }
             };

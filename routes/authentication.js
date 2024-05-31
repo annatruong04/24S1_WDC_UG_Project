@@ -8,17 +8,55 @@ const CLIENT_ID = '613277374446-c0gve4793drm7ensis45lgv036m6s503.apps.googleuser
 const {OAuth2Client} = require('google-auth-library');
 const client = new OAuth2Client(CLIENT_ID);
 
-router.get('/getUser', function(req,res,next){
+router.get('/getUser', function(req, res, next) {
+    if (req.session.username) {
+        if (!req.session.role) {
+            req.pool.getConnection(function(err, connection) {
+                if (err) {
+                    res.sendStatus(500);
+                    return;
+                }
 
-    if (req.session.username) res.status(200).send(JSON.stringify({
-        Username: req.session.username,
-        Name: req.session.name,
-        Phone_num: req.session.phonenum,
-        Email: req.session.email,
-        Role: req.session.role
-    }));
-    else res.sendStatus(401);
+                var query = 'SELECT B.User_ID, B.Phone_number, B.Email, B.First_Name, B.Last_name, B.Username, B.Password, A.Role_name FROM Role AS A INNER JOIN User AS B ON A.RoleID = B.Role_ID WHERE B.Username = ?';
+                connection.query(query, [req.session.username], async (error, results) => {
+                    connection.release();
+                    if (error) {
+                        return res.status(401).send(error);
+                    }
+
+                    if (results.length === 0) {
+                        return res.status(400).send('User not found');
+                    }
+
+                    const user = results[0];
+                    req.session.role = user.Role_name;
+                    req.session.name = user.First_Name + ' ' + user.Last_name; // Assuming you want to set the name in session
+                    req.session.phonenum = user.Phone_number;
+                    req.session.email = user.Email;
+
+                    res.status(200).send(JSON.stringify({
+                        Username: req.session.username,
+                        Name: req.session.name,
+                        Phone_num: req.session.phonenum,
+                        Email: req.session.email,
+                        Role: req.session.role
+                    }));
+                });
+            });
+        } else {
+            res.status(200).send(JSON.stringify({
+                Username: req.session.username,
+                Name: req.session.name,
+                Phone_num: req.session.phonenum,
+                Email: req.session.email,
+                Role: req.session.role
+            }));
+        }
+    } else {
+        res.sendStatus(401);
+    }
 });
+
 
 router.get('/login', (req, res) => {
     if (req.session.username) {
@@ -100,7 +138,7 @@ router.post('/login', async function(req, res,next){
             return;
             }
 
-            var query = 'select B.User_ID, B.First_Name, B.Last_name, B.Username from User as B where B.Username = ?';
+            var query = 'select B.User_ID, B.Phone_number, B.Email, B.First_Name, B.Last_name, B.Username, B.Password, A.Role_name from Role as A inner join User as B on A.RoleID = B.Role_ID where B.Username = ?';
             connection.query(query, [payload['email']], (error, results) => {
                 connection.release();
                 if (error){
@@ -123,23 +161,21 @@ router.post('/login', async function(req, res,next){
                             }
                             console.log("Insert new google user successfully");
                         });
-
-                        return ;
                     });
-                    return;
                 }
-                return ;
+
+
             });
         });
+
 
         req.session.name = payload['name'];
         req.session.username = payload['email'];
         req.session.id = payload['sub'];
-        req.session.role = "User";
-
         return res.sendStatus(200);
-
     }
+
+
     const username = req.body.param1;
     const password = req.body.param2;
 

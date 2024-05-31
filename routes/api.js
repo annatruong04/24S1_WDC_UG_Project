@@ -5,7 +5,24 @@ const { isAuthenticated, hasRole } = require('../middleware/auth');
 
 //route for api
 
-router.get('/read/events', isAuthenticated, (req, res) => {
+router.get('/read/events', (req, res) => {
+  req.pool.getConnection(function(err,connection) {
+    if (err) {
+    res.sendStatus(500);
+    return;
+    }
+
+    connection.query(`SELECT * FROM Event`, (error, results) => {
+      connection.release();
+      if (error) {
+        return res.status(500).send(error);
+      }
+      res.json(results);
+    });
+  });
+});
+
+router.get('/read/events', (req, res) => {
     req.pool.getConnection(function(err,connection) {
       if (err) {
       res.sendStatus(500);
@@ -20,6 +37,23 @@ router.get('/read/events', isAuthenticated, (req, res) => {
         res.json(results);
       });
     });
+});
+
+router.get('/read/branches',(req, res) => {
+  req.pool.getConnection(function(err,connection) {
+    if (err) {
+    res.sendStatus(500);
+    return;
+    }
+
+    connection.query(`SELECT * FROM Branch`, (error, results) => {
+      connection.release();
+      if (error) {
+        return res.status(500).send(error);
+      }
+      res.json(results);
+    });
+  });
 });
 
 router.get('/read/users', isAuthenticated, (req, res) => {

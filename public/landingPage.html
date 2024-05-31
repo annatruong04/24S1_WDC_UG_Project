@@ -32,7 +32,7 @@
                         <img src="/images/profile.png" @click="toggleDropdown" alt="Profile Picture" onerror="this.onerror=null; this.src=''; this.style.backgroundColor='white'; this.style.borderRadius='50%';">
                         <div class="dropdown-menu" :data-show="clicked.toString()">
                             <ul>
-                                <li v-if="user.Role==='User'"><a href="/myEventPage.html">My events</a></li>
+                                <li v-if="user.Role==='User'"><a href="/myBranchPage.html">My Branches</a></li>
                                 <li v-if="user.Role==='Manager'"><a href="/manager/home.html">Dashboard</a></li>
                                 <li v-if="user.Role==='Administrator'"><a href="/admin/admin.html">Dashboard</a></li>
                                 <li><a href="/user/profile.html">Your Profile</a></li>
@@ -51,6 +51,11 @@
                         <li class="active">
                             <a href="/">
                                 <div class="navbar-link">Home</div>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="Branches.html">
+                                <div class="navbar-link">Branches</div>
                             </a>
                         </li>
                         <li class="">

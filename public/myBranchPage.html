@@ -32,7 +32,7 @@
                         <img src="/images/profile.png" @click="toggleDropdown" alt="Profile Picture" onerror="this.onerror=null; this.src=''; this.style.backgroundColor='white'; this.style.borderRadius='50%';">
                         <div class="dropdown-menu" :data-show="clicked.toString()">
                             <ul>
-                                <li v-if="user.Role==='User'"><a href="/myEventPage.html">My events</a></li>
+                                <li v-if="user.Role==='User'"><a href="/myBranchPage.html">My Branches</a></li>
                                 <li v-if="user.Role==='Manager'"><a href="/manager/home.html">Dashboard</a></li>
                                 <li v-if="user.Role==='Administrator'"><a href="/admin/admin.html">Dashboard</a></li>
                                 <li><a href="/user/profile.html">Your Profile</a></li>
@@ -48,9 +48,14 @@
             <div class="lower-header">
                 <nav class="navbar">
                     <ul>
-                        <li class="active">
+                        <li class="">
                             <a href="/">
                                 <div class="navbar-link">Home</div>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="Branches.html">
+                                <div class="navbar-link">Branches</div>
                             </a>
                         </li>
                         <li class="">
@@ -67,44 +72,44 @@
                 </nav>
             </div>
           </header>
-          <div class="event-search-container">
-            <i class="fa-solid fa-magnifying-glass event-search-icon"></i>
-            <input type="text" placeholder="Search for events" class="event-search-input">
-            <div class="separator"></div>
-            <i class="fa-solid fa-location-dot event-search-icon"></i>
-            <input type="text" placeholder="Search places" class="event-search-input">
-            <i class="fa-solid fa-magnifying-glass event-search-btn"></i>
-        </div>
-
-        <div class="filters">
-            <select class="filter-dropdown">
-                <option value="" disabled selected>Dates</option>
-                <option value="">All Dates</option>
-                <option value="">Today</option>
-                <option value="">Tomorrow</option>
-                <option value="">This week</option>
-                <option value="">Next week</option>
-            </select>
-            <select class="filter-dropdown">
-                <option value="" disabled selected>Price</option>
-                <option value="">Free</option>
-                <option value="">Paid</option>
-            </select>
-        </div>
-        <hr>
-        <div class="event-grid">
-            <div v-for="event in events" :key="event.EventID" class="event-card" @click="directEvent(event)">
-                <img src="../images/meeting.jpg" alt="Event Image" @error="imgErr = true" v-show="!imgErr">
-                <div class="fallback" v-if="imgErr"></div>
-                <div class="event-info">
-                    <p class="date-time">{{event.Date}}</p>
-                    <h2>{{event.Name}}</h2>
-                    <p class="location">{{event.Location}}</p>
-                    <p class="followers">
-                        <span><i class="fa-solid fa-user"></i></span>
-                        <span>{{event.Participant}} </span>
-                    </p>
+        <div class="Branch-main-div">
+            <h1>My Branches</h1>
+            <hr>
+            <div class="Branch-event">
+                <div class="Branch-event-details">
+                    <h2>Cosmic Catch-Up</h2>
+                    <p>04/05/23, 3pm-5pm</p>
+                    <p>Room 251 Ingrain Wardli</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras at lacus eros. Nunc sit amet dui est.</p>
                 </div>
+            </div>
+            <div class="Branch-event">
+                <div class="Branch-event-details">
+                    <h2>Conspiracy Night 2.0</h2>
+                    <p>12/05/23, 6pm-10pm</p>
+                    <p>Flentje Lecture Theatre</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras at lacus eros. Nunc sit amet dui est.</p>
+                </div>
+            </div>
+            <h1>My Events</h1>
+            <hr>
+            <div class="Branch-event">
+                <div class="Branch-event-details">
+                    <h2>Cosmic Catch-Up</h2>
+                    <p>04/05/23, 3pm-5pm</p>
+                    <p>Room 251 Ingrain Wardli</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras at lacus eros. Nunc sit amet dui est.</p>
+                </div>
+                <button type="button" class="Branch-rsvp">RSVP</button>
+            </div>
+            <div class="Branch-event">
+                <div class="Branch-event-details">
+                    <h2>Conspiracy Night 2.0</h2>
+                    <p>12/05/23, 6pm-10pm</p>
+                    <p>Flentje Lecture Theatre</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras at lacus eros. Nunc sit amet dui est.</p>
+                </div>
+                <button type="button"  class="Branch-cancel-rsvp">Cancel RSVP</button>
             </div>
         </div>
         <footer class="site-footer">
@@ -154,7 +159,7 @@
               </div>
             </div>
           </footer>
-    <script src="javascripts/landPage.js"></script>
+    <script src="javascripts/MyBranchPage.js"></script>
     </body>
 </html>
 

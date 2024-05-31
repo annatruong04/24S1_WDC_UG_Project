@@ -7,22 +7,15 @@ DROP TABLE IF EXISTS Notification;
 DROP TABLE IF EXISTS UpdateTable;
 DROP TABLE IF EXISTS Event;
 DROP TABLE IF EXISTS User_Branch;
-DROP TABLE IF EXISTS User;
 DROP TABLE IF EXISTS Branch;
+DROP TABLE IF EXISTS User;
 DROP TABLE IF EXISTS Role;
 DROP TABLE IF EXISTS Type;
 
--- Create tables
+-- Create tables in the correct order
 CREATE TABLE Role (
     RoleID INT PRIMARY KEY AUTO_INCREMENT,
     Role_name VARCHAR(255) NOT NULL UNIQUE
-);
-
-CREATE TABLE Branch (
-    BranchID INT PRIMARY KEY AUTO_INCREMENT,
-    Branch_name VARCHAR(255) NOT NULL,
-    Location VARCHAR(255) NOT NULL,
-    Description TEXT
 );
 
 CREATE TABLE User (
@@ -36,6 +29,16 @@ CREATE TABLE User (
     Receive_email BOOLEAN DEFAULT NULL,
     Role_ID INT,
     FOREIGN KEY (Role_ID) REFERENCES Role(RoleID) ON DELETE SET NULL ON UPDATE CASCADE
+);
+
+CREATE TABLE Branch (
+    BranchID INT PRIMARY KEY AUTO_INCREMENT,
+    Branch_name VARCHAR(255) NOT NULL,
+    Location VARCHAR(255) NOT NULL,
+    Description TEXT,
+    Manager_ID INT,
+    MemberCount INT DEFAULT 0,
+    FOREIGN KEY (Manager_ID) REFERENCES User(User_ID) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 CREATE TABLE User_Branch (
@@ -95,15 +98,16 @@ CREATE TABLE UpdateTable (
 -- Insert sample data
 INSERT INTO Role (Role_name) VALUES ('Admin'), ('Manager'), ('User');
 
-INSERT INTO Branch (Branch_name, Location, Description) VALUES
-('Central', 'Downtown', 'Central branch'),
-('West', 'Westside', 'Western branch'),
-('East', 'Eastside', 'Eastern branch');
-
 INSERT INTO User (Username, First_name, Last_name, Email, Phone_number, Password, Receive_email, Role_ID) VALUES
 ('john_doe', 'John', 'Doe', 'john.doe@example.com', '123-456-7890', 'password123', TRUE, 1),
 ('jane_smith', 'Jane', 'Smith', 'jane.smith@example.com', '234-567-8901', 'password456', TRUE, 2),
 ('bob_brown', 'Bob', 'Brown', 'bob.brown@example.com', '345-678-9012', 'password789', FALSE, 3);
+
+-- Insert sample data into Branch with managers
+INSERT INTO Branch (Branch_name, Location, Description, Manager_ID) VALUES
+('Central', 'Downtown', 'Central branch', 1),
+('West', 'Westside', 'Western branch', 2),
+('East', 'Eastside', 'Eastern branch', 3);
 
 -- Insert sample data into User_Branch (many-to-many relationship)
 INSERT INTO User_Branch (User_ID, BranchID) VALUES
@@ -134,3 +138,27 @@ INSERT INTO UpdateTable (Time_stamp, Message, Manager, BranchID) VALUES
 (NOW(), 'System update', 1, 1),
 (NOW(), 'Policy change', 2, 2),
 (NOW(), 'New branch opening', 3, 3);
+
+-- Create triggers to maintain MemberCount in Branch table
+DELIMITER //
+
+CREATE TRIGGER UserBranchAfterInsert
+AFTER INSERT ON User_Branch
+FOR EACH ROW
+BEGIN
+    UPDATE Branch SET MemberCount = MemberCount + 1 WHERE BranchID = NEW.BranchID;
+END //
+
+CREATE TRIGGER UserBranchAfterDelete
+AFTER DELETE ON User_Branch
+FOR EACH ROW
+BEGIN
+    UPDATE Branch SET MemberCount = MemberCount - 1 WHERE BranchID = OLD.BranchID;
+END //
+
+DELIMITER ;
+
+-- Initialize MemberCount for existing data
+UPDATE Branch b SET MemberCount = (
+    SELECT COUNT(*) FROM User_Branch ub WHERE ub.BranchID = b.BranchID
+);

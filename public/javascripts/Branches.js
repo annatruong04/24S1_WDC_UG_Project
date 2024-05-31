@@ -1,7 +1,7 @@
 var appdiv = new Vue({
     el: "#user-event-page",
     data: {
-      events: [],
+      Branches: [],
       showPopUp: false,
       imgErr: false,
       form: {
@@ -12,20 +12,20 @@ var appdiv = new Vue({
       }
     },
     mounted: function() {
-      this.fetch_event();
+      this.fetch_Branch();
     },
     methods: {
-      fetch_event() {
+      fetch_Branch() {
         var xhttp = new XMLHttpRequest();
 
-        xhttp.open("GET", "/api/read/events", true);
+        xhttp.open("GET", "/api/read/Branches", true);
 
         xhttp.onreadystatechange = () => {
             if (xhttp.readyState == 4 && xhttp.status == 200) {
                 var data = JSON.parse(xhttp.responseText);
-                console.log(data[0]["EventID"]);
-                this.events = data;
-                console.log(this.events);
+                console.log(data[0]["BranchID"]);
+                this.Branches = data;
+                console.log(this.Branches);
             }
         };
 
@@ -41,7 +41,7 @@ var appdiv = new Vue({
           // Add other event details as needed
         }).toString();
 
-        window.location.href = `http://localhost:3000/EventDescription.html?${queryParams}`;
+        window.location.href = `http://localhost:3000/manager/event-description.html?${queryParams}`;
       },
       popup(){
         this.showPopUp = true;

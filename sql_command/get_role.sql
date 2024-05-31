@@ -5,4 +5,8 @@ where B.User_ID = 2;
 
 Update User
 set Role_ID = 1
-where User_ID = 5;
+where User_ID = 4;
+
+Update Role
+set Role_name = "Administrator"
+where RoleID = 1;

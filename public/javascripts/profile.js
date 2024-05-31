@@ -2,15 +2,30 @@ var app = new Vue({
   el: "#mydiv",
   data: {
       clicked: false,
-      loginStatus: true
+      loginStatus: true,
+      user: []
   },
   mounted(){
-
+    this.getUser();
   },
   methods: {
-      toggleDropdown() {
-          this.clicked = !this.clicked;
-      },
+    getUser(){
+
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = () => {
+          if (xhttp.readyState === 4) {
+            var data = JSON.parse(xhttp.responseText);
+            console.log(data);
+            this.user = data;
+          }
+      };
+
+      xhttp.open("get", "/auth/getUser", true);
+      xhttp.send();
+    },
+    toggleDropdown() {
+        this.clicked = !this.clicked;
+    },
   }
 });
 

@@ -26,15 +26,10 @@ h1 h2 {
     color: #003C43;
 }
 
-
-
-
-/*
- css for header
-*/
+/*css for header*/
 
 .page-header {
-    position: absolute;
+    position: fixed;
     width: 100%;
     height: 110px;
     background-color:  #135D66;
@@ -341,7 +336,7 @@ h1 h2 {
 }
 
 
-
+/*footer*/
 
 body {
   font-family: "Open Sans", sans-serif;

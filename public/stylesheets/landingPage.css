@@ -538,6 +538,15 @@ body {
 }
 
 /*Welcome*/
+.welcome-container {
+  background: white;
+  padding-top: 200px;
+  border-radius: 8px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
 /* Flex container for header */
 .header-flex {
   display: flex;
@@ -551,9 +560,9 @@ body {
 /* Header image */
 .header-image {
   width: 100%;
-  max-width: 520px;
+  max-width: 600px;
   height: 100%;
-  max-height: 245px;
+  max-height: 600px;
   margin: 0 auto;
   object-fit: cover;
 }
@@ -564,7 +573,7 @@ body {
   max-width: 520px;
 }
 
-.header-text .about-h1 {
+.header-text .welcome-h1 {
   color: #2b2b2b;
   font-size: 2em;
   font-size: 48px;
@@ -575,4 +584,39 @@ body {
   font-size: 1.2em;
   color: #3a3a3a;
   margin-top: 10px;
+}
+
+/* Button for Explore More */
+.explore-more-btn {
+  display: inline-block;
+  padding: 15px 30px;
+  margin-top: 20px;
+  font-size: 1.2em;
+  color: white;
+  background-color: #135D66;
+  border-radius: 30px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.explore-more-btn:hover {
+  background-color: #0b3f47;
+}
+
+/* Media queries for responsiveness */
+@media screen and (min-width: 992px) {
+  .header-flex {
+    justify-content: space-between;
+  }
+
+  .header-text {
+    text-align: left;
+  }
+
+}
+
+@media (min-width: 1200px) {
+  .about-container {
+    padding: 40px;
+  }
 }

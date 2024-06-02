@@ -55,10 +55,16 @@ body {
 .topHeadlines .left .img {
   width: 100%;
   height: 450px;
-  background-color: #77B0AA;
+  background-color: white;
+
+}
+.eventsImg{
+  max-height: 450px;
+  width: 100%;
 }
 .topHeadlines .left .text {
   padding: 20px 15px 10px;
+  padding-left: 0px;
 }
 .topHeadlines .left .text .title h2{
   font-size: 20px;

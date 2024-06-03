@@ -47,7 +47,7 @@ app.use(function(req,res,next){
 });
 
 app.use(function(req,res,next){
-  console.log("Current user: " + req.session.username);
+  console.log("Current user: " + req.session.username + req.session.userID);
   next();
 });
 
@@ -62,7 +62,6 @@ const apiRoute = require('./routes/api');
 app.use('/', pageRoutes);
 app.use('/api', apiRoute);
 app.use('/auth', authRoutes);
-
 
 
 app.listen(3000, () => {

@@ -9,7 +9,8 @@ var appdiv = new Vue({
         date: '',
         description: ''
       },
-      my_user: []
+      my_user: [],
+      newUserEmail: ""
     },
     mounted: function() {
       this.fetch_users();
@@ -23,7 +24,7 @@ var appdiv = new Vue({
       fetch_users() {
         var xhttp = new XMLHttpRequest();
 
-        xhttp.open("GET", "/api/read/users", true);
+        xhttp.open("GET", "/api/manager/read/users", true);
 
         xhttp.onreadystatechange = () => {
             if (xhttp.readyState == 4 && xhttp.status == 200) {
@@ -58,7 +59,7 @@ var appdiv = new Vue({
                   console.log("Delete successfull");
               }
           };
-          xhttp.open("post", "/api/delete/user", true);
+          xhttp.open("post", "/api/manager/delete/user", true);
           xhttp.setRequestHeader("Content-type", "application/json");
           xhttp.send(JSON.stringify({userID: UserID}));
         }
@@ -76,6 +77,19 @@ var appdiv = new Vue({
 
           xhttp.open("get", "/auth/getUser", true);
           xhttp.send();
+      },
+      addMember(){
+        var xhttp = new XMLHttpRequest();
+
+        xhttp.onreadystatechange = () => {
+            if (xhttp.readyState === 4 && xhttp.status === 200) {
+                window.location.href = `http://localhost:3000/manager/Member.html`;
+                console.log("Add new member successful successfull");
+            }
+        };
+        xhttp.open("post", "/api/manager/add/user", true);
+        xhttp.setRequestHeader("Content-type", "application/json");
+        xhttp.send(JSON.stringify({userEmail: this.newUserEmail}));
       }
     }
   });

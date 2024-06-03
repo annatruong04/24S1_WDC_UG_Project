@@ -532,6 +532,9 @@ body{
   border: 1px solid #ddd;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  position: relative; /* Add this line */
 }
 
 .event-card:hover {
@@ -548,6 +551,9 @@ body{
 .event-info {
   padding: 15px;
   color: #333;
+  flex: 1; /* This makes the event-info take up remaining space */
+  display: flex;
+  flex-direction: column;
 }
 
 .event-info h2 {
@@ -557,10 +563,9 @@ body{
 
 .event-info p {
   font-size: 14px;
-
 }
 
-.date-time, .location, .followers {
+.date-time, .location {
   font-weight: normal;
 }
 
@@ -570,12 +575,16 @@ body{
   padding-top: 10px;
   font-size: 14px;
   color: #666;
-  margin-top:70px;
+  position: absolute; /* Add this line */
+  bottom: 5px; /* Adjust this value to control the distance from the bottom */
+  width: calc(100% - 30px); /* Adjust to ensure it fits within the padding */
 }
 
-.followers i{
+.followers i {
   padding-right: 5px;
 }
+
+
 
 .fallback{
   background-color: #135D66;
@@ -637,6 +646,13 @@ body{
   background-color: #333;
 }
 
+.below-searchbar{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
 .filters, .date-filter {
   display: flex;
   gap: 20px;
@@ -650,6 +666,29 @@ body{
   background-color: white;
   cursor: pointer;
   font-size: medium;
+}
+
+.buttons-event{
+  display: flex;
+  gap:1em;
+}
+
+.buttons-event button {
+  border-radius: 0.5em;
+  padding: 0.7em;
+  font-size: 3em;
+  background-color: #77B0AA;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.1s ease-in-out, background-color 0.1s ease-in-out;
+  border: none;
+  outline: none;
+  font-size: medium;
+}
+
+.buttons-event button:active {
+  transform: translateY(4px);
+  background-color: #C1EDE1;
 }
 
 .member-header {
@@ -703,7 +742,10 @@ body{
 }
 
 .edit-button { background-color: #ffc107; }
-.more-button { background-color: red; }
+.more-button {
+  background-color: red;
+  transition: transform 0.1s ease-in-out, background-color 0.1s ease-in-out;
+}
 
 .edit-button:hover, .more-button:hover {
   opacity: 0.9;
@@ -845,4 +887,106 @@ body{
 .date-info p{
   margin: auto 10px;
 
+}
+
+.invite{
+  display: flex;
+  justify-content: space-between;
+  background-color:#FFFFFF;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 14px;
+  border: 1px solid #E0E0E0;
+  border-radius: 4px;
+  padding-bottom: 7px;
+  width: 250px;
+}
+
+.invite-btn{
+  background-color: #135D66;
+  border-radius: 10px;
+  width: 30px;
+  height: 30px;
+  color: white;
+  border: none;
+  outline: none;
+  font-size: larger;
+  transition: transform 0.1s ease-in-out, background-color 0.1s ease-in-out;
+}
+
+.invite-btn:active{
+  transform: translateY(4px);
+  background-color: #24b1c4;
+}
+
+.invite input{
+  border: none;
+  outline: none;
+  font-size: 15px;
+  background-color:#FFFFFF;
+  color:#828282;
+  width: 100%;
+}
+
+.event-container {
+  max-width: 600px;
+  margin: 50px auto;
+  margin-top: 0;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.event-container h1 {
+  text-align: center;
+  color: #333;
+}
+
+.event-container .form-group {
+  margin-bottom: 15px;
+}
+
+.event-container label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
+}
+
+.event-container
+input[type="text"],
+input[type="date"],
+textarea,
+input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+
+.event-container button {
+  width: 100%;
+  padding: 10px;
+  background-color: #135D66;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.event-container button:hover {
+  background-color: #218838;
+}
+
+.back-button{
+  color: black;
+  font-size: 2em;
+}
+
+.back-button i:hover{
+  transform: translateY(4px);
 }

@@ -58,7 +58,6 @@ router.get('/getUser', function(req, res, next) {
     }
 });
 
-
 router.get('/login', (req, res) => {
     if (req.session.username) {
         if (req.session.role == "Administrator") res.redirect("/admin/admin.html");
@@ -67,6 +66,8 @@ router.get('/login', (req, res) => {
     }
     res.sendFile(path.join(__dirname, '../views', 'login.html'));
 });
+
+
 
 
 
@@ -172,7 +173,6 @@ router.post('/login', async function(req, res,next){
 
         req.session.name = payload['name'];
         req.session.username = payload['email'];
-        req.session.id = payload['sub'];
         console.log(req.session);
         return res.sendStatus(200);
     }

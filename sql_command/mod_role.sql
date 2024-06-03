@@ -20,6 +20,8 @@ INSERT INTO User_Branch (User_ID, BranchID) VALUES
 (5, 2),
 (6, 3);
 
+Select BranchID from User_Branch where User_ID = 4;
+
 SELECT
     u.User_ID,
     u.Username,
@@ -36,3 +38,7 @@ JOIN
 WHERE
     b.Manager_ID = 6;
 
+Select E.EventID, E.Name, E.Description, E.Date, E.Location, E.Participant, E.BranchID
+from Event E join Branch B on B.BranchID = E.BranchID where B.Manager_ID = 6;
+
+INSERT INTO Event(name, location, date, description, BranchID) VALUES ("asfds", "asfds", "2024-08-25", "asfds", (select BranchID from Branch where Manager_ID = 4));

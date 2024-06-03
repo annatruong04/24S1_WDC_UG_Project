@@ -5,6 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const mysql = require('mysql2');
 const session = require('express-session');
+
+const fs = require('fs');
 require('dotenv').config();
 
 const cors = require('cors');
@@ -41,13 +43,56 @@ dbConnectionPool.getConnection(function(err, connection){
   console.log("database connected");
 });
 
+
+if (!fs.existsSync('uploads')) {
+  fs.mkdirSync('uploads');
+}
+
 app.use(function(req,res,next){
   req.pool = dbConnectionPool;
   next();
 });
 
+// Multer configuration
+
+
+// add branchid of that user to session
 app.use(function(req,res,next){
-  console.log("Current user: " + req.session.username + req.session.userID);
+  if (req.session.username) {
+    if(!req.session.BranchID){
+      req.pool.getConnection(function(err,connection) {
+          if (err) {
+          res.sendStatus(500);
+          return;
+          }
+          var query = 'select BranchID from User_Branch where User_ID = ?;';
+          connection.query(query, [req.session.userID], (error, results) => {
+              connection.release();
+              if (error){
+                  return res.status(401).send(error);
+              }
+
+              if (results.length === 0) next();
+
+              console.log("Add BrachID successfully: " + results[0].BranchID);
+              var BrachID_arr = [];
+              for (let i = 0; i < results.length ; i++){
+                BrachID_arr.push(results[i].BranchID);
+              }
+              // console.log(BrachID_arr);
+              req.session.BranchID = BrachID_arr;
+          });
+      });
+      next();
+    }
+    else next();
+  }
+  else next();
+});
+
+app.use(function(req,res,next){
+  console.log("Current user: " + req.session.name);
+  if (req.session.BranchID) console.log("Branch ID: " + req.session.BranchID[0]);
   next();
 });
 

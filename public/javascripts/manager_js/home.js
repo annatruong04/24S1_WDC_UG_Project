@@ -25,7 +25,7 @@
 
 // document.addEventListener("DOMContentLoaded", function() {
 //     const rows = document.querySelector("#table tbody").getElementsByTagName("tr");
-  
+
 //     for (const row of rows) {
 //       row.addEventListener("click", function() {
 //         const url = this.getAttribute("data-href");
@@ -45,7 +45,7 @@
 //         var data = JSON.parse(xhttp.responseText);
 //         console.log(data[0]["EventID"]);
 //         const table = document.getElementById('table');
-        
+
 //         data.forEach(event => {
 //             const row = table.insertRow();
 //             const nameCell = row.insertCell(0);
@@ -62,7 +62,7 @@
 //                   location: event.location,
 //                   // Add other event details as needed
 //               }).toString();
-              
+
 //               window.location.href = `http://localhost:3000/event-description.html?${queryParams}`;
 //           });
 //           row.style
@@ -98,8 +98,8 @@ var appdiv = new Vue({
     fetch_event() {
       var xhttp = new XMLHttpRequest();
 
-      xhttp.open("GET", "/api/read/events", true);
-      
+      xhttp.open("GET", "/api/manager/read/events", true);
+
       xhttp.onreadystatechange = () => {
           if (xhttp.readyState == 4 && xhttp.status == 200) {
               var data = JSON.parse(xhttp.responseText);
@@ -120,16 +120,16 @@ var appdiv = new Vue({
         location: event.Location,
         // Add other event details as needed
       }).toString();
-    
+
       window.location.href = `http://localhost:3000/event-description.html?${queryParams}`;
     },
     popup(){
       this.showPopUp = true;
     },
-    async submitForm() {  
+    async submitForm() {
       console.log(this.form);
       var xhr = new XMLHttpRequest();
-      xhr.open("POST", '/api/create/events', true);
+      xhr.open("POST", '/api/manager/create/events', true);
       xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
       xhr.onload = () => {

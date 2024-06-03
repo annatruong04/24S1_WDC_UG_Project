@@ -18,7 +18,7 @@ var appdiv = new Vue({
       fetch_event() {
         var xhttp = new XMLHttpRequest();
 
-        xhttp.open("GET", "/api/read/events", true);
+        xhttp.open("GET", "/api/manager/read/events", true);
 
         xhttp.onreadystatechange = () => {
             if (xhttp.readyState == 4 && xhttp.status == 200) {
@@ -49,7 +49,7 @@ var appdiv = new Vue({
       async submitForm() {
         console.log(this.form);
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", '/api/create/events', true);
+        xhr.open("POST", '/api/manager/create/events', true);
         xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
         xhr.onload = () => {
@@ -69,6 +69,9 @@ var appdiv = new Vue({
 
 
         xhr.send(JSON.stringify(this.form));
+      },
+      gotoCreateEvent(){
+        window.location.href = `http://localhost:3000/manager/addEvent.html`;
       }
     }
 });

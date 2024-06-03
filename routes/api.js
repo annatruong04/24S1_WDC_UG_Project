@@ -62,7 +62,7 @@ req.pool.getConnection(function(err,connection) {
     res.sendStatus(500);
     return;
     }
-    connection.query(`SELECT * FROM User`, (error, results) => {
+    connection.query(`SELECT u.User_ID, u.Username, u.First_name, u.Last_name, u.Email, R.Role_name, u.Phone_number FROM User u inner join Role R on u.Role_ID = R.RoleID JOIN User_Branch ub ON u.User_ID = ub.User_ID JOIN Branch b ON ub.BranchID = b.BranchID WHERE b.Manager_ID = ?;`, [req.session.userID], (error, results) => {
       connection.release();
     if (error) {
         return res.status(500).send(error);
@@ -114,7 +114,7 @@ router.post('/delete/user', isAuthenticated, (req, res) => {
       res.sendStatus(500);
       return;
       }
-      connection.query(`SET FOREIGN_KEY_CHECKS = 0; delete from User where Username = ?; SET FOREIGN_KEY_CHECKS = 1;`, [req.body.username], (error, results) => {
+      connection.query(`Delete from User_Branch where User_ID = ?`, [req.body.userID], (error, results) => {
         connection.release();
       if (error) {
           console.log(error);

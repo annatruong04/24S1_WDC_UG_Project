@@ -8,10 +8,16 @@ var appdiv = new Vue({
         location: '',
         date: '',
         description: ''
-      }
+      },
+      my_user: []
     },
     mounted: function() {
       this.fetch_users();
+      this.getUser();
+    },
+    computed: {
+      console: () => console,
+      window: () => window,
     },
     methods: {
       fetch_users() {
@@ -22,6 +28,7 @@ var appdiv = new Vue({
         xhttp.onreadystatechange = () => {
             if (xhttp.readyState == 4 && xhttp.status == 200) {
                 var data = JSON.parse(xhttp.responseText);
+                console.log(data);
                 this.users = data;
             }
         };
@@ -40,34 +47,49 @@ var appdiv = new Vue({
 
         window.location.href = `http://localhost:3000/users-description.html?${queryParams}`;
       },
-      deleteUser(Username){
-        var xhttp = new XMLHttpRequest();
+      deleteUser(UserID,UserName){
+        if (window.confirm(`Are you sure you want to delete ${UserName}?`)) {
+          var xhttp = new XMLHttpRequest();
 
-        xhttp.onreadystatechange = () => {
-            if (xhttp.readyState === 4 && xhttp.status === 200) {
-                console.log(xhttp.responseText);
-                window.location.href = `http://localhost:3000/manager/Member.html`;
-                console.log("Delete successfull");
-            }
-        };
-        xhttp.open("post", "/api/delete/user", true);
-        xhttp.setRequestHeader("Content-type", "application/json");
-        xhttp.send(JSON.stringify({username: Username}));
+          xhttp.onreadystatechange = () => {
+              if (xhttp.readyState === 4 && xhttp.status === 200) {
+                  console.log(xhttp.responseText);
+                  window.location.href = `http://localhost:3000/manager/Member.html`;
+                  console.log("Delete successfull");
+              }
+          };
+          xhttp.open("post", "/api/delete/user", true);
+          xhttp.setRequestHeader("Content-type", "application/json");
+          xhttp.send(JSON.stringify({userID: UserID}));
+        }
+      },
+      getUser(){
+          var xhttp = new XMLHttpRequest();
 
+          xhttp.onreadystatechange = () => {
+              if (xhttp.readyState === 4 && xhttp.status === 200) {
+                  var data = JSON.parse(xhttp.responseText);
+                  this.my_user = data;
+                  this.loginStatus = true;
+              }
+          };
+
+          xhttp.open("get", "/auth/getUser", true);
+          xhttp.send();
       }
     }
   });
 
-  window.onload = function () {
-    var app = new Vue({
-      el: "#mydiv",
-      data: {
-        clicked: false
-      },
-      methods: {
-        toggleDropdown() {
-          this.clicked = !this.clicked;
-        }
+window.onload = function () {
+  var app = new Vue({
+    el: "#mydiv",
+    data: {
+      clicked: false
+    },
+    methods: {
+      toggleDropdown() {
+        this.clicked = !this.clicked;
       }
-    });
-  }
+    }
+  });
+}

@@ -4,8 +4,12 @@ on A.RoleID = B.Role_ID
 where B.User_ID = 2;
 
 Update User
-set Role_ID = 1
-where User_ID = 4;
+set Role_ID = 2
+where User_ID = 6;
+
+Update Branch
+set Manager_ID = 6
+where BranchID = 3;
 
 Update Role
 set Role_name = "Administrator"

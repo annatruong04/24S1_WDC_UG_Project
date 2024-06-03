@@ -34,6 +34,7 @@ router.get('/getUser', function(req, res, next) {
                     req.session.firstname = user.First_name;
                     req.session.lastname = user.Last_name;
 
+                    req.session.userID = user.User_ID;
                     req.session.role = user.Role_name;
                     req.session.name = user.First_name + ' ' + user.Last_name; // Assuming you want to set the name in session
                     req.session.phonenum = user.Phone_number;
@@ -215,6 +216,7 @@ router.post('/login', async function(req, res,next){
         req.session.name = payload['name'];
         req.session.username = payload['email'];
         req.session.id = payload['sub'];
+        console.log(req.session);
         return res.sendStatus(200);
     }
 
@@ -248,13 +250,13 @@ router.post('/login', async function(req, res,next){
             // if (user.Password !== password) {
 
             // }
-            req.session.id = user.User_ID;
+            req.session.userID = user.User_ID;
             req.session.username = user.Username;
             req.session.name = user.First_Name + " " + user.Last_name;
             req.session.role = user.Role_name;
             req.session.email = user.Email;
             req.session.phonenum = user.Phone_number;
-
+            console.log(req.session);
             return res.send(req.session.role);
         });
     });

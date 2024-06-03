@@ -54,6 +54,11 @@ var main_app = new Vue({
     },
     LogOut(){
       window.location.href = `http://localhost:3000/auth/logout`;
+    },
+    Update() {
+      // Navigate to the desired page
+      window.location.href = 'updateUser.html';
     }
+
   }
 });

@@ -15,61 +15,61 @@
 
   <header id="mydiv" class="page-header">
     <div class="upper-header">
-        <div class="logo-container">
-            <a href="">
-                <h1>GreenEarth</h1>
-            </a>
+      <div class="logo-container">
+        <a href="">
+          <h1>GreenEarth</h1>
+        </a>
+      </div>
+      <div class="search-box">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input type="search" placeholder="Search..." class="search-bar">
+      </div>
+      <div class="rightcontent-container" id="login-div">
+        <div v-if="loginStatus">
+          <img src="/images/profile.png" @click="toggleDropdown" alt="Profile Picture"
+            onerror="this.onerror=null; this.src=''; this.style.backgroundColor='white'; this.style.borderRadius='50%';">
+          <div class="dropdown-menu" :data-show="clicked.toString()">
+            <ul>
+              <li v-if="user.Role==='User'"><a href="/myEventPage.html">My events</a></li>
+              <li v-if="user.Role==='Manager'"><a href="/manager/home.html">Dashboard</a></li>
+              <li v-if="user.Role==='Administrator'"><a href="/admin/admin.html">Dashboard</a></li>
+              <li><a href="/user/profile.html">Your Profile</a></li>
+              <li><a href="/auth/logout">Logout</a></li>
+            </ul>
+          </div>
         </div>
-        <div class="search-box">
-            <i class="fa-solid fa-magnifying-glass search-icon"></i>
-            <input type="search" placeholder="Search..." class="search-bar">
+        <div v-else="loginStatus">
+          <a href="/auth/login" class="login-btn">Login</a>
         </div>
-        <div class="rightcontent-container" id="login-div">
-            <div v-if="loginStatus">
-                <img src="/images/profile.png" @click="toggleDropdown" alt="Profile Picture" onerror="this.onerror=null; this.src=''; this.style.backgroundColor='white'; this.style.borderRadius='50%';">
-                <div class="dropdown-menu" :data-show="clicked.toString()">
-                    <ul>
-                        <li v-if="user.Role==='User'"><a href="/myEventPage.html">My events</a></li>
-                        <li v-if="user.Role==='Manager'"><a href="/manager/home.html">Dashboard</a></li>
-                        <li v-if="user.Role==='Administrator'"><a href="/admin/admin.html">Dashboard</a></li>
-                        <li><a href="/user/profile.html">Your Profile</a></li>
-                        <li><a href="/auth/logout">Logout</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div v-else="loginStatus">
-                <a href="/auth/login" class="login-btn">Login</a>
-            </div>
-        </div>
+      </div>
     </div>
     <div class="lower-header">
-        <nav class="navbar">
-            <ul>
-                <li class="active">
-                    <a href="/">
-                        <div class="navbar-link">Home</div>
-                    </a>
-                </li>
-                <li class="">
-                    <a href="/Branches.html">
-                        <div class="navbar-link">Branches</div>
-                    </a>
-                </li>
-                <li class="">
-                    <a href="/landingEventPage.html">
-                         <div class="navbar-link">Event</div>
-                    </a>
-                </li>
-                <li class="">
-                    <a href="/aboutUs.html">
-                        <div class="navbar-link">About us</div>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+      <nav class="navbar">
+        <ul>
+          <li class="active">
+            <a href="/">
+              <div class="navbar-link">Home</div>
+            </a>
+          </li>
+          <li class="">
+            <a href="/Branches.html">
+              <div class="navbar-link">Branches</div>
+            </a>
+          </li>
+          <li class="">
+            <a href="/landingEventPage.html">
+              <div class="navbar-link">Event</div>
+            </a>
+          </li>
+          <li class="">
+            <a href="/aboutUs.html">
+              <div class="navbar-link">About us</div>
+            </a>
+          </li>
+        </ul>
+      </nav>
     </div>
   </header>
-
   <div id="app">
     <!-- <header>
       <h1>User Profile</h1>
@@ -81,18 +81,25 @@
             <img :src="user.avatar" alt="User Avatar">
           </div>
           <div class="user-details">
-            <h2>{{ user.Name }}</h2>
+            <h2>{{ user.First_name }}</h2>
             <div class="info-columns">
               <div class="info-column">
                 <ul>
-                  <li><strong>Email:</strong> {{ user.Email }}</li>
-                  <li><strong>Phone:</strong> {{ user.Phone_num }}</li>
+                  <li><strong>Username:</strong> {{ user.Username }}</li>
+
+                  <li><strong>Phone number:</strong> {{ user.Phone_number }}</li>
+                  <li><strong>First Name:</strong> {{ user.First_name }}</li>
+                  <li><strong>Last Name:</strong> {{ user.Last_name }}</li>
+
                 </ul>
               </div>
               <div class="info-column">
                 <ul>
-                  <li><strong>Location:</strong> {{ user.location }}</li>
+                  <li><strong>Email:</strong> {{ user.Email }}</li>
+
+                  <li><strong>Password:</strong> {{ user.Password }}</li>
                   <li><strong>Role:</strong> {{ user.Role }}</li>
+
                 </ul>
               </div>
             </div>
@@ -100,63 +107,66 @@
         </div>
       </div>
       <button @click="LogOut" class="change-btn">Log Out</button>
+      <button @click="Update" class="change-btn">Update User Information</button>
+
+
     </main>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
   <!-- Site footer -->
 
-<footer class="site-footer">
-  <div class="container">
-    <div class="footer-columns">
-      <div class="footer-column">
-        <h6>About</h6>
-        <p class="text-justify">GreenEarth <i>CONNECTING WITH NATURE</i> is dedicated to promoting environmental awareness and sustainability. We provide resources, articles, and tips on how to live an eco-friendly lifestyle. Join us in making a positive impact on our planet through education, conservation, and community engagement.</p>
-      </div>
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-columns">
+        <div class="footer-column">
+          <h6>About</h6>
+          <p class="text-justify">GreenEarth <i>CONNECTING WITH NATURE</i> is dedicated to promoting environmental
+            awareness and sustainability. We provide resources, articles, and tips on how to live an eco-friendly
+            lifestyle. Join us in making a positive impact on our planet through education, conservation, and community
+            engagement.</p>
+        </div>
 
-      <div class="footer-column">
-        <h6>Categories</h6>
-        <ul class="footer-links">
-          <li><a href="#">Sustainability</a></li>
-          <li><a href="#">Climate Change</a></li>
-          <li><a href="#">Wildlife Conservation</a></li>
-          <li><a href="#">Renewable Energy</a></li>
-          <li><a href="#">Recycling</a></li>
-          <li><a href="#">Green Living</a></li>
+        <div class="footer-column">
+          <h6>Categories</h6>
+          <ul class="footer-links">
+            <li><a href="#">Sustainability</a></li>
+            <li><a href="#">Climate Change</a></li>
+            <li><a href="#">Wildlife Conservation</a></li>
+            <li><a href="#">Renewable Energy</a></li>
+            <li><a href="#">Recycling</a></li>
+            <li><a href="#">Green Living</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h6>Quick Links</h6>
+          <ul class="footer-links">
+            <li><a href="aboutUs.html">About Us</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="login.html">Get Involved</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Sitemap</a></li>
+          </ul>
+        </div>
+      </div>
+      <hr>
+      <div class="footer-social">
+        <ul class="social-icons">
+          <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+          <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+          <li><a class="instagram" href="#"><i class="fa fa-instagram"></i></a></li>
+          <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
         </ul>
       </div>
-
-      <div class="footer-column">
-        <h6>Quick Links</h6>
-        <ul class="footer-links">
-          <li><a href="aboutUs.html">About Us</a></li>
-          <li><a href="#">Contact Us</a></li>
-          <li><a href="login.html">Get Involved</a></li>
-          <li><a href="#">Privacy Policy</a></li>
-          <li><a href="#">Sitemap</a></li>
-        </ul>
+      <div class="copyright">
+        <p class="copyright-text">Copyright &copy; 2024 All Rights Reserved by
+          <a href="#">GreenEarth</a>.
+        </p>
       </div>
     </div>
-    <hr>
-    <div class="footer-social">
-      <ul class="social-icons">
-        <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
-        <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
-        <li><a class="instagram" href="#"><i class="fa fa-instagram"></i></a></li>
-        <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
-      </ul>
-    </div>
-    <div class="copyright">
-      <p class="copyright-text">Copyright &copy; 2024 All Rights Reserved by
-        <a href="#">GreenEarth</a>.
-      </p>
-    </div>
-  </div>
-</footer>
+  </footer>
 
-<script src="../javascripts/profile.js"></script>
+  <script src="../javascripts/profile.js"></script>
 </body>
 
 </html>
-
-
-

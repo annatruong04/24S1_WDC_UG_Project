@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Update User Information</title>
+  <link rel="stylesheet" href="../stylesheets/updateUser.css">
+  <script src="https://accounts.google.com/gsi/client" async></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+
+<body>
+  <div class="container" id="app">
+    <input type="checkbox" id="check">
+
+    <div class="registration form">
+      <header>Update User Information</header>
+      <form @submit.prevent="updateUser">
+        <div class="flex-container">
+          <div class="flex-row-right">
+            <input type="text" v-model="user.First_name" placeholder="">
+            <input type="text" v-model="user.Last_name" placeholder="Last name">
+          </div>
+          <div class="flex-row-left">
+            <input type="tel" v-model="user.Phone_number" placeholder="Phone Number">
+            <input type="email" v-model="user.Email" placeholder="Enter your email">
+            <input type="password" v-model="user.Password" placeholder="Change password">
+          </div>
+        </div>
+        <p v-if="invalid" class="wrong-info">{{ invalidMessage }}</p>
+        <input type="submit" class="button" value="Update">
+      </form>
+    </div>
+  </div>
+
+  <script src="../javascripts/updateUser.js"></script>
+</body>
+
+</html>
+

@@ -6,6 +6,7 @@ const argon2 = require('argon2');
 
 const CLIENT_ID = '613277374446-c0gve4793drm7ensis45lgv036m6s503.apps.googleusercontent.com';
 const {OAuth2Client} = require('google-auth-library');
+const { isAuthenticated } = require('../middleware/auth');
 const client = new OAuth2Client(CLIENT_ID);
 
 router.get('/getUser', function(req, res, next) {
@@ -17,7 +18,8 @@ router.get('/getUser', function(req, res, next) {
                     return;
                 }
 
-                var query = 'SELECT B.User_ID, B.Phone_number, B.Email, B.First_Name, B.Last_name, B.Username, B.Password, A.Role_name FROM Role AS A INNER JOIN User AS B ON A.RoleID = B.Role_ID WHERE B.Username = ?';
+                var query = 'SELECT B.User_ID, B.Phone_number, B.Email, B.First_name, B.Last_name, B.Username, B.Password, A.Role_name FROM Role AS A INNER JOIN User AS B ON A.RoleID = B.Role_ID WHERE B.Username = ?';
+
                 connection.query(query, [req.session.username], async (error, results) => {
                     connection.release();
                     if (error) {
@@ -29,33 +31,74 @@ router.get('/getUser', function(req, res, next) {
                     }
 
                     const user = results[0];
+                    req.session.firstname = user.First_name;
+                    req.session.lastname = user.Last_name;
+
                     req.session.role = user.Role_name;
-                    req.session.name = user.First_Name + ' ' + user.Last_name; // Assuming you want to set the name in session
+                    req.session.name = user.First_name + ' ' + user.Last_name; // Assuming you want to set the name in session
                     req.session.phonenum = user.Phone_number;
                     req.session.email = user.Email;
+                    req.session.username = user.Username;
+                    req.session.password = user.Password;
+
 
                     res.status(200).send(JSON.stringify({
+                        First_name: req.session.firstname,
+                        Last_name: req.session.lastname,
+
                         Username: req.session.username,
                         Name: req.session.name,
                         Phone_num: req.session.phonenum,
                         Email: req.session.email,
-                        Role: req.session.role
+                        Role: req.session.role,
+                        Password: req.session.password,
                     }));
                 });
             });
         } else {
             res.status(200).send(JSON.stringify({
+                First_name: req.session.firstname,
+                Last_name: req.session.lastname,
                 Username: req.session.username,
                 Name: req.session.name,
                 Phone_num: req.session.phonenum,
                 Email: req.session.email,
-                Role: req.session.role
+                Role: req.session.role,
+                Password: req.session.password,
+
             }));
         }
     } else {
         res.sendStatus(401);
     }
 });
+
+
+
+  router.post('/updateUser', function(req, res, next) {
+    if (!req.session.username) {
+      return res.sendStatus(401);
+    }
+
+    const { First_name, Last_name, Phone_number, Email, Password } = req.body;
+
+    req.pool.getConnection(function(err, connection) {
+      if (err) {
+        res.sendStatus(500);
+        return;
+      }
+
+      const query = 'UPDATE User SET First_name = ?, Last_name = ?, Phone_number = ?, Email = ?, Password = ? WHERE Username = ?';
+      connection.query(query, [First_name, Last_name, Phone_number, Email, Password, req.session.username], function(error, results) {
+        connection.release();
+        if (error) {
+          return res.status(500).send(error);
+        }
+        res.sendStatus(200);
+      });
+    });
+  });
+
 
 
 router.get('/login', (req, res) => {

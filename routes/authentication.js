@@ -26,13 +26,15 @@ router.get('/getUser', function(req, res, next) {
                         return res.status(401).send(error);
                     }
 
-                    if (results.length === 0) {
+                    if (results.length === 0) { 
                         return res.status(400).send('User not found');
                     }
 
                     const user = results[0];
                     req.session.firstname = user.First_name;
                     req.session.lastname = user.Last_name;
+
+                    console.log(req.session.firstname + " " + req.session.lastname);
 
                     req.session.userID = user.User_ID;
                     req.session.role = user.Role_name;
@@ -46,7 +48,6 @@ router.get('/getUser', function(req, res, next) {
                     res.status(200).send(JSON.stringify({
                         First_name: req.session.firstname,
                         Last_name: req.session.lastname,
-
                         Username: req.session.username,
                         Name: req.session.name,
                         Phone_num: req.session.phonenum,
@@ -251,6 +252,11 @@ router.post('/login', async function(req, res,next){
             // if (user.Password !== password) {
 
             // }
+
+            req.session.firstname = user.First_Name;
+            req.session.lastname = user.Last_name;
+
+            console.log(req.session.firstname + " " + req.session.lastname);
             req.session.userID = user.User_ID;
             req.session.username = user.Username;
             req.session.name = user.First_Name + " " + user.Last_name;

@@ -55,40 +55,43 @@ app.use(function(req,res,next){
 
 // Multer configuration
 
-
-// add branchid of that user to session
-app.use(function(req,res,next){
+// add branch id into session
+app.use(function(req, res, next) {
   if (req.session.username) {
-    if(!req.session.BranchID){
-      req.pool.getConnection(function(err,connection) {
-          if (err) {
+    if (!req.session.BranchID) {
+      req.pool.getConnection(function(err, connection) {
+        if (err) {
           res.sendStatus(500);
           return;
+        }
+        var query = 'SELECT BranchID FROM User_Branch WHERE User_ID = ?;';
+        connection.query(query, [req.session.userID], (error, results) => {
+          connection.release();
+          if (error) {
+            return res.status(401).send(error);
           }
-          var query = 'select BranchID from User_Branch where User_ID = ?;';
-          connection.query(query, [req.session.userID], (error, results) => {
-              connection.release();
-              if (error){
-                  return res.status(401).send(error);
-              }
-
-              if (results.length === 0) next();
-
-              console.log("Add BrachID successfully: " + results[0].BranchID);
-              var BrachID_arr = [];
-              for (let i = 0; i < results.length ; i++){
-                BrachID_arr.push(results[i].BranchID);
-              }
-              // console.log(BrachID_arr);
-              req.session.BranchID = BrachID_arr;
-          });
+          if (results.length === 0) {
+            next();
+          } else {
+            console.log("Add BranchID successfully: " + results[0].BranchID);
+            var BranchID_arr = [];
+            for (let i = 0; i < results.length; i++) {
+              BranchID_arr.push(results[i].BranchID);
+            }
+            // console.log(BranchID_arr);
+            req.session.BranchID = BranchID_arr;
+            next();
+          }
+        });
       });
+    } else {
       next();
     }
-    else next();
+  } else {
+    next();
   }
-  else next();
 });
+
 
 app.use(function(req,res,next){
   console.log("Current user: " + req.session.name);

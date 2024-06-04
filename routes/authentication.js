@@ -76,29 +76,29 @@ router.get('/getUser', function(req, res, next) {
 
 
 
-  router.post('/updateUser', function(req, res, next) {
+router.post('/updateUser', function(req, res, next) {
     if (!req.session.username) {
-      return res.sendStatus(401);
+        return res.sendStatus(401);
     }
 
     const { First_name, Last_name, Phone_number, Email, Password } = req.body;
 
     req.pool.getConnection(function(err, connection) {
-      if (err) {
+        if (err) {
         res.sendStatus(500);
         return;
-      }
+        }
 
-      const query = 'UPDATE User SET First_name = ?, Last_name = ?, Phone_number = ?, Email = ?, Password = ? WHERE Username = ?';
-      connection.query(query, [First_name, Last_name, Phone_number, Email, Password, req.session.username], function(error, results) {
+        const query = 'UPDATE User SET First_name = ?, Last_name = ?, Phone_number = ?, Email = ?, Password = ? WHERE Username = ?';
+        connection.query(query, [First_name, Last_name, Phone_number, Email, Password, req.session.username], function(error, results) {
         connection.release();
         if (error) {
-          return res.status(500).send(error);
+            return res.status(500).send(error);
         }
         res.sendStatus(200);
-      });
+        });
     });
-  });
+});
 
 
 

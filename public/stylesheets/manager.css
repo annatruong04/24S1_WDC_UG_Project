@@ -571,8 +571,9 @@ body{
 
 .followers {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   border-top: 1px solid #ddd;
-  padding-top: 10px;
   font-size: 14px;
   color: #666;
   position: absolute; /* Add this line */
@@ -580,7 +581,7 @@ body{
   width: calc(100% - 30px); /* Adjust to ensure it fits within the padding */
 }
 
-.followers i {
+.followers span i {
   padding-right: 5px;
 }
 
@@ -735,7 +736,6 @@ body{
 
 .edit-button, .more-button {
   padding: 5px 10px;
-  margin-right: 5px;
   border: none;
   border-radius: 4px;
   cursor: pointer;

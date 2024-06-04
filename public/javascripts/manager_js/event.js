@@ -31,9 +31,9 @@ var appdiv = new Vue({
 
         xhttp.send();
       },
-
       directEvent(event) {
         const queryParams = new URLSearchParams({
+          id: event.EventID,
           name: event.Name,
           description: event.Description,
           date: event.Date,
@@ -72,8 +72,35 @@ var appdiv = new Vue({
       },
       gotoCreateEvent(){
         window.location.href = `http://localhost:3000/manager/addEvent.html`;
+      },
+      deleteEvent(EventID, EventName){
+        if (window.confirm(`Are you sure you want to delete ${EventName}?`)) {
+          var xhttp = new XMLHttpRequest();
+
+          xhttp.onreadystatechange = () => {
+              if (xhttp.readyState === 4 && xhttp.status === 200) {
+                  window.location.href = `http://localhost:3000/manager/Event.html`;
+                  console.log("Delete Event successfull");
+              }
+          };
+          xhttp.open("post", "/api/manager/delete/events", true);
+          xhttp.setRequestHeader("Content-type", "application/json");
+          xhttp.send(JSON.stringify({eventID: EventID}));
       }
+    },
+    editEvent(event){
+      const queryParams = new URLSearchParams({
+        id: event.EventID,
+        name: event.Name,
+        description: event.Description,
+        date: event.Date,
+        location: event.Location,
+        // Add other event details as needed
+      }).toString();
+
+      window.location.href = `http://localhost:3000/manager/editEvent.html?${queryParams}`;
     }
+  }
 });
 
 window.onload = function () {

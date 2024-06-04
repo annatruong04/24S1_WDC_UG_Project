@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Manager-page</title>
+    <link rel="stylesheet" href="../stylesheets/manager.css">
+    <script src="https://kit.fontawesome.com/4cf720d27e.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+
+<body>
+    <div id="mydiv" class="page-header">
+        <div class="upper-header">
+            <div class="logo-container">
+                <a href="/">
+                    <h1>GreenEarth</h1>
+                </a>
+            </div>
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="search" placeholder="Search..." class="search-bar">
+            </div>
+            <div class="rightcontent-container">
+                <img src="../images/profile.png" @click="toggleDropdown" alt="Profile Picture" onerror="this.onerror=null; this.src=''; this.style.backgroundColor='white'; this.style.borderRadius='50%';">
+                <div class="dropdown-menu" :data-show="clicked.toString()">
+                    <ul>
+                        <li><a href="/">Home Page</a></li>
+                        <li><a href="/user/profile.html">Your Profile</a></li>
+                        <li><a href="/auth/logout">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="lower-header">
+            <nav class="navbar">
+                <ul>
+                    <li class="">
+                        <a href="Home.html">
+                            <div class="navbar-link">Home</div>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="Event.html">
+                             <div class="navbar-link">Event</div>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="Member.html">
+                            <div class="navbar-link">Member</div>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <div id="manager-home-page" class="body-container">
+        <a href="javascript:history.back()" class="back-button"><i class="fa-solid fa-arrow-left"></i></a>
+        <div class="event-container">
+            <h1>Edit Event</h1>
+            <form @submit.prevent="submitForm">
+                <div class="form-group">
+                    <label for="event-name">Event Name</label>
+                    <input type="text" v-model="form.name" id="event-name" name="event-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="date">Date</label>
+                    <input type="date" id="date" v-model="form.date" name="date" required>
+                </div>
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" id="location" v-model="form.location" name="location" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" v-model="form.description"  rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="image-upload">Upload Image</label>
+                    <input type="file" id="image-upload" ref="image" name="image-upload" accept="image/*">
+                </div>
+                <button type="submit">Edit Event</button>
+            </form>
+        </div>
+</div>
+    <script src="https://kit.fontawesome.com/4cf720d27e.js" crossorigin="anonymous"></script>
+    <script src="../javascripts/manager_js/editEvent.js"></script>
+</body>
+
+</html>

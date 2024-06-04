@@ -2,7 +2,7 @@ const path = require('path');
 const express = require('express');
 
 function serveUserFiles(req, res, next) {
-  if (req.session.username && req.session.role === 'User' || req.session.role === 'Administrator') {
+  if (req.session.username && req.session.role === 'User' || req.session.role === 'Administrator' || req.session.role === 'Manager') {
     express.static(path.join(__dirname, '../views/user_page'))(req, res, next);
   } else {
     res.status(403).send('Access denied.');

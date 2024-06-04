@@ -134,10 +134,16 @@
                     <p class="date-time">{{event.Date}}</p>
                     <h2>{{event.Name}}</h2>
                     <p class="location">{{event.Location}}</p>
-                    <p class="followers">
-                        <span><i class="fa-solid fa-user"></i></span>
-                        <span>{{event.Participant}} </span>
-                    </p>
+                    <div class="followers">
+                        <p>
+                            <span><i class="fa-solid fa-user"></i></span>
+                            <span>{{event.Participant}} </span>
+                        </p>
+                        <div>
+                            <button type="button" @click.stop="editEvent(event)" class="edit-button"><i class="fa-solid fa-pen"></i></button>
+                            <button type="button" @click.stop="deleteEvent(event.EventID, event.Name)" class="more-button"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

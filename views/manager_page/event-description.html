@@ -56,7 +56,7 @@
         </div>
     </div>
     <div class="img-div">
-        <img src="../images/meeting.jpg">
+        <img v-if="image" :src="image" :alt="event.Name">
     </div>
     <div id="app" class="event-body-container">
         <div class="event-detail">

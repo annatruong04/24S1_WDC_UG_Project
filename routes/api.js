@@ -69,6 +69,32 @@ router.get('/manager/read/events', isAuthenticated, (req, res) => {
   });
 });
 
+router.get('/manager/read/events/image', isAuthenticated, (req, res) => {
+  req.pool.getConnection(function(err,connection) {
+    if (err) {
+    res.sendStatus(500);
+    return;
+    }
+
+    connection.query(`Select E.EventID, E.Name, E.Description, E.Date, E.Location, E.Participant, E.Image, E.BranchID from Event E join Branch B on B.BranchID = E.BranchID where B.Manager_ID = ?;`, [req.session.userID], (error, results) => {
+      connection.release();
+      if (error) {
+        return res.status(500).send(error);
+      }
+
+      results.forEach(event => {
+        if (event.Image) {
+          event.Image = `data:${event.contentType};base64,${event.Image.toString('base64')}`;
+        }
+      });
+
+      
+
+      res.json(results);
+    });
+  });
+});
+
 
 router.get('/manager/read/users', isAuthenticated, (req, res) => {
 req.pool.getConnection(function(err,connection) {
@@ -115,6 +141,58 @@ router.post('/manager/create/events', isAuthenticated, upload.single('image'), (
   });
 });
 
+router.post('/manager/edit/events', isAuthenticated, upload.single('image'), (req, res) => {
+  console.log('File:', req.file); // Log the file data
+
+  req.pool.getConnection(function(err, connection) {
+      if (err) {
+          res.sendStatus(500);
+          return;
+      }
+
+      const data = req.body;
+      const image = req.file ? req.file.buffer : null; // Get the uploaded file buffer
+
+      console.log('Image Buffer:', image); // Log the buffer data to verify
+
+      if (!image) {
+        const sql = `Update Event
+                   set Name = ?, Description = ?, Date = ?, Location = ?
+                   where EventID = ?`;
+        connection.query(sql, [data.name, data.description, data.date, data.location, data.id], (error, results, fields) => {
+            connection.release();
+            if (error) return res.status(500).send(error);
+            res.send('Update event Successfully');
+        });
+      }
+      else {
+        const sql = `Update Event
+                    set Name = ?, Description = ?, Date = ?, Location = ?, Image = ?
+                    where EventID = ?`;
+        connection.query(sql, [data.name, data.description, data.date, data.location, image, data.id], (error, results, fields) => {
+            connection.release();
+            if (error) return res.status(500).send(error);
+            res.send('Update event Successfully');
+        });
+      }
+  });
+});
+
+router.post('/manager/delete/events', isAuthenticated, (req, res) => {
+  req.pool.getConnection(function(err, connection) {
+      if (err) {
+          res.sendStatus(500);
+          return;
+      }
+
+      const sql = `delete from Event where EventID = ?;`;
+      connection.query(sql, [req.body.eventID], (error, results, fields) => {
+          connection.release();
+          if (error) return res.status(500).send(error);
+          res.sendStatus(200);
+      });
+  });
+});
 
 
 router.get('/manager/get/user', isAuthenticated, (req, res) => {

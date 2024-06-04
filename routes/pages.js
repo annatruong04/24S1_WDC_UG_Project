@@ -14,6 +14,9 @@ router.use('/admin', isAuthenticated, serveAdminFiles);
 
 // Route for manager page (protected)
 router.use('/manager', isAuthenticated, serveManagerFiles);
+router.use('/manager/event-description.html', isAuthenticated, function(req,res){
+    
+});
 
 // Route for user files (protected)
 router.use('/user', isAuthenticated, serveUserFiles);

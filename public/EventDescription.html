@@ -67,62 +67,63 @@
             </nav>
         </div>
     </header>
-    <div class="img-div">
-        <img src="../images/meeting.jpg">
-    </div>
-    <div id="app" class="event-body-container">
-        <div class="event-detail">
-            <p>14th, June</p>
-            <h1>
-                {{name}}
-            </h1>
-            <h2>
-                Date and time
-            </h2>
-            <div class="date-info">
-                <i class="fa-solid fa-calendar"></i>
-                <p>{{date}}</p>
-            </div>
-            <h2>
-                Location
-            </h2>
-            <div class="date-info">
-                <i class="fa-solid fa-location-pin"></i>
-                <p>{{location}}</p>
-            </div>
-            <h2>
-                About this event
-            </h2>
-            <p>{{description}}</p>
+    <div id="app">
+        <div class="img-div">
+            <img v-if="image" :src="image" :alt="name">
+        </div>
+        <div  class="event-body-container">
+            <div class="event-detail">
+                <p>14th, June</p>
+                <h1>
+                    {{name}}
+                </h1>
+                <h2>
+                    Date and time
+                </h2>
+                <div class="date-info">
+                    <i class="fa-solid fa-calendar"></i>
+                    <p>{{date}}</p>
+                </div>
+                <h2>
+                    Location
+                </h2>
+                <div class="date-info">
+                    <i class="fa-solid fa-location-pin"></i>
+                    <p>{{location}}</p>
+                </div>
+                <h2>
+                    About this event
+                </h2>
+                <p>{{description}}</p>
 
-            <div class="container">
-                <div class="container-header">
-                    <div class="header-content">
-                        <h2>Comment</h2>
+                <div class="container">
+                    <div class="container-header">
+                        <div class="header-content">
+                            <h2>Comment</h2>
+                        </div>
+                    </div>
+                    <div class="container-body">
+                        <p id="comment-para">Post a comment</p>
+                        <form class="comment-form">
+                            <input type="text" placeholder="Title">
+                            <textarea rows="10" placeholder="Your comment"></textarea>
+                            <br>
+                            <button type="button" onclick="">Submit</button>
+                        </form>
                     </div>
                 </div>
-                <div class="container-body">
-                    <p id="comment-para">Post a comment</p>
-                    <form class="comment-form">
-                        <input type="text" placeholder="Title">
-                        <textarea rows="10" placeholder="Your comment"></textarea>
-                        <br>
-                        <button type="button" onclick="">Submit</button>
-                    </form>
+            </div>
+
+            <div class="ticket-selection">
+                <div class="price-display">
+                    <p>Price</p>
+                    <p style="font-weight: bold;">Free</p>
                 </div>
+                <button class="checkout-btn">Get ticket</button>
+
+
             </div>
         </div>
-
-        <div class="ticket-selection">
-            <div class="price-display">
-                <p>Price</p>
-                <p style="font-weight: bold;">Free</p>
-            </div>
-            <button class="checkout-btn">Get ticket</button>
-
-
-        </div>
-
     </div>
     <footer class="site-footer">
         <div class="container">

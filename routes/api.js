@@ -22,10 +22,62 @@ router.get('/read/events', (req, res) => {
       if (error) {
         return res.status(500).send(error);
       }
+
+      results.forEach(event => {
+        if (event.Image) {
+          event.Image = `data:${event.contentType};base64,${event.Image.toString('base64')}`;
+        }
+        if(event.Date){
+          const date = new Date(event.Date);
+          const year = date.getUTCFullYear();
+          const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+          const day = String(date.getUTCDate()).padStart(2, '0');
+
+          event.Date = `${year}-${month}-${day}`;
+        }
+      });
+
       res.json(results);
     });
   });
 });
+
+router.get('/read/events/:id', (req, res) => {
+  req.pool.getConnection(function(err,connection) {
+    if (err) {
+    res.sendStatus(500);
+    return;
+    }
+
+    connection.query(`Select E.EventID, E.Name, E.Description, E.Date, E.Location, E.Participant, E.Image, E.BranchID from
+                      Event E where E.EventID = ?;`,
+                [req.params.id], (error, results) => {
+      connection.release();
+      if (error) {
+        return res.status(500).send(error);
+      }
+
+      results.forEach(event => {
+        if (event.Image) {
+          event.Image = `data:${event.contentType};base64,${event.Image.toString('base64')}`;
+        }
+        if(event.Date){
+          const date = new Date(event.Date);
+          const year = date.getUTCFullYear();
+          const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+          const day = String(date.getUTCDate()).padStart(2, '0');
+
+          event.Date = `${year}-${month}-${day}`;
+        }
+      });
+
+      console.log(req.params.id);
+
+      res.json(results);
+    });
+  });
+});
+
 
 
 router.get('/read/branches',(req, res) => {
@@ -45,7 +97,7 @@ router.get('/read/branches',(req, res) => {
   });
 });
 
-router.get('/manager/read/events', isAuthenticated, (req, res) => {
+router.get('/manager/read/events/', isAuthenticated, (req, res) => {
   req.pool.getConnection(function(err,connection) {
     if (err) {
     res.sendStatus(500);
@@ -62,21 +114,33 @@ router.get('/manager/read/events', isAuthenticated, (req, res) => {
         if (event.Image) {
           event.Image = `data:${event.contentType};base64,${event.Image.toString('base64')}`;
         }
+        if(event.Date){
+          const date = new Date(event.Date);
+          const year = date.getUTCFullYear();
+          const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+          const day = String(date.getUTCDate()).padStart(2, '0');
+
+          event.Date = `${year}-${month}-${day}`;
+        }
       });
+
+
 
       res.json(results);
     });
   });
 });
 
-router.get('/manager/read/events/image', isAuthenticated, (req, res) => {
+router.get('/manager/read/events/:id', isAuthenticated, (req, res) => {
   req.pool.getConnection(function(err,connection) {
     if (err) {
     res.sendStatus(500);
     return;
     }
 
-    connection.query(`Select E.EventID, E.Name, E.Description, E.Date, E.Location, E.Participant, E.Image, E.BranchID from Event E join Branch B on B.BranchID = E.BranchID where B.Manager_ID = ?;`, [req.session.userID], (error, results) => {
+    connection.query(`Select E.EventID, E.Name, E.Description, E.Date, E.Location, E.Participant, E.Image, E.BranchID from
+                      Event E where E.EventID = ?;`,
+                [req.params.id], (error, results) => {
       connection.release();
       if (error) {
         return res.status(500).send(error);
@@ -86,14 +150,24 @@ router.get('/manager/read/events/image', isAuthenticated, (req, res) => {
         if (event.Image) {
           event.Image = `data:${event.contentType};base64,${event.Image.toString('base64')}`;
         }
+        if(event.Date){
+          const date = new Date(event.Date);
+          const year = date.getUTCFullYear();
+          const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+          const day = String(date.getUTCDate()).padStart(2, '0');
+
+          event.Date = `${year}-${month}-${day}`;
+        }
       });
 
-      
+      console.log(req.params.id);
 
       res.json(results);
     });
   });
 });
+
+
 
 
 router.get('/manager/read/users', isAuthenticated, (req, res) => {

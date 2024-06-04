@@ -34,6 +34,7 @@ var appdiv = new Vue({
 
       directEvent(event) {
         const queryParams = new URLSearchParams({
+          id: event.EventID,
           name: event.Name,
           description: event.Description,
           date: event.Date,

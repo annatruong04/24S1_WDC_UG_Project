@@ -14,3 +14,6 @@ where BranchID = 3;
 Update Role
 set Role_name = "Administrator"
 where RoleID = 1;
+
+Select E.EventID, E.Name, E.Description, E.Date, E.Location, E.Participant, E.BranchID from
+                      Event E where E.EventID = 5;

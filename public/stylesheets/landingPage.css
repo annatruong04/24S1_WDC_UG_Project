@@ -220,10 +220,15 @@ width: 100%;
 
 /* icons */
 
+.icon-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
 .Card{
   display: inline-block;
   align-items: center;
-
+  text-align: center;
 }
 .icon {
   font-size: 170px;
@@ -240,8 +245,13 @@ width: 100%;
 }
 .page2 .news .title .page2-title {
   text-align: center;
-  font-size: 30px;
+  font-size: 35px;
   padding-top: 50px;
+  color: #003C43;
+}
+.page2 .news .title .icon-container .Card {
+  font-family: "Open Sans", sans-serif;
+  color: #E3FEF7;
 }
 .page-header {
   position: fixed;

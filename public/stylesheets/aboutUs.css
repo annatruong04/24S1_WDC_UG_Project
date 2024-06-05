@@ -608,71 +608,110 @@ body {
 }
 
 /* IMPACT */
-.impact-section {
-  text-align: center;
-  padding: 50px 20px;
+.impact-background {
+  background-color: #ffffff;
+  padding: 50px 0;
 }
+
+.impact-section {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.impact-header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
 .impact-header {
   font-size: 36px;
   margin-bottom: 20px;
   font-weight: bold;
 }
+
 .impact-stats {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  gap: 40px;
   margin-bottom: 40px;
 }
+
 .impact-stats div {
   display: flex;
   align-items: center;
   font-size: 18px;
 }
-.impact-stats div img {
+
+.impact-stats i {
+  font-size: 24px;
   margin-right: 10px;
 }
+
 .impact-content {
   display: flex;
-  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
   gap: 20px;
-  margin-bottom: 40px;
   flex-wrap: wrap;
-  max-width: 1120px;
 }
+
 .impact-image img {
   max-width: 560px;
+  max-height: 520px;
   height: auto;
   border-radius: 10px;
 }
+
 .impact-quote {
   background-color: #fceaea;
   padding: 20px;
   border-radius: 10px;
   text-align: left;
+  flex: 1;
   max-width: 560px;
+  max-height: 520px;
 }
+
 .impact-quote p {
-  margin: 0;
+  margin: 0 0 10px;
 }
+
 .impact-quote p.quote {
   font-size: 18px;
-  margin-bottom: 10px;
 }
+
 .impact-quote p.author {
   font-weight: bold;
 }
+
 .impact-quote p.title {
   font-size: 14px;
   color: #6e6e6e;
 }
+
 @media (max-width: 768px) {
   .impact-stats {
     flex-direction: column;
     align-items: center;
+    gap: 20px;
   }
+
+  .impact-quote {
+    text-align: center;
+  }
+}
+@media (min-width: 992px) {
   .impact-content {
-    flex-direction: column;
+      width: 50%;
+      padding: 48px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
   }
 }
 
@@ -817,13 +856,14 @@ body {
 }
 
 .sticky h1 {
-  font-size: 2em;
+  font-size: 40px;
   margin-bottom: 10px;
 }
 
 .sticky p {
-  font-size: 16px;
+  font-size: 20px;
   margin-bottom: 20px;
+  color:#6e6e6e
 }
 
 .become-volunteer {
@@ -844,7 +884,6 @@ body {
 
 .step-right {
   flex: 2;
-  padding: 20px;
   max-width: 460px;
 }
 

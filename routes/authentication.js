@@ -231,7 +231,7 @@ router.post('/login', async function(req, res,next){
         return;
         }
 
-        var query = 'select B.User_ID, B.Phone_number, B.Email, B.First_Name, B.Last_name, B.Username, B.Password, A.Role_name from Role as A inner join User as B on A.RoleID = B.Role_ID where B.Username = ?';
+        var query = 'select B.User_ID, B.Phone_number, B.Email, B.First_name, B.Last_name, B.Username, B.Password, A.Role_name from Role as A inner join User as B on A.RoleID = B.Role_ID where B.Username = ?';
         connection.query(query, [username], async (error, results) => {
             connection.release();
             if (error){
@@ -251,6 +251,9 @@ router.post('/login', async function(req, res,next){
             // if (user.Password !== password) {
 
             // }
+            req.session.firstname = user.First_name;
+            req.session.lastname = user.Last_name;
+
             req.session.userID = user.User_ID;
             req.session.username = user.Username;
             req.session.name = user.First_Name + " " + user.Last_name;

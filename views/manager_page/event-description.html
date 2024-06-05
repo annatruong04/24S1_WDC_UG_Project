@@ -86,45 +86,41 @@
                 <div class="comment-section">
                     <h2>Comments</h2>
                     <div class="comment-form">
-                        <textarea placeholder="Write your comment here..." rows="4"></textarea>
-                        <button type="button">Post Comment</button>
+                        <textarea v-model="newMessage" placeholder="Write your comment here..." rows="4"></textarea>
+                        <button type="button" @click="PostComment">Post Comment</button>
                     </div>
                     <div class="comments">
-                        <div class="comment">
-                            <div class="comment-body">
-                                <div class="comment-header">
-                                    <span class="comment-author">John Doe</span>
-                                    <span class="comment-date">June 4, 2024</span>
-                                </div>
-                                <div class="comment-text">
-                                    This is an amazing event! I had a great time.
-                                </div>
-                                <button class="reply-button">Reply</button>
-                                <div class="comment-form reply-form" style="display: none;">
-                                    <textarea placeholder="Write your reply here..." rows="2"></textarea>
-                                    <button type="button">Post Reply</button>
-                                </div>
-                                <div class="comments replies">
-                                    <div class="comment">
-                                        <div class="comment-body">
-                                            <div class="comment-header">
-                                                <span class="comment-author">Jane Smith</span>
-                                                <span class="comment-date">June 4, 2024</span>
-                                            </div>
-                                            <div class="comment-text">
-                                                I totally agree with you!
-                                            </div>
-                                            <button class="reply-button">Reply</button>
-                                            <div class="comment-form reply-form" style="display: none;">
-                                                <textarea placeholder="Write your reply here..." rows="2"></textarea>
-                                                <button type="button">Post Reply</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                        <div class="comment" v-for="comment in comments" :key="comment.ParentCommentID">
+                          <div class="comment-body">
+                            <div class="comment-header">
+                              <span class="comment-author">{{ comment.ParentFirstName }} {{ comment.ParentLastName }}</span>
+                              <span class="comment-date">{{ new Date(comment.ParentTimestamp).toLocaleDateString() }}</span>
                             </div>
+                            <div class="comment-text">{{ comment.ParentCommentText }}</div>
+                            <button class="reply-button" @click="showReplyForm(comment.ParentCommentID)">Reply</button>
+                            <div class="comment-form reply-form" v-if="comment.showReplyForm">
+                              <textarea v-model="comment.replyText" placeholder="Write your reply here..." rows="2"></textarea>
+                              <button type="button" @click="postReply(comment.ParentCommentID)">Post Reply</button>
+                            </div>
+                            <div class="comments replies" v-if="comment.replies.length!==0">
+                              <div class="comment" v-for="reply in comment.replies" :key="reply.ReplyCommentID">
+                                <div class="comment-body">
+                                  <div class="comment-header">
+                                    <span class="comment-author">{{ reply.ReplyFirstName }} {{ reply.ReplyLastName }}</span>
+                                    <span class="comment-date">{{ new Date(reply.ReplyTimestamp).toLocaleDateString() }}</span>
+                                  </div>
+                                  <div class="comment-text">{{ reply.ReplyCommentText }}</div>
+                                  <button class="reply-button" @click="showReplyForm(reply.ReplyCommentID)">Reply</button>
+                                  <div class="comment-form reply-form" v-if="reply.showReplyForm">
+                                    <textarea v-model="reply.replyText" placeholder="Write your reply here..." rows="2"></textarea>
+                                    <button type="button" @click="postReply(reply.ReplyCommentID)">Post Reply</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                    </div>
+                      </div>
                 </div>
             </div>
 

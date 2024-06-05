@@ -2,6 +2,7 @@ body {
   font-family: "Open Sans", sans-serif;
   margin: 0;
   padding: 0;
+  max-width: 1440px;
 }
 /*Welcome*/
 .welcome-container {
@@ -230,11 +231,7 @@ width: 100%;
   align-items: center;
   text-align: center;
 }
-.icon {
-  font-size: 170px;
-  opacity: 0.9;
-  color: #E3FEF7;
-}
+
 .Card .text {
   font-family: "SemiBold 600";
 }
@@ -249,13 +246,21 @@ width: 100%;
   padding-top: 50px;
   color: #003C43;
 }
-.page2 .news .title .icon-container .Card {
-  font-family: "Open Sans", sans-serif;
+.page2 .news .title .icon-container .Card .icon {
+  font-size: 170px;
+  opacity: 0.9;
   color: #E3FEF7;
+}
+.page2 .news .title .icon-container .Card .text {
+  color: #003C43;
+  font-family: "Open Sans", sans-serif;
+  font-weight: bold;
+  font-size: 20px;
 }
 .page-header {
   position: fixed;
   width: 100%;
+  max-width: 1440px;
   height: 110px;
   background-color:  #135D66;
   z-index: 1000;

@@ -794,3 +794,96 @@ body {
     transform: translateX(-50%) translateY(20px) scale(1.15); /* Center the image */
   }
 }
+
+/* How to become a volunteer */
+.step-container {
+  display: flex;
+  margin: 0;
+  padding: 50px;
+  padding-top: 100px;
+  padding-bottom: 100px;
+  gap: 30px;
+}
+
+.step-left {
+  flex: 1;
+  padding-left: 50px;
+  max-width: 528px;
+}
+
+.sticky {
+  position: sticky;
+  top: 150px;
+}
+
+.sticky h1 {
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+
+.sticky p {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.become-volunteer {
+  display: inline-block;
+  padding: 15px 20px;
+  margin-top: 20px;
+  font-size: 1em;
+  color: white;
+  background-color: #135D66;
+  border-radius: 30px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.become-volunteer:hover {
+  background-color: #0b3f47;
+}
+
+.step-right {
+  flex: 2;
+  padding: 20px;
+  max-width: 460px;
+}
+
+.step {
+  margin-bottom: 40px;
+  padding-left: 40px;
+  padding: 0px;
+}
+
+.step-number {
+  font-size: 1.5em;
+  color: #135D66;
+  margin-bottom: 10px;
+}
+
+.step-title {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+  padding-left: 20px;
+}
+.step-content{
+  border-left: 2px solid #ccc;
+}
+
+.step p {
+  font-size: 1em;
+  margin-bottom: 10px;
+  padding-left: 50px;
+}
+
+.step img {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+  max-width: 240px;
+  max-height: 150px;
+  padding-left: 50px;
+  padding-bottom: 30px;
+}
+.box {
+  display: flex;
+}

@@ -34,3 +34,8 @@ SELECT c1.CommentID AS ParentCommentID, c1.CommentText AS ParentCommentText,
                     LEFT JOIN User u2 ON c2.UserID = u2.User_ID
                     WHERE c1.EventID = ?
                     ORDER BY c1.Timestamp, c2.Timestamp;
+
+
+CREATE DATABASE IF NOT EXISTS `volunteer` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+
+USE `volunteer`;

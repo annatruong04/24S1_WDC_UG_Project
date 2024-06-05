@@ -34,6 +34,8 @@ router.get('/getUser', function(req, res, next) {
                     req.session.firstname = user.First_name;
                     req.session.lastname = user.Last_name;
 
+                    console.log(req.session.firstname + " " + req.session.lastname);
+
                     req.session.userID = user.User_ID;
                     req.session.role = user.Role_name;
                     req.session.name = user.First_name + ' ' + user.Last_name; // Assuming you want to set the name in session
@@ -46,7 +48,6 @@ router.get('/getUser', function(req, res, next) {
                     res.status(200).send(JSON.stringify({
                         First_name: req.session.firstname,
                         Last_name: req.session.lastname,
-
                         Username: req.session.username,
                         Name: req.session.name,
                         Phone_num: req.session.phonenum,
@@ -251,6 +252,11 @@ router.post('/login', async function(req, res,next){
             // if (user.Password !== password) {
 
             // }
+
+            req.session.firstname = user.First_Name;
+            req.session.lastname = user.Last_name;
+
+            console.log(req.session.firstname + " " + req.session.lastname);
             req.session.firstname = user.First_name;
             req.session.lastname = user.Last_name;
 

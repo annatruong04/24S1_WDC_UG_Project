@@ -57,7 +57,6 @@ var appdiv = new Vue({
 
             alert('Data submitted successfully');
           } else {
-
             console.error('The request failed:', xhr.statusText);
           }
         };
@@ -66,8 +65,6 @@ var appdiv = new Vue({
         xhr.onerror = () => {
           console.error('Network error');
         };
-
-
         xhr.send(JSON.stringify(this.form));
       },
       join(){

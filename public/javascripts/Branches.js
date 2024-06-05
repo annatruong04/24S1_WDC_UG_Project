@@ -69,6 +69,9 @@ var appdiv = new Vue({
 
 
         xhr.send(JSON.stringify(this.form));
+      },
+      join(){
+        
       }
     }
 });

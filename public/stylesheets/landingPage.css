@@ -3,6 +3,90 @@ body {
   margin: 0;
   padding: 0;
 }
+/*Welcome*/
+.welcome-container {
+  background: white;
+  padding-top: 150px;
+  border-radius: 8px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Flex container for header */
+.header-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+  gap: 20px;
+}
+
+/* Header image */
+.header-image {
+  width: 100%;
+  max-width: 650px;
+  height: 100%;
+  max-height: 650px;
+  margin: 0 auto;
+  object-fit: cover;
+}
+
+/* Header text */
+.header-text {
+  text-align: left;
+  max-width: 520px;
+}
+
+.header-text .welcome-h1 {
+  color: #2b2b2b;
+  font-size: 2em;
+  font-size: 60px;
+  margin: 0;
+}
+
+.header-text p {
+  font-size: 1.2em;
+  color: #3a3a3a;
+  margin-top: 10px;
+}
+
+/* Button for Explore More */
+.explore-more-btn {
+  display: inline-block;
+  padding: 15px 30px;
+  margin-top: 20px;
+  font-size: 1.2em;
+  color: white;
+  background-color: #135D66;
+  border-radius: 30px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.explore-more-btn:hover {
+  background-color: #0b3f47;
+}
+
+/* Media queries for responsiveness */
+@media screen and (min-width: 992px) {
+  .header-flex {
+    justify-content: space-between;
+  }
+
+  .header-text {
+    text-align: left;
+  }
+
+}
+
+@media (min-width: 1200px) {
+  .about-container {
+    padding: 40px;
+  }
+}
+
 
 ::-webkit-scrollbar{
   width: 8px;
@@ -123,38 +207,28 @@ width: 100%;
 
 .page2{
   width: 100%;
-  background-color: #77B0AA;
+  background-color: white;
   min-height: 100vh;
 }
 
 .page2 .news {
   padding: 30px 0;
 }
+.page2 .news .title {
+  background-color: #77b0aa
+}
 
-.JoinButton{
-  height: 100%;
-  margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-input[type="button"]{
-  width: 110px;
-  height: 50px;
-  margin-top: 20px;
-  border: none;
-  background-color: white;
-  color: #003c43;
-  font-weight: 900;
-  font-size: larger;
-  border-radius: 7px;
-  text-align: center;
-}
 /* icons */
 
+.icon-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
 .Card{
   display: inline-block;
   align-items: center;
+  text-align: center;
 }
 .icon {
   font-size: 170px;
@@ -168,11 +242,16 @@ input[type="button"]{
   width: 470px;
   min-height: 400px;
   border: none;
-  padding-left: 30px;
 }
 .page2 .news .title .page2-title {
   text-align: center;
-  font-size: 30px;
+  font-size: 35px;
+  padding-top: 50px;
+  color: #003C43;
+}
+.page2 .news .title .icon-container .Card {
+  font-family: "Open Sans", sans-serif;
+  color: #E3FEF7;
 }
 .page-header {
   position: fixed;
@@ -546,8 +625,8 @@ body {
   color: white;
 }
 
-/*Welcome*/
-.welcome-container {
+/* Join Us */
+.joinus-container {
   background: white;
   padding-top: 150px;
   border-radius: 8px;
@@ -556,22 +635,8 @@ body {
   width: 100%;
 }
 
-.underline {
-  position: relative;
-  display: inline-block;
-}
-
-.underline svg {
-  position: absolute;
-  bottom: -5px; /* Adjust based on your design */
-  left: 0;
-  width: 100%;
-  height: 20px; /* Adjust based on your design */
-}
-
-
-/* Flex container for header */
-.header-flex {
+/* Flex container */
+.joinus-flex {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -580,66 +645,73 @@ body {
   gap: 20px;
 }
 
-/* Header image */
-.header-image {
+.joinus-image {
   width: 100%;
-  max-width: 650px;
+  max-width: 450px;
   height: 100%;
-  max-height: 650px;
+  max-height: 450px;
   margin: 0 auto;
   object-fit: cover;
 }
 
-/* Header text */
-.header-text {
+.joinus-text {
   text-align: left;
   max-width: 520px;
 }
 
-.header-text .welcome-h1 {
+.joinus-text .joinus-h2{
   color: #2b2b2b;
   font-size: 2em;
-  font-size: 60px;
+  font-size: 40px;
   margin: 0;
 }
 
-.header-text p {
+.joinus-text p {
   font-size: 1.2em;
   color: #3a3a3a;
   margin-top: 10px;
 }
 
-/* Button for Explore More */
-.explore-more-btn {
-  display: inline-block;
-  padding: 15px 30px;
-  margin-top: 20px;
-  font-size: 1.2em;
-  color: white;
-  background-color: #135D66;
-  border-radius: 30px;
-  text-decoration: none;
-  transition: background-color 0.3s ease;
-}
-
-.explore-more-btn:hover {
-  background-color: #0b3f47;
-}
 
 /* Media queries for responsiveness */
 @media screen and (min-width: 992px) {
-  .header-flex {
+  .joinus-flex {
     justify-content: space-between;
   }
 
-  .header-text {
+  .joinus-text {
     text-align: left;
   }
 
 }
 
-@media (min-width: 1200px) {
-  .about-container {
-    padding: 40px;
-  }
+/* Join us button */
+.JoinButton {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
+a.button-link {
+  display: inline-block;
+  font-family: "Open Sans", sans-serif;
+  width: 110px;
+  height: 50px;
+  margin-top: 20px;
+  color: white;
+  background-color: #135D66;
+  font-weight: 900;
+  font-size: larger;
+  border-radius: 7px;
+  text-align: center;
+  text-decoration: none;
+  line-height: 50px; /* Centers the text vertically */
+}
+
+a.button-link:hover {
+  background-color: #1f8997; /* Optional: Add a hover effect */
+}
+/* join us button*/
+

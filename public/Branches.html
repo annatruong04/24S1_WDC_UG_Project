@@ -128,8 +128,11 @@
                     <span><i class="fa-solid fa-user"></i></span>
                     <span>{{branch.MemberCount}} </span>
                     <div class="followers">
-                        <div class="join-buttons">
-                            <button @click="join" type="button">Join</button>
+                        <div class="join-buttons" >
+                            <button @click="join(branch.BranchID)" v-if="!isUserInBranch(branch.BranchID)" type="button">Join</button>
+                        </div>
+                        <div class="join-buttons" >
+                            <button @click="leave(branch.BranchID)" v_else type="button">Leave</button>
                         </div>
                     </div>
                 </div>

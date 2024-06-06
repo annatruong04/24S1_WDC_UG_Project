@@ -262,7 +262,7 @@ router.post('/login', async function(req, res,next){
 
             req.session.userID = user.User_ID;
             req.session.username = user.Username;
-            req.session.name = user.First_Name + " " + user.Last_name;
+            req.session.name = user.First_name + " " + user.Last_name;
             req.session.role = user.Role_name;
             req.session.email = user.Email;
             req.session.phonenum = user.Phone_number;

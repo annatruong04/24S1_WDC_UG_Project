@@ -34,8 +34,8 @@ const dbConnectionPool = mysql.createPool({
   database: 'volunteer', // the name of the database you want to connect to
 });
 
-dbConnectionPool.getConnection(function(err, connection){
-  if (err){
+dbConnectionPool.getConnection(function (err, connection) {
+  if (err) {
     console.log(err);
     return;
   }
@@ -48,7 +48,7 @@ if (!fs.existsSync('uploads')) {
   fs.mkdirSync('uploads');
 }
 
-app.use(function(req,res,next){
+app.use(function (req, res, next) {
   req.pool = dbConnectionPool;
   next();
 });
@@ -56,10 +56,10 @@ app.use(function(req,res,next){
 // Multer configuration
 
 // add branch id into session
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   if (req.session.username) {
     if (!req.session.BranchID) {
-      req.pool.getConnection(function(err, connection) {
+      req.pool.getConnection(function (err, connection) {
         if (err) {
           res.sendStatus(500);
           return;
@@ -93,7 +93,7 @@ app.use(function(req, res, next) {
 });
 
 
-app.use(function(req,res,next){
+app.use(function (req, res, next) {
   console.log("Current user: " + req.session.name);
   if (req.session.BranchID) console.log("Branch ID: " + req.session.BranchID[0]);
   next();

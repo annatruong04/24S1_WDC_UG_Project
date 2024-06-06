@@ -11,10 +11,10 @@ const upload = multer({ storage: storage });
 //route for api
 
 router.get('/read/events', (req, res) => {
-  req.pool.getConnection(function(err,connection) {
+  req.pool.getConnection(function (err, connection) {
     if (err) {
-    res.sendStatus(500);
-    return;
+      res.sendStatus(500);
+      return;
     }
 
     connection.query(`SELECT * FROM Event`, (error, results) => {
@@ -27,7 +27,7 @@ router.get('/read/events', (req, res) => {
         if (event.Image) {
           event.Image = `data:${event.contentType};base64,${event.Image.toString('base64')}`;
         }
-        if(event.Date){
+        if (event.Date) {
           const date = new Date(event.Date);
           const year = date.getUTCFullYear();
           const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are zero-indexed
@@ -43,48 +43,48 @@ router.get('/read/events', (req, res) => {
 });
 
 router.get('/read/events/:id', (req, res) => {
-  req.pool.getConnection(function(err,connection) {
+  req.pool.getConnection(function (err, connection) {
     if (err) {
-    res.sendStatus(500);
-    return;
+      res.sendStatus(500);
+      return;
     }
 
     connection.query(`Select E.EventID, E.Name, E.Description, E.Date, E.Location, E.Participant, E.Image, E.BranchID from
                       Event E where E.EventID = ?;`,
-                [req.params.id], (error, results) => {
-      connection.release();
-      if (error) {
-        return res.status(500).send(error);
-      }
-
-      results.forEach(event => {
-        if (event.Image) {
-          event.Image = `data:${event.contentType};base64,${event.Image.toString('base64')}`;
+      [req.params.id], (error, results) => {
+        connection.release();
+        if (error) {
+          return res.status(500).send(error);
         }
-        if(event.Date){
-          const date = new Date(event.Date);
-          const year = date.getUTCFullYear();
-          const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are zero-indexed
-          const day = String(date.getUTCDate()).padStart(2, '0');
 
-          event.Date = `${year}-${month}-${day}`;
-        }
+        results.forEach(event => {
+          if (event.Image) {
+            event.Image = `data:${event.contentType};base64,${event.Image.toString('base64')}`;
+          }
+          if (event.Date) {
+            const date = new Date(event.Date);
+            const year = date.getUTCFullYear();
+            const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+            const day = String(date.getUTCDate()).padStart(2, '0');
+
+            event.Date = `${year}-${month}-${day}`;
+          }
+        });
+
+        console.log(req.params.id);
+
+        res.json(results);
       });
-
-      console.log(req.params.id);
-
-      res.json(results);
-    });
   });
 });
 
 
 
-router.get('/read/branches',(req, res) => {
-  req.pool.getConnection(function(err,connection) {
+router.get('/read/branches', (req, res) => {
+  req.pool.getConnection(function (err, connection) {
     if (err) {
-    res.sendStatus(500);
-    return;
+      res.sendStatus(500);
+      return;
     }
 
     connection.query(`SELECT * FROM Branch`, (error, results) => {
@@ -97,11 +97,57 @@ router.get('/read/branches',(req, res) => {
   });
 });
 
-router.get('/manager/read/events/', isAuthenticated, (req, res) => {
-  req.pool.getConnection(function(err,connection) {
+router.get('/read/User_Branch', isAuthenticated, (req, res) => {
+  req.pool.getConnection(function (err, connection) {
     if (err) {
-    res.sendStatus(500);
-    return;
+      res.sendStatus(500);
+      return;
+    }
+
+    connection.query(`SELECT * FROM User_Branch WHERE User_ID = ?
+    `,[req.session.userID], (error, results) => {
+        connection.release();
+        if (error) {
+          return res.status(500).send(error);
+        }
+
+
+        res.json(results);
+      });
+  });
+});
+
+
+router.get('/join/branches/:id', isAuthenticated, (req, res) => {
+  req.pool.getConnection(function (err, connection) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    connection.query(`insert User_Branch (User_ID, BranchID) values(?,?)`,
+      [req.session.userID, req.params.id], (error, results) => {
+        connection.release();
+        if (error) {
+          return res.status(500).send(error);
+        }
+
+        console.log('hello');
+
+        console.log(req.params.id);
+
+        res.json(results);
+      });
+  });
+});
+
+
+
+router.get('/manager/read/events/', isAuthenticated, (req, res) => {
+  req.pool.getConnection(function (err, connection) {
+    if (err) {
+      res.sendStatus(500);
+      return;
     }
 
     connection.query(`Select E.EventID, E.Name, E.Description, E.Date, E.Location, E.Participant, E.Image, E.BranchID from Event E join Branch B on B.BranchID = E.BranchID where B.Manager_ID = ?;`, [req.session.userID], (error, results) => {
@@ -114,7 +160,7 @@ router.get('/manager/read/events/', isAuthenticated, (req, res) => {
         if (event.Image) {
           event.Image = `data:${event.contentType};base64,${event.Image.toString('base64')}`;
         }
-        if(event.Date){
+        if (event.Date) {
           const date = new Date(event.Date);
           const year = date.getUTCFullYear();
           const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are zero-indexed
@@ -132,46 +178,46 @@ router.get('/manager/read/events/', isAuthenticated, (req, res) => {
 });
 
 router.get('/manager/read/events/:id', isAuthenticated, (req, res) => {
-  req.pool.getConnection(function(err,connection) {
+  req.pool.getConnection(function (err, connection) {
     if (err) {
-    res.sendStatus(500);
-    return;
+      res.sendStatus(500);
+      return;
     }
 
     connection.query(`Select E.EventID, E.Name, E.Description, E.Date, E.Location, E.Participant, E.Image, E.BranchID from
                       Event E where E.EventID = ?;`,
-                [req.params.id], (error, results) => {
-      connection.release();
-      if (error) {
-        return res.status(500).send(error);
-      }
-
-      results.forEach(event => {
-        if (event.Image) {
-          event.Image = `data:${event.contentType};base64,${event.Image.toString('base64')}`;
+      [req.params.id], (error, results) => {
+        connection.release();
+        if (error) {
+          return res.status(500).send(error);
         }
-        if(event.Date){
-          const date = new Date(event.Date);
-          const year = date.getUTCFullYear();
-          const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are zero-indexed
-          const day = String(date.getUTCDate()).padStart(2, '0');
 
-          event.Date = `${year}-${month}-${day}`;
-        }
+        results.forEach(event => {
+          if (event.Image) {
+            event.Image = `data:${event.contentType};base64,${event.Image.toString('base64')}`;
+          }
+          if (event.Date) {
+            const date = new Date(event.Date);
+            const year = date.getUTCFullYear();
+            const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+            const day = String(date.getUTCDate()).padStart(2, '0');
+
+            event.Date = `${year}-${month}-${day}`;
+          }
+        });
+
+        console.log(req.params.id);
+
+        res.json(results);
       });
-
-      console.log(req.params.id);
-
-      res.json(results);
-    });
   });
 });
 
 router.get('/manager/read/comments/:id', isAuthenticated, (req, res) => {
-  req.pool.getConnection(function(err,connection) {
+  req.pool.getConnection(function (err, connection) {
     if (err) {
-    res.sendStatus(500);
-    return;
+      res.sendStatus(500);
+      return;
     }
 
     const query = `SELECT c1.CommentID AS ParentCommentID, c1.CommentText AS ParentCommentText,
@@ -187,206 +233,206 @@ router.get('/manager/read/comments/:id', isAuthenticated, (req, res) => {
                     ORDER BY c1.Timestamp, c2.Timestamp;`;
 
     connection.query(query,
-                [req.params.id], (error, results) => {
+      [req.params.id], (error, results) => {
         connection.release();
         if (error) {
           console.log(error);
           return res.status(500).send(error);
         }
         res.json(results);
-    });
+      });
   });
 });
 
 
 router.post('/manager/post/comments/:id', isAuthenticated, (req, res) => {
-  req.pool.getConnection(function(err,connection) {
+  req.pool.getConnection(function (err, connection) {
     if (err) {
-    res.sendStatus(500);
-    return;
+      res.sendStatus(500);
+      return;
     }
 
     const query = `INSERT INTO Comment (ParentID, EventID, UserID, CommentText) VALUES(NULL, ?, ?, ?)`;
 
     connection.query(query,
-                [req.params.id, req.session.userID, req.body.CommentText], (error, results) => {
+      [req.params.id, req.session.userID, req.body.CommentText], (error, results) => {
         connection.release();
         if (error) {
           console.log(error);
           return res.status(500).send(error);
         }
         res.sendStatus(200);
-    });
+      });
   });
 });
 
 
 router.get('/manager/read/users', isAuthenticated, (req, res) => {
-req.pool.getConnection(function(err,connection) {
+  req.pool.getConnection(function (err, connection) {
     if (err) {
-    res.sendStatus(500);
-    return;
+      res.sendStatus(500);
+      return;
     }
     connection.query(`SELECT u.User_ID, u.Username, u.First_name, u.Last_name, u.Email, R.Role_name, u.Phone_number FROM User u inner join Role R on u.Role_ID = R.RoleID JOIN User_Branch ub ON u.User_ID = ub.User_ID JOIN Branch b ON ub.BranchID = b.BranchID WHERE b.Manager_ID = ?;`, [req.session.userID], (error, results) => {
       connection.release();
-    if (error) {
+      if (error) {
         return res.status(500).send(error);
-    }
-    res.sendStatus(200);
+      }
+      res.sendStatus(200);
     });
-});
+  });
 });
 
 
 router.post('/manager/create/events', isAuthenticated, upload.single('image'), (req, res) => {
   console.log('File:', req.file); // Log the file data
 
-  req.pool.getConnection(function(err, connection) {
-      if (err) {
-          res.sendStatus(500);
-          return;
-      }
+  req.pool.getConnection(function (err, connection) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
 
-      const data = req.body;
-      const image = req.file ? req.file.buffer : null; // Get the uploaded file buffer
+    const data = req.body;
+    const image = req.file ? req.file.buffer : null; // Get the uploaded file buffer
 
-      console.log('Image Buffer:', image); // Log the buffer data to verify
+    console.log('Image Buffer:', image); // Log the buffer data to verify
 
-      if (!image) {
-          return res.status(400).send('No image uploaded');
-      }
+    if (!image) {
+      return res.status(400).send('No image uploaded');
+    }
 
-      const sql = `INSERT INTO Event (name, location, date, description, BranchID, Image)
+    const sql = `INSERT INTO Event (name, location, date, description, BranchID, Image)
                    VALUES (?, ?, ?, ?, (SELECT BranchID FROM Branch WHERE Manager_ID = ?), ?)`;
-      connection.query(sql, [data.name, data.location, data.date, data.description, req.session.userID, image], (error, results, fields) => {
-          connection.release();
-          if (error) return res.status(500).send(error);
-          res.send('Data inserted');
-      });
+    connection.query(sql, [data.name, data.location, data.date, data.description, req.session.userID, image], (error, results, fields) => {
+      connection.release();
+      if (error) return res.status(500).send(error);
+      res.send('Data inserted');
+    });
   });
 });
 
 router.post('/manager/edit/events', isAuthenticated, upload.single('image'), (req, res) => {
   console.log('File:', req.file); // Log the file data
 
-  req.pool.getConnection(function(err, connection) {
-      if (err) {
-          res.sendStatus(500);
-          return;
-      }
+  req.pool.getConnection(function (err, connection) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
 
-      const data = req.body;
-      const image = req.file ? req.file.buffer : null; // Get the uploaded file buffer
+    const data = req.body;
+    const image = req.file ? req.file.buffer : null; // Get the uploaded file buffer
 
-      console.log('Image Buffer:', image); // Log the buffer data to verify
+    console.log('Image Buffer:', image); // Log the buffer data to verify
 
-      if (!image) {
-        const sql = `Update Event
+    if (!image) {
+      const sql = `Update Event
                    set Name = ?, Description = ?, Date = ?, Location = ?
                    where EventID = ?`;
-        connection.query(sql, [data.name, data.description, data.date, data.location, data.id], (error, results, fields) => {
-            connection.release();
-            if (error) return res.status(500).send(error);
-            res.send('Update event Successfully');
-        });
-      }
-      else {
-        const sql = `Update Event
+      connection.query(sql, [data.name, data.description, data.date, data.location, data.id], (error, results, fields) => {
+        connection.release();
+        if (error) return res.status(500).send(error);
+        res.send('Update event Successfully');
+      });
+    }
+    else {
+      const sql = `Update Event
                     set Name = ?, Description = ?, Date = ?, Location = ?, Image = ?
                     where EventID = ?`;
-        connection.query(sql, [data.name, data.description, data.date, data.location, image, data.id], (error, results, fields) => {
-            connection.release();
-            if (error) return res.status(500).send(error);
-            res.send('Update event Successfully');
-        });
-      }
+      connection.query(sql, [data.name, data.description, data.date, data.location, image, data.id], (error, results, fields) => {
+        connection.release();
+        if (error) return res.status(500).send(error);
+        res.send('Update event Successfully');
+      });
+    }
   });
 });
 
 router.post('/manager/delete/events', isAuthenticated, (req, res) => {
-  req.pool.getConnection(function(err, connection) {
-      if (err) {
-          res.sendStatus(500);
-          return;
-      }
+  req.pool.getConnection(function (err, connection) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
 
-      const sql = `delete from Event where EventID = ?;`;
-      connection.query(sql, [req.body.eventID], (error, results, fields) => {
-          connection.release();
-          if (error) return res.status(500).send(error);
-          res.sendStatus(200);
-      });
+    const sql = `delete from Event where EventID = ?;`;
+    connection.query(sql, [req.body.eventID], (error, results, fields) => {
+      connection.release();
+      if (error) return res.status(500).send(error);
+      res.sendStatus(200);
+    });
   });
 });
 
 
 router.get('/manager/get/user', isAuthenticated, (req, res) => {
-req.pool.getConnection(function(err,connection) {
+  req.pool.getConnection(function (err, connection) {
     if (err) {
-    res.sendStatus(500);
-    return;
+      res.sendStatus(500);
+      return;
     }
     connection.query(`SELECT * FROM USER`, (error, results) => {
       connection.release();
-    if (error) {
+      if (error) {
         return res.status(500).send(error);
-    }
-    res.json(results);
+      }
+      res.json(results);
     });
-});
+  });
 });
 
 router.post('/manager/delete/user', isAuthenticated, (req, res) => {
-  req.pool.getConnection(function(err,connection) {
-      if (err) {
-        console.log(err);
+  req.pool.getConnection(function (err, connection) {
+    if (err) {
+      console.log(err);
       res.sendStatus(500);
       return;
-      }
-      connection.query(`Delete from User_Branch where User_ID = ?`, [req.body.userID], (error, results) => {
-        connection.release();
+    }
+    connection.query(`Delete from User_Branch where User_ID = ?`, [req.body.userID], (error, results) => {
+      connection.release();
       if (error) {
-          console.log(error);
-          return res.status(500).send(error);
+        console.log(error);
+        return res.status(500).send(error);
       }
       res.sendStatus(200);
-      });
+    });
   });
 });
 
 router.post('/manager/add/user', isAuthenticated, (req, res) => {
-  req.pool.getConnection(function(err,connection) {
-      if (err) {
-        console.log(err);
+  req.pool.getConnection(function (err, connection) {
+    if (err) {
+      console.log(err);
       res.sendStatus(500);
       return;
+    }
+    connection.query(`select BranchID from Branch where Manager_ID = ?`, [req.session.userID], (error, results) => {
+      connection.release();
+      if (error) {
+        console.log(error);
+        return res.status(500).send(error);
       }
-      connection.query(`select BranchID from Branch where Manager_ID = ?`, [req.session.userID], (error, results) => {
-          connection.release();
-        if (error) {
-            console.log(error);
-            return res.status(500).send(error);
+
+      const branchid = results[0].BranchID;
+
+      req.pool.getConnection(function (err, connection2) {
+        if (err) {
+          console.log("Database connection error" + error);
+          return;
         }
-
-        const branchid = results[0].BranchID;
-
-        req.pool.getConnection(function(err,connection2) {
-          if (err) {
-              console.log("Database connection error" + error);
-              return;
+        var query2 = `INSERT INTO User_Branch (User_ID, BranchID) SELECT User_ID, ? FROM User WHERE Email = ?`;
+        connection2.query(query2, [branchid, req.body.userEmail], (error, results2) => {
+          connection.release();
+          if (error) {
+            console.log("Query error" + error);
+            return;
           }
-          var query2 = `INSERT INTO User_Branch (User_ID, BranchID) SELECT User_ID, ? FROM User WHERE Email = ?`;
-          connection2.query(query2, [branchid, req.body.userEmail], (error, results2) => {
-              connection.release();
-              if (error){
-                  console.log("Query error" + error);
-                  return ;
-              }
-              console.log("Add new member to branch successfully");
-              res.sendStatus(200);
-          });
+          console.log("Add new member to branch successfully");
+          res.sendStatus(200);
         });
       });
+    });
   });
 });
 

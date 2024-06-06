@@ -7,11 +7,12 @@ var appdiv = new Vue ({
         location: '',
         image: '',
         comments: [],
-        newMessage: ""
+        newCommentText: '',
+        eventID: ''
     },
     mounted: function() {
         this.getQuerypara();
-        this.getComment();
+        this.getComments();
     },
     methods: {
         getQuerypara(){
@@ -29,115 +30,134 @@ var appdiv = new Vue ({
                     this.date = data[0]['Date'];
                     this.location = data[0]['Location'];
                     this.image = `${data[0]['Image']}`;
+                    this.eventID = data[0]['EventID'];
                 }
             };
 
             xhttp.send();
         },
+        buildNestedComments(rawComments) {
+            const commentMap = {};
 
-        getComment(){
+            // Initialize the commentMap with each comment and an empty replies array
+            rawComments.forEach(comment => {
+              const parentID = comment.ParentCommentID;
+              const replyID = comment.ReplyCommentID;
+
+              if (!commentMap[parentID]) {
+                commentMap[parentID] = {
+                  CommentID: parentID,
+                  CommentText: comment.ParentCommentText,
+                  First_name: comment.ParentFirstName,
+                  Last_name: comment.ParentLastName,
+                  Timestamp: comment.ParentTimestamp,
+                  replies: [],
+                  showReplyForm: false,
+                  replyText: ''
+                };
+              }
+
+              if (replyID) {
+                if (!commentMap[replyID]) {
+                  commentMap[replyID] = {
+                    CommentID: replyID,
+                    CommentText: comment.ReplyCommentText,
+                    First_name: comment.ReplyFirstName,
+                    Last_name: comment.ReplyLastName,
+                    Timestamp: comment.ReplyTimestamp,
+                    replies: [],
+                    showReplyForm: false,
+                    replyText: ''
+                  };
+                }
+                // Add the reply to the parent's replies array
+                commentMap[parentID].replies.push(commentMap[replyID]);
+              }
+            });
+
+            // Return only the top-level comments (those without a ParentCommentID)
+            return Object.values(commentMap).filter(comment => !rawComments.some(rc => rc.ReplyCommentID === comment.CommentID));
+          },
+          getComments() {
             const queryParams = new URLSearchParams(window.location.search);
-            var xhttp = new XMLHttpRequest();
+            const xhttp = new XMLHttpRequest();
 
-            xhttp.open("GET", `/api/manager/read/comments/${queryParams.get('id')}`, true);
+            xhttp.open('GET', `/api/manager/read/comments/${queryParams.get('id')}`, true);
 
             xhttp.onreadystatechange = () => {
-                if (xhttp.readyState == 4 && xhttp.status == 200) {
-                    const rawComments = JSON.parse(xhttp.responseText);
-                    const commentsMap = {};
-                    rawComments.forEach(comment => {
-                      if (!commentsMap[comment.ParentCommentID]) {
-                        commentsMap[comment.ParentCommentID] = {
-                          ParentCommentID: comment.ParentCommentID,
-                          ParentCommentText: comment.ParentCommentText,
-                          ParentTimestamp: comment.ParentTimestamp,
-                          ParentFirstName: comment.ParentFirstName,
-                          ParentLastName: comment.ParentLastName,
-                          replies: [],
-                          showReplyForm: false,
-                          replyText: ''
-                        };
-                      }
-                      if (comment.ReplyCommentID) {
-                        commentsMap[comment.ParentCommentID].replies.push({
-                          ReplyCommentID: comment.ReplyCommentID,
-                          ReplyCommentText: comment.ReplyCommentText,
-                          ReplyTimestamp: comment.ReplyTimestamp,
-                          ReplyFirstName: comment.ReplyFirstName,
-                          ReplyLastName: comment.ReplyLastName,
-                          showReplyForm: false,
-                          replyText: ''
-                        });
-                      }
-                    });
-                    this.comments = Object.values(commentsMap);
-                }
+              if (xhttp.readyState === 4 && xhttp.status === 200) {
+                const rawComments = JSON.parse(xhttp.responseText);
+                const nestedComments = this.buildNestedComments(rawComments);
+                console.log(nestedComments);
+                this.comments = nestedComments;
+              }
             };
 
             xhttp.send();
-        },
-        showReplyForm(commentID) {
-            this.comments.forEach(comment => {
-              if (comment.ParentCommentID === commentID) {
-                comment.showReplyForm = !comment.showReplyForm;
-              }
-              comment.replies.forEach(reply => {
-                if (reply.ReplyCommentID === commentID) {
-                  reply.showReplyForm = !reply.showReplyForm;
-                }
-              });
-            });
-        },
-        postReply(parentCommentID) {
-            const parentComment = this.comments.find(comment => comment.ParentCommentID === parentCommentID);
+          },
+          toggleReplyForm(commentID) {
+            const comment = this.findCommentByID(commentID);
+            if (comment) {
+              comment.showReplyForm = !comment.showReplyForm;
+            }
+          },
+          submitReply(parentID) {
+            const parentComment = this.findCommentByID(parentID);
             const replyText = parentComment.replyText;
             if (replyText) {
               const xhr = new XMLHttpRequest();
-              xhr.open('POST', 'http://localhost:3000/comments', true);
+              xhr.open('POST', '/api/manager/post/comments/reply/', true);
               xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
               xhr.onload = () => {
-                if (xhr.status === 201) {
+                if (xhr.status === 200) {
                   const newReply = JSON.parse(xhr.responseText);
-                  parentComment.replies.push({
-                    ReplyCommentID: newReply.CommentID,
-                    ReplyCommentText: replyText,
-                    ReplyTimestamp: newReply.Timestamp,
-                    ReplyFirstName: newReply.First_name,
-                    ReplyLastName: newReply.Last_name,
-                    showReplyForm: false,
-                    replyText: ''
-                  });
-                  parentComment.replyText = '';
-                  parentComment.showReplyForm = false;
-                } else {
-                  console.error('Failed to post reply');
+                  newReply.replies = [];
+                  newReply.showReplyForm = false;
+                  newReply.replyText = '';
+                  parentComment.replies.push(newReply);
+                  parentComment.replyText = ''; // Clear the reply text area
                 }
               };
               xhr.send(JSON.stringify({
-                ParentID: parentCommentID,
+                ParentID: parentID,
                 EventID: this.eventID,
-                UserID: 1, // Replace with the actual user ID
                 CommentText: replyText
               }));
             }
-        },
-        PostComment(){
-            const queryParams = new URLSearchParams(window.location.search);
-            var xhttp = new XMLHttpRequest();
-
-            xhttp.open("POST", `/api/manager/post/comments/${queryParams.get('id')}`, true);
-            xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+          },
+          postComment() {
+            const commentText = this.newCommentText;
+            if (!commentText) return;
+            const xhttp = new XMLHttpRequest();
+            xhttp.open('POST', '/api/manager/post/comments/', true);
+            xhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
             xhttp.onreadystatechange = () => {
-                if (xhttp.readyState == 4 && xhttp.status == 200) {
-                    console.log("Post Comment successfully");
-                }
+              if (xhttp.readyState === 4 && xhttp.status === 200) {
+                const newComment = JSON.parse(xhttp.responseText);
+                newComment.replies = [];
+                newComment.showReplyForm = false;
+                newComment.replyText = '';
+                console.log(newComment);
+                this.comments.unshift(newComment);
+                this.newCommentText = ''; // Clear the comment text area
+              }
             };
-
             xhttp.send(JSON.stringify({
-                ParentID: null,
-                CommentText: this.newMessage
+              ParentID: null,
+              EventID: this.eventID,
+              CommentText: commentText
             }));
-        }
-
+          },
+          findCommentByID(commentID) {
+            const find = (comments) => {
+              for (const comment of comments) {
+                if (comment.CommentID === commentID) return comment;
+                const nestedComment = find(comment.replies);
+                if (nestedComment) return nestedComment;
+              }
+              return null;
+            };
+            return find(this.comments);
+          }
     }
 });

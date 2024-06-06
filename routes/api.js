@@ -245,8 +245,8 @@ router.get('/manager/read/comments/:id', isAuthenticated, (req, res) => {
 });
 
 
-router.post('/manager/post/comments/:id', isAuthenticated, (req, res) => {
-  req.pool.getConnection(function (err, connection) {
+router.post('/manager/post/comments/', isAuthenticated, (req, res) => {
+  req.pool.getConnection(function(err,connection) {
     if (err) {
       res.sendStatus(500);
       return;
@@ -255,14 +255,71 @@ router.post('/manager/post/comments/:id', isAuthenticated, (req, res) => {
     const query = `INSERT INTO Comment (ParentID, EventID, UserID, CommentText) VALUES(NULL, ?, ?, ?)`;
 
     connection.query(query,
-      [req.params.id, req.session.userID, req.body.CommentText], (error, results) => {
+                [req.body.EventID, req.session.userID, req.body.CommentText], (error, results) => {
         connection.release();
         if (error) {
           console.log(error);
           return res.status(500).send(error);
         }
-        res.sendStatus(200);
+        const newCommentID = results.insertId;
+        req.pool.getConnection(function(err,connection2) {
+          if (err) {
+              console.log("Database connection error" + error);
+              return res.sendStatus(401);
+          }
+          var query2 = `SELECT c.CommentID, c.CommentText, c.Timestamp, u.First_name, u.Last_name FROM Comment c JOIN User u ON c.UserID = u.User_ID WHERE c.CommentID = ?`;
+          connection2.query(query2, [newCommentID], (error, results2) => {
+              connection.release();
+              if (error){
+                  console.log("Query error" + error);
+                  return res.sendStatus(401);
+              }
+
+              res.json(results2[0]);
+          });
+
+          return ;
       });
+    });
+  });
+});
+
+router.post('/manager/post/comments/reply/', isAuthenticated, (req, res) => {
+  req.pool.getConnection(function(err,connection) {
+    if (err) {
+    res.sendStatus(500);
+    return;
+    }
+
+    const query = `INSERT INTO Comment (ParentID, EventID, UserID, CommentText) VALUES(?, ?, ?, ?)`;
+
+    connection.query(query,
+                [req.body.ParentID, req.body.EventID, req.session.userID, req.body.CommentText], (error, results) => {
+        connection.release();
+        if (error) {
+          console.log(error);
+          return res.status(500).send(error);
+        }
+
+        const newCommentID = results.insertId;
+        req.pool.getConnection(function(err,connection2) {
+          if (err) {
+              console.log("Database connection error" + error);
+              return res.sendStatus(401);
+          }
+          var query2 = `SELECT c.CommentID, c.CommentText, c.Timestamp, u.First_name, u.Last_name FROM Comment c JOIN User u ON c.UserID = u.User_ID WHERE c.CommentID = ?`;
+          connection2.query(query2, [newCommentID], (error, results2) => {
+              connection.release();
+              if (error){
+                  console.log("Query error" + error);
+                  return res.sendStatus(401);
+              }
+
+              res.json(results2[0]);
+          });
+          return;
+        });
+    });
   });
 });
 
@@ -277,8 +334,8 @@ router.get('/manager/read/users', isAuthenticated, (req, res) => {
       connection.release();
       if (error) {
         return res.status(500).send(error);
-      }
-      res.sendStatus(200);
+    }
+    res.json(results);
     });
   });
 });

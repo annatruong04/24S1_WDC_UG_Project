@@ -88,13 +88,31 @@ var appdiv = new Vue({
       name: '',
       location: '',
       date: '',
-      description: ''
-    }
+      description: '',
+    },
+    user: [],
+    members: []
   },
   mounted: function() {
     this.fetch_event();
+    this.getUser();
+    this.fetch_member();
   },
   methods: {
+    getUser(){
+      var xhttp = new XMLHttpRequest();
+
+      xhttp.onreadystatechange = () => {
+          if (xhttp.readyState === 4 && xhttp.status === 200) {
+              var data = JSON.parse(xhttp.responseText);
+              console.log(data);
+              this.user = data;
+          }
+      };
+
+      xhttp.open("get", "/auth/getUser", true);
+      xhttp.send();
+    },
     fetch_event() {
       var xhttp = new XMLHttpRequest();
 
@@ -126,30 +144,21 @@ var appdiv = new Vue({
     popup(){
       this.showPopUp = true;
     },
-    async submitForm() {
-      console.log(this.form);
-      var xhr = new XMLHttpRequest();
-      xhr.open("POST", '/api/manager/create/events', true);
-      xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    fetch_member() {
+      var xhttp = new XMLHttpRequest();
 
-      xhr.onload = () => {
-        if (xhr.status >= 200 && xhr.status < 300) {
+      xhttp.open("GET", "/api/manager/read/users", true);
 
-          alert('Data submitted successfully');
-        } else {
-
-          console.error('The request failed:', xhr.statusText);
-        }
+      xhttp.onreadystatechange = () => {
+          if (xhttp.readyState == 4 && xhttp.status == 200) {
+              var data = JSON.parse(xhttp.responseText);
+              console.log(data);
+              this.members = data;
+          }
       };
 
-
-      xhr.onerror = () => {
-        console.error('Network error');
-      };
-
-
-      xhr.send(JSON.stringify(this.form));
-    }
+      xhttp.send();
+    },
   }
 });
 

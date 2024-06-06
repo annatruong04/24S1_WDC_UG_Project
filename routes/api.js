@@ -131,7 +131,7 @@ router.get('/manager/read/events/', isAuthenticated, (req, res) => {
   });
 });
 
-router.get('/manager/read/events/', isAuthenticated, (req, res) => {
+router.get('/manager/read/events/:id', isAuthenticated, (req, res) => {
   req.pool.getConnection(function(err,connection) {
     if (err) {
     res.sendStatus(500);
@@ -167,7 +167,7 @@ router.get('/manager/read/events/', isAuthenticated, (req, res) => {
   });
 });
 
-router.get('/manager/read/comments/', isAuthenticated, (req, res) => {
+router.get('/manager/read/comments/:id', isAuthenticated, (req, res) => {
   req.pool.getConnection(function(err,connection) {
     if (err) {
     res.sendStatus(500);
@@ -209,7 +209,7 @@ router.post('/manager/post/comments/', isAuthenticated, (req, res) => {
     const query = `INSERT INTO Comment (ParentID, EventID, UserID, CommentText) VALUES(NULL, ?, ?, ?)`;
 
     connection.query(query,
-                [req.params.id, req.session.userID, req.body.CommentText], (error, results) => {
+                [req.body.EventID, req.session.userID, req.body.CommentText], (error, results) => {
         connection.release();
         if (error) {
           console.log(error);
@@ -248,7 +248,7 @@ router.post('/manager/post/comments/reply/', isAuthenticated, (req, res) => {
     const query = `INSERT INTO Comment (ParentID, EventID, UserID, CommentText) VALUES(?, ?, ?, ?)`;
 
     connection.query(query,
-                [req.body.ParentID, req.params.id, req.session.userID, req.body.CommentText], (error, results) => {
+                [req.body.ParentID, req.body.EventID, req.session.userID, req.body.CommentText], (error, results) => {
         connection.release();
         if (error) {
           console.log(error);
@@ -289,7 +289,7 @@ req.pool.getConnection(function(err,connection) {
     if (error) {
         return res.status(500).send(error);
     }
-    res.sendStatus(200);
+    res.json(results);
     });
 });
 });

@@ -1,52 +1,3 @@
-Vue.component('comment-list', {
-    props: ['comments'],
-    template: `
-      <div class="comments">
-        <comment-item v-for="comment in comments" :key="comment.CommentID" :comment="comment"></comment-item>
-      </div>
-    `
-  });
-
-  Vue.component('comment-item', {
-    props: ['comment'],
-    data() {
-      return {
-        showReplyForm: false,
-        replyText: ''
-      };
-    },
-    template: `
-      <div class="comment">
-        <div class="comment-body">
-          <div class="comment-header">
-            <span class="comment-author">{{ comment.FirstName }} {{ comment.LastName }}</span>
-            <span class="comment-date">{{ new Date(comment.Timestamp).toLocaleDateString() }}</span>
-          </div>
-          <div class="comment-text">{{ comment.CommentText }}</div>
-          <button class="reply-button" @click="toggleReplyForm">Reply</button>
-          <div class="comment-form reply-form" v-if="showReplyForm">
-            <textarea v-model="replyText" placeholder="Write your reply here..." rows="2"></textarea>
-            <button type="button" @click="postReply">Post Reply</button>
-          </div>
-          <comment-list v-if="comment.replies" :comments="comment.replies"></comment-list>
-        </div>
-      </div>
-    `,
-    methods: {
-      toggleReplyForm() {
-        this.showReplyForm = !this.showReplyForm;
-      },
-      postReply() {
-        this.$emit('post-reply', {
-          ParentID: this.comment.CommentID,
-          CommentText: this.replyText
-        });
-        this.replyText = '';
-        this.showReplyForm = false;
-      }
-    }
-});
-
 var appdiv = new Vue ({
     el: "#app",
     data: {
@@ -57,18 +8,16 @@ var appdiv = new Vue ({
         image: '',
         comments: [],
         newCommentText: '',
-        
+        eventID: ''
     },
     mounted: function() {
         this.getQuerypara();
-        this.getComment();
+        this.getComments();
     },
     methods: {
         getQuerypara(){
             const queryParams = new URLSearchParams(window.location.search);
             var xhttp = new XMLHttpRequest();
-
-
 
             xhttp.open("GET", `/api/manager/read/events/${queryParams.get('id')}`, true);
 
@@ -81,140 +30,134 @@ var appdiv = new Vue ({
                     this.date = data[0]['Date'];
                     this.location = data[0]['Location'];
                     this.image = `${data[0]['Image']}`;
+                    this.eventID = data[0]['EventID'];
                 }
             };
 
             xhttp.send();
         },
-        buildNestedComments(comments) {
+        buildNestedComments(rawComments) {
             const commentMap = {};
-            comments.forEach(comment => {
-              comment.replies = [];
-              commentMap[comment.CommentID] = comment;
-            });
 
-            const nestedComments = [];
-            comments.forEach(comment => {
-              if (comment.ParentID === null) {
-                nestedComments.push(comment);
-              } else if (commentMap[comment.ParentID]) {
-                commentMap[comment.ParentID].replies.push(comment);
+            // Initialize the commentMap with each comment and an empty replies array
+            rawComments.forEach(comment => {
+              const parentID = comment.ParentCommentID;
+              const replyID = comment.ReplyCommentID;
+
+              if (!commentMap[parentID]) {
+                commentMap[parentID] = {
+                  CommentID: parentID,
+                  CommentText: comment.ParentCommentText,
+                  First_name: comment.ParentFirstName,
+                  Last_name: comment.ParentLastName,
+                  Timestamp: comment.ParentTimestamp,
+                  replies: [],
+                  showReplyForm: false,
+                  replyText: ''
+                };
+              }
+
+              if (replyID) {
+                if (!commentMap[replyID]) {
+                  commentMap[replyID] = {
+                    CommentID: replyID,
+                    CommentText: comment.ReplyCommentText,
+                    First_name: comment.ReplyFirstName,
+                    Last_name: comment.ReplyLastName,
+                    Timestamp: comment.ReplyTimestamp,
+                    replies: [],
+                    showReplyForm: false,
+                    replyText: ''
+                  };
+                }
+                // Add the reply to the parent's replies array
+                commentMap[parentID].replies.push(commentMap[replyID]);
               }
             });
 
-            return nestedComments;
-        },
-        // getComment(){
-        //     const queryParams = new URLSearchParams(window.location.search);
-        //     var xhttp = new XMLHttpRequest();
-
-        //     xhttp.open("GET", `/api/manager/read/comments/${queryParams.get('id')}`, true);
-
-        //     xhttp.onreadystatechange = () => {
-        //         if (xhttp.readyState == 4 && xhttp.status == 200) {
-        //             const rawComments = JSON.parse(xhttp.responseText);
-        //             const commentsMap = {};
-        //             rawComments.forEach(comment => {
-        //               if (!commentsMap[comment.ParentCommentID]) {
-        //                 commentsMap[comment.ParentCommentID] = {
-        //                   ParentCommentID: comment.ParentCommentID,
-        //                   ParentCommentText: comment.ParentCommentText,
-        //                   ParentTimestamp: comment.ParentTimestamp,
-        //                   ParentFirstName: comment.ParentFirstName,
-        //                   ParentLastName: comment.ParentLastName,
-        //                   replies: [],
-        //                   showReplyForm: false,
-        //                   replyText: ''
-        //                 };
-        //               }
-        //               if (comment.ReplyCommentID) {
-        //                 commentsMap[comment.ParentCommentID].replies.push({
-        //                   ReplyCommentID: comment.ReplyCommentID,
-        //                   ReplyCommentText: comment.ReplyCommentText,
-        //                   ReplyTimestamp: comment.ReplyTimestamp,
-        //                   ReplyFirstName: comment.ReplyFirstName,
-        //                   ReplyLastName: comment.ReplyLastName,
-        //                   showReplyForm: false,
-        //                   replyText: ''
-        //                 });
-        //               }
-        //             });
-        //             this.comments = Object.values(commentsMap);
-        //         }
-        //     };
-
-        //     xhttp.send();
-        // },
-        // showReplyForm(commentID) {
-        //     this.comments.forEach(comment => {
-        //       if (comment.ParentCommentID === commentID) {
-        //         comment.showReplyForm = !comment.showReplyForm;
-        //       }
-        //       comment.replies.forEach(reply => {
-        //         if (reply.ReplyCommentID === commentID) {
-        //           reply.showReplyForm = !reply.showReplyForm;
-        //         }
-        //       });
-        //     });
-        // },
-        postReply(parentCommentID) {
+            // Return only the top-level comments (those without a ParentCommentID)
+            return Object.values(commentMap).filter(comment => !rawComments.some(rc => rc.ReplyCommentID === comment.CommentID));
+          },
+          getComments() {
             const queryParams = new URLSearchParams(window.location.search);
-            const parentComment = this.comments.find(comment => comment.ParentCommentID === parentCommentID);
+            const xhttp = new XMLHttpRequest();
+
+            xhttp.open('GET', `/api/manager/read/comments/${queryParams.get('id')}`, true);
+
+            xhttp.onreadystatechange = () => {
+              if (xhttp.readyState === 4 && xhttp.status === 200) {
+                const rawComments = JSON.parse(xhttp.responseText);
+                const nestedComments = this.buildNestedComments(rawComments);
+                console.log(nestedComments);
+                this.comments = nestedComments;
+              }
+            };
+
+            xhttp.send();
+          },
+          toggleReplyForm(commentID) {
+            const comment = this.findCommentByID(commentID);
+            if (comment) {
+              comment.showReplyForm = !comment.showReplyForm;
+            }
+          },
+          submitReply(parentID) {
+            const parentComment = this.findCommentByID(parentID);
             const replyText = parentComment.replyText;
             if (replyText) {
               const xhr = new XMLHttpRequest();
-              xhr.open('POST', `/api/manager/post/comments/reply/${queryParams.get('id')}`, true);
+              xhr.open('POST', '/api/manager/post/comments/reply/', true);
               xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
               xhr.onload = () => {
                 if (xhr.status === 200) {
                   const newReply = JSON.parse(xhr.responseText);
-                  console.log(newReply);
-                  parentComment.replies.push({
-                    ReplyCommentID: newReply.CommentID,
-                    ReplyCommentText: replyText,
-                    ReplyTimestamp: newReply.Timestamp,
-                    ReplyFirstName: newReply.First_name,
-                    ReplyLastName: newReply.Last_name,
-                    showReplyForm: false,
-                    replyText: ''
-                  });
-                  parentComment.replyText = '';
-                  parentComment.showReplyForm = false;
-                } else {
-                  console.error('Failed to post reply');
+                  newReply.replies = [];
+                  newReply.showReplyForm = false;
+                  newReply.replyText = '';
+                  parentComment.replies.push(newReply);
+                  parentComment.replyText = ''; // Clear the reply text area
                 }
               };
               xhr.send(JSON.stringify({
-                ParentID: parentCommentID,
+                ParentID: parentID,
+                EventID: this.eventID,
                 CommentText: replyText
               }));
             }
-        },
-        postComment(){
-            const commentText = this.newMessage;
-            var xhttp = new XMLHttpRequest();
+          },
+          postComment() {
+            const commentText = this.newCommentText;
             if (!commentText) return;
-            xhttp.open("POST", `/api/manager/post/comments/`, true);
-            xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            const xhttp = new XMLHttpRequest();
+            xhttp.open('POST', '/api/manager/post/comments/', true);
+            xhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
             xhttp.onreadystatechange = () => {
-                if (xhttp.readyState == 4 && xhttp.status == 200) {
-                    const newComment = JSON.parse(xhttp.responseText);
-                    console.log(newComment);
-                    this.comments.push({
-                        ...newComment,
-                        replies: []
-                    });
-                      this.newCommentText = '';
-                    console.log("Post Comment successfully");
-                }
+              if (xhttp.readyState === 4 && xhttp.status === 200) {
+                const newComment = JSON.parse(xhttp.responseText);
+                newComment.replies = [];
+                newComment.showReplyForm = false;
+                newComment.replyText = '';
+                console.log(newComment);
+                this.comments.unshift(newComment);
+                this.newCommentText = ''; // Clear the comment text area
+              }
             };
-
             xhttp.send(JSON.stringify({
-                ParentID: null,
-
-                CommentText: this.newMessage
+              ParentID: null,
+              EventID: this.eventID,
+              CommentText: commentText
             }));
-        }
-
+          },
+          findCommentByID(commentID) {
+            const find = (comments) => {
+              for (const comment of comments) {
+                if (comment.CommentID === commentID) return comment;
+                const nestedComment = find(comment.replies);
+                if (nestedComment) return nestedComment;
+              }
+              return null;
+            };
+            return find(this.comments);
+          }
     }
 });

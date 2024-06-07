@@ -129,11 +129,11 @@
                     <span>{{branch.MemberCount}} </span>
                     <div class="followers">
                         <div class="join-buttons" >
-                            <button @click="join(branch.BranchID)" v-if="!isUserInBranch(branch.BranchID)" type="button">Join</button>
+                            <button @click="join(branch.BranchID)" v-if="!isUserInBranch(branch.BranchID)" class="join-button" type="button">Join</button>
+                            <button @click="leave(branch.BranchID)" v-else class="leave-button" type="button">Leave</button>
+
                         </div>
-                        <div class="join-buttons" >
-                            <button @click="leave(branch.BranchID)" v_else type="button">Leave</button>
-                        </div>
+
                     </div>
                 </div>
             </div>

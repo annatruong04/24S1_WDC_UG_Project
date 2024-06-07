@@ -10,6 +10,7 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 //route for api
 
+
 router.get('/read/events', (req, res) => {
   req.pool.getConnection(function (err, connection) {
     if (err) {
@@ -78,6 +79,60 @@ router.get('/read/events/:id', (req, res) => {
   });
 });
 
+// Route to get user events
+router.get('/read/User_Events', isAuthenticated, (req, res) => {
+  req.pool.getConnection(function (err, connection) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    connection.query('SELECT * FROM User_Event WHERE User_ID = ?', [req.session.userID], (error, results) => {
+      connection.release();
+      if (error) {
+        return res.status(500).send(error);
+      }
+      res.json(results);
+    });
+  });
+});
+
+// Route to join an event
+router.get('/join/events/:id', isAuthenticated, (req, res) => {
+  req.pool.getConnection(function (err, connection) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    connection.query('INSERT INTO User_Event (User_ID, EventID) VALUES (?, ?)', [req.session.userID, req.params.id], (error, results) => {
+      connection.release();
+      if (error) {
+        return res.status(500).send(error);
+      }
+      res.json(results);
+    });
+  });
+});
+
+// Route to leave an event
+router.get('/leave/events/:id', isAuthenticated, (req, res) => {
+  req.pool.getConnection(function (err, connection) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    connection.query('DELETE FROM User_Event WHERE User_ID = ? AND EventID = ?', [req.session.userID, req.params.id], (error, results) => {
+      connection.release();
+      if (error) {
+        return res.status(500).send(error);
+      }
+      res.json(results);
+    });
+  });
+});
+
 
 
 router.get('/read/branches', (req, res) => {
@@ -141,6 +196,91 @@ router.get('/join/branches/:id', isAuthenticated, (req, res) => {
   });
 });
 
+router.get('/leave/branches/:id', isAuthenticated, (req, res) => {
+  req.pool.getConnection(function (err, connection) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    connection.query('DELETE FROM User_Branch WHERE User_ID = ? AND BranchID = ?'
+      ,
+      [req.session.userID, req.params.id], (error, results) => {
+        connection.release();
+        if (error) {
+          return res.status(500).send(error);
+        }
+
+        console.log('hello');
+
+        console.log(req.params.id);
+
+        res.json(results);
+      });
+  });
+});
+
+router.get('/read/your_events', isAuthenticated, (req, res) => {
+  req.pool.getConnection(function (err, connection) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    const userID = req.session.userID;
+
+    connection.query(`
+      SELECT E.EventID, E.Name, E.Description, E.Date, E.Location, E.Participant, E.Image, E.BranchID
+      FROM Event E
+      JOIN User_Event UE ON E.EventID = UE.EventID
+      WHERE UE.User_ID = ?
+    `, [userID], (error, results) => {
+      connection.release();
+      if (error) {
+        return res.status(500).send(error);
+      }
+
+      results.forEach(event => {
+        if (event.Image) {
+          event.Image = `data:image/jpeg;base64,${event.Image.toString('base64')}`;
+        }
+        if (event.Date) {
+          const date = new Date(event.Date);
+          const year = date.getUTCFullYear();
+          const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+          const day = String(date.getUTCDate()).padStart(2, '0');
+          event.Date = `${year}-${month}-${day}`;
+        }
+      });
+
+      res.json(results);
+    });
+  });
+});
+
+router.get('/read/your_branches', isAuthenticated, (req, res) => {
+  req.pool.getConnection(function (err, connection) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    const userID = req.session.userID;
+
+    connection.query(`
+      SELECT B.*
+      FROM Branch B
+      JOIN User_Branch UB ON B.BranchID = UB.BranchID
+      WHERE UB.User_ID = ?
+    `, [userID], (error, results) => {
+      connection.release();
+      if (error) {
+        return res.status(500).send(error);
+      }
+      res.json(results);
+    });
+  });
+});
 
 
 router.get('/manager/read/events/', isAuthenticated, (req, res) => {

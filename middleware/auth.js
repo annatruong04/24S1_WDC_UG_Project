@@ -1,7 +1,7 @@
 function isAuthenticated(req, res, next) {
-    // if (!req.session.username) {
-    //   return res.status(401).send('You need to log in to access this resource.');
-    // }
+    if (!req.session.username) {
+      return res.status(401).send('You need to log in to access this resource.');
+    }
     next();
 }
 

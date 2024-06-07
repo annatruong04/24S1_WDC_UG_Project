@@ -39,3 +39,17 @@ SELECT c1.CommentID AS ParentCommentID, c1.CommentText AS ParentCommentText,
 CREATE DATABASE IF NOT EXISTS `volunteer` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 
 USE `volunteer`;
+
+insert into UpdateTable(Title, Message, Manager, BranchID)
+values ("Exciting News: Launch of Our New Environmental Education Program", "Dear Members,
+
+We are thrilled to announce the launch of our new Environmental Education Program! This initiative features interactive workshops, online courses, and community events designed to empower individuals with the knowledge and tools needed to protect our planet. From practical tips on composting and water conservation to in-depth courses on climate change and renewable energy, there's something for everyone. Join us in making a tangible impact through local clean-ups, tree planting, and youth engagement activities. Visit our website to learn more and get involved today!
+
+Warm regards,
+Khanh Le", 6, 3);
+
+insert into Type(Type_name) value("Private"),("Public");
+update Type set TypeID = 2 where Type_name = "Public";
+update UpdateTable set TypeID = 1 where UpdateID = 4;
+
+Select U.Time_stamp, U.Title, U.Message, T.Type_name  from UpdateTable U join Type T on U.TypeID = T.TypeID join Branch B on B.BranchID = U.BranchID where B.Manager_ID = ?;

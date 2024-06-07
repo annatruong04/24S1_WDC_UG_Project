@@ -376,6 +376,7 @@ body{
   width: 1002px;
   margin: 0 auto;
   padding-top: 150px;
+  padding-bottom: 100px;
 }
 
 .welcome_div h1{
@@ -397,6 +398,7 @@ body{
   width: 100%;
   border-radius: 10px;
   margin-top:0 auto;
+  margin-bottom: 40px;
 }
 
 .container-header .header-content {
@@ -455,10 +457,12 @@ body{
 
 .container-body{
   background-color: white;
+  height: 300px;
   font-size: 1.5em;
   font-family: 'Open Sans', sans-serif;
   border: 1px solid #ddd;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  overflow-y: scroll;
 }
 
 .container-body p{
@@ -506,13 +510,16 @@ body{
 
 #left-container {
   width: 630px;
+  height: 400px;
   float: left;
-  margin-bottom: 1em;
+  margin-bottom: 100px;
 }
 
 #right-container {
   width: 305px;
   float: right;
+  height: 400px;
+
 }
 
 
@@ -1122,4 +1129,92 @@ input[type="file"] {
   padding-left: 55px;
   border-left: 1px solid #eee;
   margin-bottom: 20px;
+}
+
+.Branch-event {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  position: relative;
+  cursor: pointer;
+}
+
+.Branch-event:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+
+.Branch-event:first-of-type {
+  margin-top: 30px; /* Adjust this value to your preference */
+}
+
+.Branch-event-details {
+  flex: 1;
+
+}
+
+.Branch-event-details h2 {
+  margin: 0;
+  font-size: 20px;
+  color: #333;
+}
+
+.Branch-event-details p {
+  margin: 5px 0;
+  color: #666;
+}
+
+.Branch-event img {
+  margin-right: 20px;
+  border-radius: 4px;
+}
+
+.Branch-rsvp, .Branch-cancel-rsvp {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.Branch-rsvp {
+  background-color: #5cb85c;
+  color: white;
+}
+
+.Branch-cancel-rsvp {
+  background-color: #d9534f;
+  color: white;
+}
+
+.radio-option{
+  margin-bottom: 15px;
+}
+
+.radio-option label{
+  display: inline;
+}
+
+.status-box {
+  position: absolute;
+  top: 7px;
+  right: 10px;
+  background-color: #007bff;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.status-private {
+  background-color: #dc3545;
 }

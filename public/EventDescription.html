@@ -96,22 +96,83 @@
                 </h2>
                 <p>{{description}}</p>
 
-                <div class="container">
-                    <div class="container-header">
-                        <div class="header-content">
-                            <h2>Comment</h2>
+                <div class="comment-section">
+                    <h2>Comments</h2>
+                    <div class="comment-form">
+                        <textarea v-model="newCommentText" placeholder="Write your comment here..." rows="4"></textarea>
+                        <button type="button" @click="postComment">Post Comment</button>
+                    </div>
+                    <div class="comments">
+                        <div v-for="comment in comments" :key="comment.CommentID" class="comment">
+                          <div class="comment-body">
+                            <div class="comment-header">
+                              <span class="comment-author">{{ comment.First_name }} {{ comment.Last_name }}</span>
+                              <span class="comment-date">{{ new Date(comment.Timestamp).toLocaleDateString() }}</span>
+                            </div>
+                            <div class="comment-text">{{ comment.CommentText }}</div>
+                            <button type="button" class="reply-button" @click="toggleReplyForm(comment.CommentID)">Reply</button>
+                            <div class="comment-form reply-form" v-if="comment.showReplyForm">
+                              <textarea v-model="comment.replyText" placeholder="Write your reply here..." rows="2"></textarea>
+                              <button type="button" @click="submitReply(comment.CommentID)">Post Reply</button>
+                            </div>
+                            <div class="replies" v-if="comment.replies.length">
+                              <div v-for="reply in comment.replies" :key="reply.CommentID" class="comment">
+                                <div class="comment-body">
+                                  <div class="comment-header">
+                                    <span class="comment-author">{{ reply.First_name }} {{ reply.Last_name }}</span>
+                                    <span class="comment-date">{{ new Date(reply.Timestamp).toLocaleDateString() }}</span>
+                                  </div>
+                                  <div class="comment-text">{{ reply.CommentText }}</div>
+                                  <button type="button" class="reply-button" @click="toggleReplyForm(reply.CommentID)">Reply</button>
+                                  <div class="comment-form reply-form" v-if="reply.showReplyForm">
+                                    <textarea v-model="reply.replyText" placeholder="Write your reply here..." rows="2"></textarea>
+                                    <button type="button" @click="submitReply(reply.CommentID)">Post Reply</button>
+                                  </div>
+                                  <div class="replies" v-if="reply.replies.length">
+                                    <div v-for="nestedReply in reply.replies" :key="nestedReply.CommentID" class="comment">
+                                      <div class="comment-body">
+                                        <div class="comment-header">
+                                          <span class="comment-author">{{ nestedReply.First_name }} {{ nestedReply.Last_name }}</span>
+                                          <span class="comment-date">{{ new Date(nestedReply.Timestamp).toLocaleDateString() }}</span>
+                                        </div>
+                                        <div class="comment-text">{{ nestedReply.CommentText }}</div>
+                                        <button type="button" class="reply-button" @click="toggleReplyForm(nestedReply.CommentID)">Reply</button>
+                                        <div class="comment-form reply-form" v-if="nestedReply.showReplyForm">
+                                          <textarea v-model="nestedReply.replyText" placeholder="Write your reply here..." rows="2"></textarea>
+                                          <button type="button" @click="submitReply(nestedReply.CommentID)">Post Reply</button>
+                                        </div>
+                                        <div class="replies" v-if="nestedReply.replies.length">
+                                          <!-- Add more nested replies if needed -->
+                                          <div v-for="nestedChildReply in nestedReply.replies" :key="nestedChildReply.CommentID" class="comment">
+                                            <!-- Repeat the same structure for nested replies -->
+                                            <div class="comment-body">
+                                              <div class="comment-header">
+                                                <span class="comment-author">{{ nestedChildReply.First_name }} {{ nestedChildReply.Last_name }}</span>
+                                                <span class="comment-date">{{ new Date(nestedChildReply.Timestamp).toLocaleDateString() }}</span>
+                                              </div>
+                                              <div class="comment-text">{{ nestedChildReply.CommentText }}</div>
+                                              <button type="button" class="reply-button" @click="toggleReplyForm(nestedChildReply.CommentID)">Reply</button>
+                                              <div class="comment-form reply-form" v-if="nestedChildReply.showReplyForm">
+                                                <textarea v-model="nestedChildReply.replyText" placeholder="Write your reply here..." rows="2"></textarea>
+                                                <button type="button" @click="submitReply(nestedChildReply.CommentID)">Post Reply</button>
+                                              </div>
+                                              <div class="replies" v-if="nestedChildReply.replies.length">
+                                                <!-- Recursive rendering of replies continues -->
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                     </div>
-                    <div class="container-body">
-                        <p id="comment-para">Post a comment</p>
-                        <form class="comment-form">
-                            <input type="text" placeholder="Title">
-                            <textarea rows="10" placeholder="Your comment"></textarea>
-                            <br>
-                            <button type="button" onclick="">Submit</button>
-                        </form>
-                    </div>
                 </div>
+                
             </div>
 
             <div class="ticket-selection">

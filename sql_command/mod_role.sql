@@ -44,3 +44,7 @@ from Event E join Branch B on B.BranchID = E.BranchID where B.Manager_ID = 6;
 INSERT INTO Event(name, location, date, description, BranchID) VALUES ("asfds", "asfds", "2024-08-25", "asfds", (select BranchID from Branch where Manager_ID = 4));
 
 delete from Event where Name = asdf;
+
+select EventID, Name, Description, BranchID, Location from Event;
+
+update Branch set Manager_ID = 7 where BranchID = 1;

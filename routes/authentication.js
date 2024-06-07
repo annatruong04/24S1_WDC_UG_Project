@@ -75,8 +75,6 @@ router.get('/getUser', function(req, res, next) {
     }
 });
 
-
-
 router.post('/updateUser', function(req, res, next) {
     if (!req.session.username) {
         return res.sendStatus(401);

@@ -633,5 +633,57 @@ router.post('/manager/add/user', isAuthenticated, (req, res) => {
   });
 });
 
+router.get('/manager/read/updates/', isAuthenticated, (req, res) => {
+  req.pool.getConnection(function (err, connection) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    connection.query(`Select U.UpdateID, U.Time_stamp, U.Title, U.Message, T.Type_name  from UpdateTable U join Type T on U.TypeID = T.TypeID join Branch B on B.BranchID = U.BranchID where B.Manager_ID = ?`, [req.session.userID], (error, results) => {
+      connection.release();
+      if (error) {
+        return res.status(500).send(error);
+      }
+
+      results.forEach(update => {
+        if (update.Time_stamp) {
+          const date = new Date(update.Time_stamp);
+          const year = date.getUTCFullYear();
+          const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+          const day = String(date.getUTCDate()).padStart(2, '0');
+
+          update.Time_stamp = `${year}-${month}-${day}`;
+        }
+      });
+
+
+
+      res.json(results);
+    });
+  });
+});
+
+router.post('/manager/create/updates', isAuthenticated, upload.none(), (req, res) => {
+  req.pool.getConnection(function (err, connection) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    const data = req.body;
+
+    const sql = `insert into UpdateTable(Title, Message, Manager, BranchID, TypeID)
+values (?, ?, ?, ?, ?);`;
+    connection.query(sql, [data.Title, data.Message, req.session.userID, req.session.BranchID[0], data.Type], (error, results, fields) => {
+      connection.release();
+      if (error) {
+        console.log(error);
+        return res.status(500).send(error);
+      }
+      res.send('Data inserted');
+    });
+  });
+});
 
 module.exports = router;

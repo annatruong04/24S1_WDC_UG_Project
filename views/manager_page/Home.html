@@ -54,20 +54,38 @@
                             <div class="navbar-link">Member</div>
                         </a>
                     </li>
+                    <li class="">
+                        <a href="Update.html">
+                            <div class="navbar-link">Update</div>
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>
     </div>
     <div id="manager-page" class="body-container">
         <div class="welcome_div">
-            <h1>🎉 Welcome to GreenEarth Organisation!</h1>
+            <h1>🎉 Hello {{user.Name}}, Welcome to GreenEarth Organisation!</h1>
             <h2>Have a good day!</h2>
         </div>
         <hr>
+        <div class="container">
+            <div class="container-header">
+                <div class="header-content">
+                    <h2>Event</h2>
+                </div>
+            </div>
+            <div class="container-body">
+                <p>Event 1</p>
+                <p>Event 2</p>
+                <p>Event 3</p>
+                <p>Event 4</p>
+            </div>
+        </div>
         <div id="left-container" class="container">
             <div class="container-header">
                 <div class="header-content">
-                    <h2>Announcement</h2>
+                    <h2>Updates</h2>
                 </div>
             </div>
             <div class="container-body">
@@ -84,10 +102,9 @@
                 </div>
             </div>
             <div class="container-body">
-                <p>Duc Nam Khanh Le</p>
-                <p>Minh Duc Kieu</p>
-                <p>Thi Phuong Thao Truong</p>
-                <p>Khoi Lu</p>
+                <div v-for="member in members" :key="member.member_ID">
+                    <p> <span>{{member.First_name}} {{member.Last_name}} </span>  </p>
+                </div>
             </div>
         </div>
     </div>

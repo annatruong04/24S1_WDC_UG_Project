@@ -220,6 +220,29 @@ router.get('/leave/branches/:id', isAuthenticated, (req, res) => {
   });
 });
 
+router.get('/leave/event/:id', isAuthenticated, (req, res) => {
+  req.pool.getConnection(function (err, connection) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    connection.query(
+      'DELETE FROM User_Event WHERE User_ID = ? AND EventID = ?',
+      [req.session.userID, req.params.id],
+      (error, results) => {
+        connection.release();
+        if (error) {
+          return res.status(500).send(error);
+        }
+
+        console.log('RSVP cancelled for event:', req.params.id);
+        res.json(results);
+      }
+    );
+  });
+});
+
 router.get('/read/your_events', isAuthenticated, (req, res) => {
   req.pool.getConnection(function (err, connection) {
     if (err) {

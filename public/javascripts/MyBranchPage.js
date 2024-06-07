@@ -61,14 +61,7 @@ var app = new Vue({
         xhttp.send();
       },
 
-      async join(branchID) {
-        try {
-          await fetch(`/api/join/branches/${branchID}`);
-          this.fetchUserBranches();
-        } catch (error) {
-          console.error('There was a problem with the fetch operation:', error);
-        }
-      },
+
       isUserInBranch(branchID) {
         return this.userBranches.some(item => item.BranchID === branchID);
       },
@@ -76,6 +69,14 @@ var app = new Vue({
         try {
           await fetch(`/api/leave/branches/${branchID}`);
           this.fetchUserBranches();
+        } catch (error) {
+          console.error('There was a problem with the fetch operation:', error);
+        }
+      },
+      async cancelRsvp(eventID) {
+        try {
+          await fetch(`/api/leave/event/${eventID}`);
+          this.fetchUserEvents();
         } catch (error) {
           console.error('There was a problem with the fetch operation:', error);
         }

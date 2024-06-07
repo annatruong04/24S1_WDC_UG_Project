@@ -546,4 +546,34 @@ values (?, ?, ?, ?, ?);`;
   });
 });
 
+router.get('/manager/read/updates/:id', isAuthenticated, (req, res) => {
+  req.pool.getConnection(function (err, connection) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    connection.query(`Select U.Time_stamp, U.Title, U.Message, B.Branch_name, T.Type_name from UpdateTable U join Type T on U.TypeID = T.TypeID join Branch B on B.BranchID = U.BranchID where U.UpdateID = ?`,
+      [req.params.id], (error, results) => {
+        connection.release();
+        if (error) {
+          return res.status(500).send(error);
+        }
+
+        results.forEach(update => {
+          if (update.Time_stamp) {
+            const date = new Date(update.Time_stamp);
+            const year = date.getUTCFullYear();
+            const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+            const day = String(date.getUTCDate()).padStart(2, '0');
+
+            update.Time_stamp = `${year}-${month}-${day}`;
+          }
+        });
+
+        res.json(results);
+      });
+  });
+});
+
 module.exports = router;

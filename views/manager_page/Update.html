@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Manager-page</title>
+    <link rel="stylesheet" href="../stylesheets/manager.css">
+    <script src="https://kit.fontawesome.com/4cf720d27e.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+
+<body>
+    <div id="mydiv" class="page-header">
+        <div class="upper-header">
+            <div class="logo-container">
+                <a href="/">
+                    <h1>GreenEarth</h1>
+                </a>
+            </div>
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="search" placeholder="Search..." class="search-bar">
+            </div>
+            <div class="rightcontent-container">
+                <img src="../images/profile.png" @click="toggleDropdown" alt="Profile Picture" onerror="this.onerror=null; this.src=''; this.style.backgroundColor='white'; this.style.borderRadius='50%';">
+                <div class="dropdown-menu" :data-show="clicked.toString()">
+                    <ul>
+                        <li><a href="/">Home Page</a></li>
+                        <li><a href="/user/profile.html">Your Profile</a></li>
+                        <li><a href="/auth/logout">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="lower-header">
+            <nav class="navbar">
+                <ul>
+                    <li class="">
+                        <a href="Home.html">
+                            <div class="navbar-link">Home</div>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="Event.html">
+                             <div class="navbar-link">Event</div>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="Member.html">
+                            <div class="navbar-link">Member</div>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="Update.html">
+                            <div class="navbar-link">Update</div>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <div id="manager-page" class="body-container">
+        <div class="member-header">
+            <h1>Updates</h1>
+            <div class="search-and-invite">
+                <div class="member-searchbar">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Search for updates">
+                </div>
+                <div class="buttons-event">
+                    <button type="button" @click="gotoPostUpdate()">Post Update +</button>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="Branch-event" v-for="update in truncatedUpdates" :key="update.UpdateID" @click="directUpdate(update)">
+            <div class="Branch-event-details">
+                <div v-if='update.Type_name==="Private"' class="status-box status-private">Private</div>
+                <div v-if='update.Type_name==="Public"' class="status-box">Public</div>
+                <h2>{{update.Title}}</h2>
+                <p>{{update.Time_stamp}}</p>
+                <p>{{update.truncatedMessage}}</p>
+            </div>
+        </div>
+    </div>
+    <script src="https://kit.fontawesome.com/4cf720d27e.js" crossorigin="anonymous"></script>
+    <script src="../javascripts/manager_js/update.js"></script>
+</body>
+
+</html>

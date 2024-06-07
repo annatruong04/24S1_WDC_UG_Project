@@ -82,7 +82,7 @@
                 <p>{{ branch.Description }}</p>
             </div>
             <div class="join-buttons">
-                <button @click="leave(branch.BranchID   )" class="leave-button" type="button">Leave</button>
+                <button @click="leave(branch.BranchID)" class="leave-button" type="button">Leave</button>
             </div>
         </div>
         <h1>My Events</h1>
@@ -95,8 +95,7 @@
                 <p>{{ event.Description }}</p>
             </div>
             <div class="join-buttons">
-                <!-- <button @click="rsvp(event.EventID)" v-if="!isUserInEvent(event.EventID)" class="Branch-rsvp" type="button">RSVP</button> -->
-                <button @click="cancelRsvp(event.EventID)" v-else class="Branch-cancel-rsvp" type="button">Cancel RSVP</button>
+                <button @click="leave(event.EventID)" class="Branch-cancel-rsvp" type="button">Cancel RSVP</button>
             </div>
         </div>
     </div>

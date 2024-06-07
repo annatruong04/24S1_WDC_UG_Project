@@ -5,11 +5,37 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const mysql = require('mysql2');
 const session = require('express-session');
+const nodemailer = require('nodemailer');
+
+
 
 const fs = require('fs');
 require('dotenv').config();
 
 const cors = require('cors');
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false,
+  auth: {
+    user: "kieuduc2505@gmail.com", //ir process.env.USER
+    pass: "euoj kppd hfpe dxfv" //app password from Gmail Account or process.env.APP_PASSWORD
+  },
+
+});
+
+
+const mailOptions = {
+  from: {
+    name: "Testing the email nodemailer",
+    address: "kieuduc2505@gmail.com"
+  },
+  to: ["kieuduc2505@gmail.com", "khanhnamld@gmail.com"],
+  subject: "send email using nodemailder and gmail...",
+  text: "hello world",
+  html: "<b>hello world</b>",
+};
 
 var app = express();
 
@@ -50,14 +76,14 @@ if (!fs.existsSync('uploads')) {
 
 app.use(function (req, res, next) {
   req.pool = dbConnectionPool;
-  req.session.firstname = 'a';
-    req.session.lastname = 'a';
-    req.session.userID = 8; // Simulate user ID
-    req.session.username = 'testing';
-    req.session.name = 'a a';
-    req.session.role = 'User';
-    req.session.email = 'k@gmail.com';
-    req.session.phonenum = '0';
+  // req.session.firstname = 'a';
+  //   req.session.lastname = 'a';
+  //   req.session.userID = 8; // Simulate user ID
+  //   req.session.username = 'testing';
+  //   req.session.name = 'a a';
+  //   req.session.role = 'User';
+  //   req.session.email = 'k@gmail.com';
+  //   req.session.phonenum = '0';
   next();
 });
 

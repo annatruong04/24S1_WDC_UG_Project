@@ -15,7 +15,7 @@ var app = new Vue({
         description: ''
       }
     },
-    created () {
+    created() {
       this.getUser();
       this.fetchUserEvents();
       this.fetchUserBranches();
@@ -26,7 +26,6 @@ var app = new Vue({
       },
       getUser() {
         var xhttp = new XMLHttpRequest();
-
         xhttp.onreadystatechange = () => {
           if (xhttp.readyState === 4 && xhttp.status === 200) {
             var data = JSON.parse(xhttp.responseText);
@@ -34,15 +33,12 @@ var app = new Vue({
             this.loginStatus = true;
           }
         };
-
         xhttp.open("GET", "/auth/getUser", true);
         xhttp.send();
       },
       fetchUserEvents() {
         var xhttp = new XMLHttpRequest();
-
         xhttp.open("GET", "/api/read/your_events", true);
-
         xhttp.onreadystatechange = () => {
           if (xhttp.readyState == 4 && xhttp.status == 200) {
             var data = JSON.parse(xhttp.responseText);
@@ -50,14 +46,11 @@ var app = new Vue({
             console.log(this.userEvents);
           }
         };
-
         xhttp.send();
       },
       fetchUserBranches() {
         var xhttp = new XMLHttpRequest();
-
         xhttp.open("GET", "/api/read/your_branches", true);
-
         xhttp.onreadystatechange = () => {
           if (xhttp.readyState == 4 && xhttp.status == 200) {
             var data = JSON.parse(xhttp.responseText);
@@ -65,12 +58,9 @@ var app = new Vue({
             console.log(this.userBranches);
           }
         };
-
         xhttp.send();
       },
-      isUserInBranch(branchID) {
-        return this.userBranches.some(item => item.BranchID === branchID);
-      },
+
       async join(branchID) {
         try {
           await fetch(`/api/join/branches/${branchID}`);
@@ -78,6 +68,9 @@ var app = new Vue({
         } catch (error) {
           console.error('There was a problem with the fetch operation:', error);
         }
+      },
+      isUserInBranch(branchID) {
+        return this.userBranches.some(item => item.BranchID === branchID);
       },
       async leave(branchID) {
         try {

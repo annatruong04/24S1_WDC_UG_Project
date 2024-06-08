@@ -45,7 +45,8 @@ var app = new Vue({
         xhttp.onreadystatechange = () => {
           if (xhttp.readyState === 4) {
             if (xhttp.status === 200) {
-              alert('User information updated successfully');
+      window.location.href = `http://localhost:3000/user/profile.html`;
+              
             } else {
               this.invalid = true;
               this.invalidMessage = 'Failed to update user information';

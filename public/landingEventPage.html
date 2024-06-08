@@ -27,7 +27,8 @@
             </div>
             <div class="rightcontent-container" id="login-div">
                 <div v-if="loginStatus">
-                    <img src="/images/profile.png" @click="toggleDropdown" alt="Profile Picture" onerror="this.onerror=null; this.src=''; this.style.backgroundColor='white'; this.style.borderRadius='50%';">
+                    <img src="/images/profile.png" @click="toggleDropdown" alt="Profile Picture"
+                        onerror="this.onerror=null; this.src=''; this.style.backgroundColor='white'; this.style.borderRadius='50%';">
                     <div class="dropdown-menu" :data-show="clicked.toString()">
                         <ul>
                             <li v-if="user.Role==='User'"><a href="/myBranchPage.html">My Branches</a></li>
@@ -58,7 +59,7 @@
                     </li>
                     <li class="active">
                         <a href="landingEventPage.html">
-                             <div class="navbar-link">Event</div>
+                            <div class="navbar-link">Event</div>
                         </a>
                     </li>
                     <li class="">
@@ -102,7 +103,7 @@
                     </div>
                     <div class="container-footer">
                         <div class="buttons">
-                            <button id="closePopup" @click="showPopUp = false">Close</button>
+                            <button type="button" id="closePopup" @click="showPopUp = false">Close</button>
                         </div>
                     </div>
                 </div>
@@ -144,6 +145,11 @@
                     <p class="followers">
                         <span><i class="fa-solid fa-user"></i></span>
                         <span>{{event.Participant}} </span>
+
+
+                        <button type="button" class="join-button" @click.stop="join(event.EventID)" v-if="!isUserInEvent(event.EventID)">RSVP</button>
+                        <button type="button" class="leave-button" @click.stop="leave(event.EventID)" v-else>Leave</button>
+
                     </p>
                 </div>
             </div>
@@ -183,53 +189,56 @@
     </div>
     <footer class="site-footer">
         <div class="container">
-          <div class="footer-columns">
-            <div class="footer-column">
-              <h6>About</h6>
-              <p class="text-justify">GreenEarth <i>CONNECTING WITH NATURE</i> is dedicated to promoting environmental awareness and sustainability. We provide resources, articles, and tips on how to live an eco-friendly lifestyle. Join us in making a positive impact on our planet through education, conservation, and community engagement.</p>
-            </div>
+            <div class="footer-columns">
+                <div class="footer-column">
+                    <h6>About</h6>
+                    <p class="text-justify">GreenEarth <i>CONNECTING WITH NATURE</i> is dedicated to promoting
+                        environmental awareness and sustainability. We provide resources, articles, and tips on how to
+                        live an eco-friendly lifestyle. Join us in making a positive impact on our planet through
+                        education, conservation, and community engagement.</p>
+                </div>
 
-            <div class="footer-column">
-              <h6>Categories</h6>
-              <ul class="footer-links">
-                <li><a href="#">Sustainability</a></li>
-                <li><a href="#">Climate Change</a></li>
-                <li><a href="#">Wildlife Conservation</a></li>
-                <li><a href="#">Renewable Energy</a></li>
-                <li><a href="#">Recycling</a></li>
-                <li><a href="#">Green Living</a></li>
-              </ul>
-            </div>
+                <div class="footer-column">
+                    <h6>Categories</h6>
+                    <ul class="footer-links">
+                        <li><a href="#">Sustainability</a></li>
+                        <li><a href="#">Climate Change</a></li>
+                        <li><a href="#">Wildlife Conservation</a></li>
+                        <li><a href="#">Renewable Energy</a></li>
+                        <li><a href="#">Recycling</a></li>
+                        <li><a href="#">Green Living</a></li>
+                    </ul>
+                </div>
 
-            <div class="footer-column">
-              <h6>Quick Links</h6>
-              <ul class="footer-links">
-                <li><a href="aboutUs.html">About Us</a></li>
-                <li><a href="#">Contact Us</a></li>
-                <li><a href="login.html">Get Involved</a></li>
-                <li><a href="#">Privacy Policy</a></li>
-                <li><a href="#">Sitemap</a></li>
-              </ul>
+                <div class="footer-column">
+                    <h6>Quick Links</h6>
+                    <ul class="footer-links">
+                        <li><a href="aboutUs.html">About Us</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="login.html">Get Involved</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Sitemap</a></li>
+                    </ul>
+                </div>
             </div>
-          </div>
-          <hr>
-          <div class="footer-social">
-            <ul class="social-icons">
-              <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
-              <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
-              <li><a class="instagram" href="#"><i class="fa fa-instagram"></i></a></li>
-              <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
-            </ul>
-          </div>
-          <div class="copyright">
-            <p class="copyright-text">Copyright &copy; 2024 All Rights Reserved by
-              <a href="#">GreenEarth</a>.
-            </p>
-          </div>
+            <hr>
+            <div class="footer-social">
+                <ul class="social-icons">
+                    <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                    <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                    <li><a class="instagram" href="#"><i class="fa fa-instagram"></i></a></li>
+                    <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
+                </ul>
+            </div>
+            <div class="copyright">
+                <p class="copyright-text">Copyright &copy; 2024 All Rights Reserved by
+                    <a href="#">GreenEarth</a>.
+                </p>
+            </div>
         </div>
-      </footer>
+    </footer>
     <script src="https://kit.fontawesome.com/4cf720d27e.js" crossorigin="anonymous"></script>
-    <script src="javascripts/landEventPage.js"></script>
+    <script src="javascripts/landingEventPage.js"></script>
 </body>
 
 </html>

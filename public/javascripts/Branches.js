@@ -2,6 +2,7 @@ var appdiv = new Vue({
   el: "#user-event-page",
   data: {
     Branches: [],
+    User_Branch: [],
     showPopUp: false,
     imgErr: false,
     form: {
@@ -53,6 +54,7 @@ var appdiv = new Vue({
     isUserInBranch(branchID) {
       // Assuming this.User_Branch is an array of objects with 'BranchID' property
       return this.User_Branch.some(item => item.BranchID === branchID);
+
   },
 
     directEvent(event) {
@@ -169,8 +171,36 @@ var appdiv = new Vue({
 
       } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
+      };
+      window.location.href = `http://localhost:3000/Branches.html`;
+
+    },
+    async leave(BranchID) {
+      try {
+        const [branchesResponse, userResponse] = await Promise.all([
+          fetch(`/api/leave/branches/${BranchID}`),
+          fetch("/auth/getUser")
+        ]);
+
+        if (!branchesResponse.ok || !userResponse.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const branchesData = await branchesResponse.json();
+        const userData = await userResponse.json();
+
+        console.log("Branches:", branchesData);
+        console.log("User:", userData);
+
+      } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
       }
-    }
+      window.location.href = `http://localhost:3000/Branches.html`;
+
+
+
+    },
+
 
   }
 });

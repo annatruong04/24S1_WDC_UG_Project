@@ -1,6 +1,7 @@
 var appdiv = new Vue({
     el: "#user-event-page",
     data: {
+    User_Event: [],
       events: [],
       showPopUp: false,
       imgErr: false,
@@ -13,6 +14,7 @@ var appdiv = new Vue({
     },
     mounted: function() {
       this.fetch_event();
+      this.fetch_User_Events();
     },
     methods: {
       fetch_event() {
@@ -31,6 +33,71 @@ var appdiv = new Vue({
 
         xhttp.send();
       },
+      fetch_User_Events() {
+        var xhttp = new XMLHttpRequest();
+
+        xhttp.open("GET", "/api/read/User_Events", true);
+
+        xhttp.onreadystatechange = () => {
+          if (xhttp.readyState == 4 && xhttp.status == 200) {
+            var data = JSON.parse(xhttp.responseText);
+            this.User_Event = data;
+            console.log(this.User_Event);
+          }
+        };
+
+        xhttp.send();
+      },
+      async join(EventID) {
+        try {
+          const [eventsResponse, userResponse] = await Promise.all([
+            fetch(`/api/join/events/${EventID}`),
+            fetch("/auth/getUser")
+          ]);
+
+          if (!eventsResponse.ok || !userResponse.ok) {
+            throw new Error('Network response was not ok');
+          }
+
+          const eventsData = await eventsResponse.json();
+          const userData = await userResponse.json();
+
+          console.log("Events:", eventsData);
+          console.log("User:", userData);
+
+          this.fetch_User_Events();
+        } catch (error) {
+          console.error('There was a problem with the fetch operation:', error);
+        }
+      window.location.href = `http://localhost:3000/landingEventPage.html`;
+
+      },
+      async leave(EventID) {
+        try {
+          const [eventsResponse, userResponse] = await Promise.all([
+            fetch(`/api/leave/events/${EventID}`),
+            fetch("/auth/getUser")
+          ]);
+
+          if (!eventsResponse.ok || !userResponse.ok) {
+            throw new Error('Network response was not ok');
+          }
+
+          const eventsData = await eventsResponse.json();
+          const userData = await userResponse.json();
+
+          console.log("Events:", eventsData);
+          console.log("User:", userData);
+
+          this.fetch_User_Events();
+        } catch (error) {
+          console.error('There was a problem with the fetch operation:', error);
+        }
+      },
+      isUserInEvent(eventID) {
+        return this.User_Event.some(item => item.EventID === eventID);
+      },
+
 
       directEvent(event) {
         const queryParams = new URLSearchParams({

@@ -63,40 +63,46 @@
             </nav>
         </div>
     </div>
-    <div id="manager-page" class="body-container">
+    <div id="manager-page" class="home-body-container">
         <div class="welcome_div">
             <h1>🎉 Hello {{user.Name}}, Welcome to GreenEarth Organisation!</h1>
             <h2>Have a good day!</h2>
         </div>
         <hr>
-        <div class="container">
-            <div class="container-header">
-                <div class="header-content">
-                    <h2>Event</h2>
-                </div>
-            </div>
-            <div class="container-body">
-                <p>Event 1</p>
-                <p>Event 2</p>
-                <p>Event 3</p>
-                <p>Event 4</p>
-            </div>
+        <div class="section">
+            <h2>Events</h2>
+            <ul class="event-list">
+                <li v-for="event in events" :key="event.event_ID" class="event-item">
+                    <div class="details">
+                        <h3>{{event.Name}}</h3>
+                        <p>Date: {{event.Date}}</p>
+                        <p>Location: {{event.Location}}</p>
+                    </div>
+                    <div class="actions">
+                        <button @click="directEvent(event)">Details</button>
+                    </div>
+                </li>
+                <!-- Add more event items as needed -->
+            </ul>
         </div>
         <div id="left-container" class="container">
-            <div class="container-header">
-                <div class="header-content">
-                    <h2>Updates</h2>
-                </div>
-            </div>
-            <div class="container-body">
-                <p>New Announcement !</p>
-                <p>New Announcement !</p>
-                <p>New Announcement !</p>
-                <p>New Announcement !</p>
+            <div class="section">
+                <h2>Updates</h2>
+                <ul class="update-list">
+                    <li class="update-item" v-for="update in truncatedUpdates" :key="update.UpdateID">
+                        <div class="details">
+                            <h3>{{update.Title}}</h3>
+                            <div v-html="sanitizeHTML(update.truncatedMessage)"></div>
+                        </div>
+                        <div class="actions">
+                            <button type="button" @click="directUpdate(update)">Read More</button>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
         <div id="right-container" class="container">
-            <div class="container-header">
+            <!-- <div class="container-header">
                 <div class="header-content">
                     <h2>Members</h2>
                 </div>
@@ -105,6 +111,21 @@
                 <div v-for="member in members" :key="member.member_ID">
                     <p> <span>{{member.First_name}} {{member.Last_name}} </span>  </p>
                 </div>
+            </div> -->
+            <div class="section">
+                <h2>Members</h2>
+
+                <ul class="member-list">
+                    <li v-for="member in members" :key="member.member_ID" class="member-item">
+                        <div class="details">
+                            <h3>{{member.First_name}} {{member.Last_name}}</h3>
+                            <p v-if="user.First_name + ' ' + user.Last_name === member.First_name + ' ' + member.Last_name">Manager</p>
+                            <p v-if="user.First_name + ' ' + user.Last_name !== member.First_name + ' ' + member.Last_name">Member</p>
+                            <p v-if="member.Role_name==='Administrator'">Admin</p>
+                        </div>
+                    </li>
+                    <!-- Add more member items as needed -->
+                </ul>
             </div>
         </div>
     </div>

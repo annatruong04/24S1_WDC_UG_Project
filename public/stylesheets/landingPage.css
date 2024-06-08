@@ -465,6 +465,7 @@ body {
 
 .footer-column .text-justify {
   text-align: left;
+  padding-left: 50px;
 }
 
 .footer-links {

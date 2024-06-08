@@ -8,7 +8,7 @@ var appdiv = new Vue ({
         image: '',
         comments: [],
         newCommentText: '',
-        eventID: ''
+        eventID: '',
     },
     mounted: function() {
         this.getQuerypara();
@@ -161,3 +161,56 @@ var appdiv = new Vue ({
           }
     }
 });
+
+window.onload = function () {
+  var app = new Vue({
+    el: "#mydiv",
+    data: {
+      clicked: false,
+      showPopUp: false,
+      users: []
+    },
+    methods: {
+      PopUp(){
+        const queryParams = new URLSearchParams(window.location.search);
+        this.showPopUp = !this.showPopUp;
+        var xhttp = new XMLHttpRequest();
+
+        xhttp.onreadystatechange = () => {
+              if (xhttp.readyState === 4 && xhttp.status === 200) {
+                  var data = JSON.parse(xhttp.responseText);
+                  this.users = data;
+                  console.log("Read Event member successfull");
+              }
+          };
+          xhttp.open("get", `/api/manager/read/events/member/${queryParams.get('id')}`, true);
+          xhttp.send();
+      },
+      toggleDropdown() {
+        console.log(this.clicked);
+        this.clicked = !this.clicked;
+      },
+      deleteEvent(){
+        const queryParams = new URLSearchParams(window.location.search);
+        if (window.confirm(`Are you sure you want to delete ${queryParams.get('name')}?`)) {
+          var xhttp = new XMLHttpRequest();
+
+          xhttp.onreadystatechange = () => {
+              if (xhttp.readyState === 4 && xhttp.status === 200) {
+                  window.location.href = `http://localhost:3000/manager/Event.html`;
+                  console.log("Delete Event successfull");
+              }
+          };
+          xhttp.open("post", "/api/manager/delete/events", true);
+          xhttp.setRequestHeader("Content-type", "application/json");
+          xhttp.send(JSON.stringify({eventID: queryParams.get('id')}));
+      }
+    },
+    editEvent(){
+      const queryParams = new URLSearchParams(window.location.search);
+
+      window.location.href = `http://localhost:3000/manager/editEvent.html?${queryParams}`;
+    },
+    }
+  });
+}

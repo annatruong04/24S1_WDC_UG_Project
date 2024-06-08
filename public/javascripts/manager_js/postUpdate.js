@@ -11,6 +11,9 @@ var appdiv = new Vue({
     mounted: function() {
     },
     methods: {
+        updateMessage(event) {
+            this.form.Message = event.target.innerHTML;
+        },
         async submitForm() {
             const formData = new FormData();
 

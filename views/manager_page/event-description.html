@@ -23,15 +23,15 @@
                 <input type="search" placeholder="Search..." class="search-bar">
             </div>
             <div class="rightcontent-container">
-                <img src="../images/profile.png" @click="toggleDropdown" alt="Profile Picture" onerror="this.onerror=null; this.src=''; this.style.backgroundColor='white'; this.style.borderRadius='50%';">
-                <div class="dropdown-menu" v-show="clicked">
-                    <ul>
-                        <li><a href="/">Home Page</a></li>
-                        <li><a href="/user/profile.html">Your Profile</a></li>
-                        <li><a href="/auth/logout">Logout</a></li>
-                    </ul>
-                </div>
-            </div>
+              <img src="../images/profile.png" @click="toggleDropdown" alt="Profile Picture" onerror="this.onerror=null; this.src=''; this.style.backgroundColor='white'; this.style.borderRadius='50%';">
+              <div class="dropdown-menu" :data-show="clicked.toString()">
+                  <ul>
+                      <li><a href="/">Home Page</a></li>
+                      <li><a href="/user/profile.html">Your Profile</a></li>
+                      <li><a href="/auth/logout">Logout</a></li>
+                  </ul>
+              </div>
+          </div>
         </div>
         <div class="lower-header">
             <nav class="navbar">
@@ -51,8 +51,47 @@
                             <div class="navbar-link">Member</div>
                         </a>
                     </li>
+                    <li class="">
+                      <a href="Update.html">
+                          <div class="navbar-link">Update</div>
+                      </a>
+                  </li>
                 </ul>
             </nav>
+            <div class="event-description-action">
+              <div class="buttons-event">
+                <button type="button" @click="PopUp()">See RSVP</button>
+                <button class="edit-button" type="button" @click="editEvent()">Edit event</button>
+                <button class="more-button" type="button" @click="deleteEvent()">Delete event</button>
+              </div>
+            </div>
+            <div v-if="showPopUp" class="popupbox-event" @click.self="showPopUp = false">
+              <div class="popup-box-content">
+                  <div class="container">
+                      <div class="container-header">
+                          <div class="header-content">
+                              <h2>RSVP</h2>
+                              <div class="close" @click="showPopUp = false">
+                                  <i id="close-icon" class="fa-solid fa-xmark"></i>
+                              </div>
+                          </div>
+                      </div>
+                      <div>
+                      <div class="container-body">
+                        <div v-for="user in users" :key="user.userID">
+                          <p>{{user.First_name}} {{user.Last_name}}</p>
+                        </div>
+                      </div>
+                      </div>
+                      </div>
+                      <div class="container-footer">
+                          <div class="buttons">
+                              <button id="closePopup" @click="showPopUp = false">Close</button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
         </div>
     </div>
     <div id="app">

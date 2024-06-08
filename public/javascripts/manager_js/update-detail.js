@@ -1,3 +1,4 @@
+
 var appdiv = new Vue({
     el: "#manager-home-page",
     data: {
@@ -10,24 +11,41 @@ var appdiv = new Vue({
         this.getQuerypara();
     },
     methods: {
-        getQuerypara(){
-            const queryParams = new URLSearchParams(window.location.search);
-            var xhttp = new XMLHttpRequest();
+      sanitizeHTML(html) {
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        const allowedTags = ['b', 'i', 'u', 'p', 'strong', 'em', 'br'];
+        const walkDOM = (node) => {
+          for (let i = 0; i < node.childNodes.length; i++) {
+            const child = node.childNodes[i];
+            if (child.nodeType === 1 && !allowedTags.includes(child.tagName.toLowerCase())) {
+              child.replaceWith(...child.childNodes);
+              i--;
+            } else if (child.nodeType === 1) {
+              walkDOM(child);
+            }
+          }
+        };
+        walkDOM(doc.body);
+        return doc.body.innerHTML;
+      },
+      getQuerypara(){
+          const queryParams = new URLSearchParams(window.location.search);
+          var xhttp = new XMLHttpRequest();
 
-            xhttp.open("GET", `/api/manager/read/updates/${queryParams.get('id')}`, true);
+          xhttp.open("GET", `/api/manager/read/updates/${queryParams.get('id')}`, true);
 
-            xhttp.onreadystatechange = () => {
-                if (xhttp.readyState == 4 && xhttp.status == 200) {
-                    var data = JSON.parse(xhttp.responseText);
-                    console.log(data);
-                    this.Title = data[0]['Title'];
-                    this.Message = data[0]['Message'];
-                    this.Branch_name = data[0]['Branch_name'];
-                }
-            };
+          xhttp.onreadystatechange = () => {
+              if (xhttp.readyState == 4 && xhttp.status == 200) {
+                  var data = JSON.parse(xhttp.responseText);
+                  console.log(data);
+                  this.Title = data[0]['Title'];
+                  this.Message = data[0]['Message'];
+                  this.Branch_name = data[0]['Branch_name'];
+              }
+          };
 
-            xhttp.send();
-        },
+          xhttp.send();
+      },
     }
 });
 

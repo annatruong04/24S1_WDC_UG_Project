@@ -54,6 +54,11 @@
                             <div class="navbar-link">Member</div>
                         </a>
                     </li>
+                    <li class="active">
+                        <a href="Update.html">
+                            <div class="navbar-link">Update</div>
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -69,7 +74,12 @@
                 </div>
                 <div class="form-group">
                     <label for="description">Message</label>
-                    <textarea id="description" name="description" v-model="form.Message" rows="4" required></textarea>
+                    <div
+                    contenteditable="true"
+                    @input="updateMessage"
+                    :class="{'input-like': true}"
+                    placeholder="Message">
+                  </div>
                 </div>
                 <div class="radio-option">
                     <label for="description">Visibility </label>

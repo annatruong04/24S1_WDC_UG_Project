@@ -11,6 +11,7 @@ body{
   width: 100%;
   height: 110px;
   background-color: rgb(53, 51, 55);
+  z-index: 1000;
 }
 
 .upper-header{
@@ -333,7 +334,7 @@ body{
 
 .popup-box-content {
   /* background-color: #fefefe; */
-  margin: 5% auto;
+  margin: 10% auto;
   /* border: 1px solid #888; */
   width: 50%;
   height: 70%;
@@ -398,7 +399,6 @@ body{
   width: 100%;
   border-radius: 10px;
   margin-top:0 auto;
-  margin-bottom: 40px;
 }
 
 .container-header .header-content {
@@ -415,7 +415,6 @@ body{
   padding-left: 1em;
   padding-right: 1em;
   margin-top: 2em;
-  border: 1px solid #ddd;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
@@ -436,7 +435,7 @@ body{
 .buttons button {
   border-radius: 1em;
   padding: 0.5em;
-  background-color: #77B0AA;
+  background-color: #2E8B57;
   color: white;
   cursor: pointer;
   transition: transform 0.1s ease-in-out, background-color 0.1s ease-in-out;
@@ -685,13 +684,14 @@ body{
   border-radius: 0.5em;
   padding: 0.7em;
   font-size: 3em;
-  background-color: #77B0AA;
+  background-color: #00573D;
   color: white;
   cursor: pointer;
   transition: transform 0.1s ease-in-out, background-color 0.1s ease-in-out;
   border: none;
   outline: none;
   font-size: medium;
+
 }
 
 .buttons-event button:active {
@@ -748,10 +748,14 @@ body{
   cursor: pointer;
 }
 
-.edit-button { background-color: #ffc107; }
+.edit-button { background-color: #9c6005 !important; }
 .more-button {
-  background-color: red;
+  background-color: #C00000 !important;
   transition: transform 0.1s ease-in-out, background-color 0.1s ease-in-out;
+}
+
+button i{
+  color: white;
 }
 
 .edit-button:hover, .more-button:hover {
@@ -1217,4 +1221,27 @@ input[type="file"] {
 
 .status-private {
   background-color: #dc3545;
+}
+
+.input-like {
+  border: 1px solid #ccc;
+  padding: 5px;
+  min-height: 100px;
+  outline: none;
+  border-radius: 4px;
+}
+.input-like:empty:before {
+  content: attr(placeholder);
+  color: #999;
+}
+
+.event-container h2{
+  text-align: center;
+}
+
+.event-description-action{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 70px;
 }

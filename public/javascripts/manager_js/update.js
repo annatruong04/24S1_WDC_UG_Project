@@ -1,3 +1,4 @@
+
 var appdiv = new Vue({
     el: "#manager-page",
     data: {
@@ -25,6 +26,23 @@ var appdiv = new Vue({
         }
     },
     methods: {
+      sanitizeHTML(html) {
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        const allowedTags = ['b', 'i', 'u', 'p', 'strong', 'em', 'br'];
+        const walkDOM = (node) => {
+          for (let i = 0; i < node.childNodes.length; i++) {
+            const child = node.childNodes[i];
+            if (child.nodeType === 1 && !allowedTags.includes(child.tagName.toLowerCase())) {
+              child.replaceWith(...child.childNodes);
+              i--;
+            } else if (child.nodeType === 1) {
+              walkDOM(child);
+            }
+          }
+        };
+        walkDOM(doc.body);
+        return doc.body.innerHTML;
+      },
       fetch_update() {
         var xhttp = new XMLHttpRequest();
 

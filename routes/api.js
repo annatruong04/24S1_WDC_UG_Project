@@ -576,4 +576,26 @@ router.get('/manager/read/updates/:id', isAuthenticated, (req, res) => {
   });
 });
 
+router.get('/manager/read/events/member/:id', isAuthenticated, (req, res) => {
+  req.pool.getConnection(function (err, connection) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    const query = `select U.First_name, U.Last_name from User U join User_Event UE on UE.User_ID = U.User_ID where UE.EventID = ?`;
+
+    connection.query(query,
+      [req.params.id], (error, results) => {
+        connection.release();
+        if (error) {
+          console.log(error);
+          return res.status(500).send(error);
+        }
+        res.json(results);
+      });
+  });
+});
+
+
 module.exports = router;

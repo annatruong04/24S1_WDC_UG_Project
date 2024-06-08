@@ -83,7 +83,7 @@
                 <div v-if='update.Type_name==="Public"' class="status-box">Public</div>
                 <h2>{{update.Title}}</h2>
                 <p>{{update.Time_stamp}}</p>
-                <p>{{update.truncatedMessage}}</p>
+                <div v-html="sanitizeHTML(update.truncatedMessage)"></div>
             </div>
         </div>
     </div>

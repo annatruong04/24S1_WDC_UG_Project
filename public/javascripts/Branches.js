@@ -3,6 +3,7 @@ var appdiv = new Vue({
   data: {
     Branches: [],
     User_Branch: [],
+    BranchRequest: [],
     showPopUp: false,
     imgErr: false,
     form: {
@@ -15,6 +16,7 @@ var appdiv = new Vue({
   mounted: function () {
     this.fetch_Branch();
     this.fetch_User_Branch();
+    this.fetch_User_BranchRequest();
   },
   methods: {
     fetch_Branch() {
@@ -51,11 +53,34 @@ var appdiv = new Vue({
       xhttp.send();
     },
 
+    fetch_User_BranchRequest(){
+      var xhttp = new XMLHttpRequest();
+
+      xhttp.open("GET", "/api/read/BranchRequest", true);
+
+      xhttp.onreadystatechange = () => {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+          var data = JSON.parse(xhttp.responseText);
+
+          this.BranchRequest = data;
+          console.log(this.BranchRequest);
+        }
+      };
+
+      xhttp.send();
+    },
+
     isUserInBranch(branchID) {
       // Assuming this.User_Branch is an array of objects with 'BranchID' property
       return this.User_Branch.some(item => item.BranchID === branchID);
 
-  },
+    },
+
+    isUserInBranchRequest(branchID) {
+      // Assuming this.User_Branch is an array of objects with 'BranchID' property
+      return this.BranchRequest.some(item => item.BranchID === branchID);
+
+    },
 
     directEvent(event) {
       const queryParams = new URLSearchParams({
@@ -174,6 +199,22 @@ var appdiv = new Vue({
       };
       window.location.href = `http://localhost:3000/Branches.html`;
 
+    },
+    cancelRequest(BranchID){
+      var xhttp = new XMLHttpRequest();
+
+      xhttp.open("POST", "/api/cancel/BranchRequest", true);
+
+      xhttp.onreadystatechange = () => {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+          window.location.href = `http://localhost:3000/Branches.html`;
+          console.log(this.BranchRequest);
+        }
+      };
+      xhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+      xhttp.send(JSON.stringify({
+        Branch_ID: BranchID
+      }));
     },
     async leave(BranchID) {
       try {

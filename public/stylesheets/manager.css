@@ -1262,7 +1262,7 @@ input[type="file"] {
   padding: 20px;
   margin-bottom: 20px;
   margin-top: 20px;
-  max-height: 200px; /* Set a fixed height */
+  max-height: 270px; /* Set a fixed height */
   overflow-y: auto;  /* Enable vertical scrolling */
   transition: transform 0.3s, box-shadow 0.3s;
 }
@@ -1330,4 +1330,21 @@ input[type="file"] {
   position: absolute;
   top: 0;
   right: 0;
+}
+
+.Updates{
+  position: relative;
+  cursor: auto;
+}
+
+.update-button-approve{
+  position: absolute;
+  top: 10px;
+  right: 90px;
+  background-color: #135D66 !important;
+}
+.update-button-reject{
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }

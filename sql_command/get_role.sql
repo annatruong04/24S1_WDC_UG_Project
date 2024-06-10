@@ -52,4 +52,6 @@ insert into Type(Type_name) value("Private"),("Public");
 update Type set TypeID = 2 where Type_name = "Public";
 update UpdateTable set TypeID = 1 where UpdateID = 4;
 
+delete from JoinRequest where UserID = ? and BranchID = ?
+
 Select U.Time_stamp, U.Title, U.Message, T.Type_name  from UpdateTable U join Type T on U.TypeID = T.TypeID join Branch B on B.BranchID = U.BranchID where B.Manager_ID = ?;

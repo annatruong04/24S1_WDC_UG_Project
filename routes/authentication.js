@@ -67,7 +67,6 @@ router.get('/getUser', function(req, res, next) {
                 Email: req.session.email,
                 Role: req.session.role,
                 Password: req.session.password,
-
             }));
         }
     } else {
@@ -81,6 +80,7 @@ router.post('/updateUser', function(req, res, next) {
     }
 
     const { First_name, Last_name, Phone_number, Email, Password } = req.body;
+
 
     req.pool.getConnection(function(err, connection) {
         if (err) {

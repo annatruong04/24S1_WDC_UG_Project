@@ -89,7 +89,7 @@ app.use(function (req, res, next) {
 
 // Multer configuration
 
-// add branch id into session
+// add branch id into session for manager
 app.use(function (req, res, next) {
   if (req.session.username) {
     if (!req.session.BranchID) {
@@ -98,7 +98,7 @@ app.use(function (req, res, next) {
           res.sendStatus(500);
           return;
         }
-        var query = 'SELECT BranchID FROM User_Branch WHERE User_ID = ?;';
+        var query = 'SELECT BranchID FROM Branch WHERE Manager_ID = ?;';
         connection.query(query, [req.session.userID], (error, results) => {
           connection.release();
           if (error) {

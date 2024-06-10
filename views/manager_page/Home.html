@@ -59,6 +59,11 @@
                             <div class="navbar-link">Update</div>
                         </a>
                     </li>
+                    <li class="">
+                        <a href="Request.html">
+                            <div class="navbar-link">Request</div>
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -91,7 +96,7 @@
                 <ul class="update-list">
                     <li class="update-item" v-for="update in truncatedUpdates" :key="update.UpdateID">
                         <div class="details">
-                            <h3>{{update.Title}}</h3>
+                            <h3>{{update.Title}} <span class="">({{update.Time_stamp}})</span></h3>
                             <div v-html="sanitizeHTML(update.truncatedMessage)"></div>
                         </div>
                         <div class="actions">

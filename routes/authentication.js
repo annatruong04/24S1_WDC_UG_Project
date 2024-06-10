@@ -67,7 +67,6 @@ router.get('/getUser', function(req, res, next) {
                 Email: req.session.email,
                 Role: req.session.role,
                 Password: req.session.password,
-
             }));
         }
     } else {
@@ -89,6 +88,7 @@ router.post('/updateUser', async function(req, res, next) {
     req.session.name = First_name + " " + Last_name;
     req.session.email = Email;
     req.session.phonenum = Phone_number;
+
 
     req.pool.getConnection(function(err, connection) {
         if (err) {

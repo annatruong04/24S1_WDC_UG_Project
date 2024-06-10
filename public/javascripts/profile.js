@@ -37,6 +37,7 @@ var main_app = new Vue({
   mounted: function(){
     this.getUser();
   },
+
   methods: {
     getUser(){
 
@@ -58,6 +59,7 @@ var main_app = new Vue({
     Update() {
       // Navigate to the desired page
       window.location.href = 'updateUser.html';
+      
     }
 
   }

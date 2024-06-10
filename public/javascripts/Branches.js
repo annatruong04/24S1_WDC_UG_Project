@@ -121,84 +121,94 @@ var appdiv = new Vue({
     // xhttp.open("get", "/auth/getUser", true);
     // xhttp.send();
     // }
-    async join(BranchID) {
-      try {
+    // async join(BranchID) {
+    //   try {
 
 
-        const queryParams = new URLSearchParams({
-          // id: BranchID,
+    //     const queryParams = new URLSearchParams({
+    //       // id: BranchID,
 
-          // Add other event details as needed
-        }).toString();
-        const [branchesResponse, userResponse] = await Promise.all([
-          fetch(`/api/join/branches/${BranchID}`),
-          fetch("/auth/getUser")
-        ]);
+    //       // Add other event details as needed
+    //     }).toString();
+    //     const [branchesResponse, userResponse] = await Promise.all([
+    //       fetch(`/api/join/branches/${BranchID}`),
+    //       fetch("/auth/getUser")
+    //     ]);
 
-        if (!branchesResponse.ok || !userResponse.ok) {
-          throw new Error('Network response was not ok');
+    //     if (!branchesResponse.ok || !userResponse.ok) {
+    //       throw new Error('Network response was not ok');
+    //     }
+
+    //     const branchesData = await branchesResponse.json();
+    //     const userData = await userResponse.json();
+
+    //     console.log("Branches:", branchesData);
+    //     console.log("User:", userData);
+
+    //     // this.Branches = branchesData;
+    //     // this.user = userData;
+
+    //     // // If you need to do a POST request with the fetched data
+    //     // const postData = {
+    //     //   branches: branchesData,
+    //     //   user: userData
+    //     // };
+
+    //     // const postResponse = await fetch("/your-post-endpoint", {
+    //     //   method: 'POST',
+    //     //   headers: {
+    //     //     'Content-Type': 'application/json'
+    //     //   },
+    //     //   body: JSON.stringify(postData)
+    //     // });
+
+    //     // if (!postResponse.ok) {
+    //     //   throw new Error('Network response was not ok');
+    //     // }
+
+    //     // const postResult = await postResponse.json();
+    //     // console.log("POST response:", postResult);
+
+    //   } catch (error) {
+    //     console.error('There was a problem with the fetch operation:', error);
+    //   };
+    //   window.location.href = `http://localhost:3000/Branches.html`;
+
+    // },
+
+    leave(branchID) {
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = () => {
+        if (xhttp.readyState === 4) {
+          if (xhttp.status === 200) {
+      window.location.href = `http://localhost:3000/Branches.html`;
+
+
+          } else {
+            console.error('There was a problem with the fetch operation:', xhttp.responseText);
+          }
         }
-
-        const branchesData = await branchesResponse.json();
-        const userData = await userResponse.json();
-
-        console.log("Branches:", branchesData);
-        console.log("User:", userData);
-
-        // this.Branches = branchesData;
-        // this.user = userData;
-
-        // // If you need to do a POST request with the fetched data
-        // const postData = {
-        //   branches: branchesData,
-        //   user: userData
-        // };
-
-        // const postResponse = await fetch("/your-post-endpoint", {
-        //   method: 'POST',
-        //   headers: {
-        //     'Content-Type': 'application/json'
-        //   },
-        //   body: JSON.stringify(postData)
-        // });
-
-        // if (!postResponse.ok) {
-        //   throw new Error('Network response was not ok');
-        // }
-
-        // const postResult = await postResponse.json();
-        // console.log("POST response:", postResult);
-
-      } catch (error) {
-        console.error('There was a problem with the fetch operation:', error);
       };
-      window.location.href = `http://localhost:3000/Branches.html`;
-
+      xhttp.open('GET', `/api/leave/branches/${branchID}`, true);
+      xhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+      xhttp.send();
     },
-    async leave(BranchID) {
-      try {
-        const [branchesResponse, userResponse] = await Promise.all([
-          fetch(`/api/leave/branches/${BranchID}`),
-          fetch("/auth/getUser")
-        ]);
-
-        if (!branchesResponse.ok || !userResponse.ok) {
-          throw new Error('Network response was not ok');
-        }
-
-        const branchesData = await branchesResponse.json();
-        const userData = await userResponse.json();
-
-        console.log("Branches:", branchesData);
-        console.log("User:", userData);
-
-      } catch (error) {
-        console.error('There was a problem with the fetch operation:', error);
-      }
+    join(branchID) {
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = () => {
+        if (xhttp.readyState === 4) {
+          if (xhttp.status === 200) {
       window.location.href = `http://localhost:3000/Branches.html`;
 
 
-
+          } else {
+            console.error('There was a problem with the fetch operation:', xhttp.responseText);
+          }
+        }
+      };
+      xhttp.open('GET', `/api/join/branches/${branchID}`, true);
+      xhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+      xhttp.send();
     },
 
 

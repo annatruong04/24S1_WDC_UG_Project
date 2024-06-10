@@ -65,21 +65,56 @@ var app = new Vue({
       isUserInBranch(branchID) {
         return this.userBranches.some(item => item.BranchID === branchID);
       },
-      async leave(branchID) {
-        try {
-          await fetch(`/api/leave/branches/${branchID}`);
-          this.fetchUserBranches();
-        } catch (error) {
-          console.error('There was a problem with the fetch operation:', error);
-        }
+      // async leave(branchID) {
+      //   try {
+      //     await fetch(`/api/leave/branches/${branchID}`);
+      //     this.fetchUserBranches();
+      //   } catch (error) {
+      //     console.error('There was a problem with the fetch operation:', error);
+      //   }
+      // },
+      // async cancelRsvp(eventID) {
+      //   try {
+      //     await fetch(`/api/leave/event/${eventID}`);
+      //     this.fetchUserEvents();
+      //   } catch (error) {
+      //     console.error('There was a problem with the fetch operation:', error);
+      //   }
+      // },
+
+      leave(branchID) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = () => {
+          if (xhttp.readyState === 4) {
+            if (xhttp.status === 200) {
+              this.fetchUserBranches();
+              window.location.href = 'http://localhost:3000/myBranchPage.html';
+
+            } else {
+              console.error('There was a problem with the fetch operation:', xhttp.responseText);
+            }
+          }
+        };
+        xhttp.open('GET', `/api/leave/branches/${branchID}`, true);
+        xhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+        xhttp.send();
       },
-      async cancelRsvp(eventID) {
-        try {
-          await fetch(`/api/leave/event/${eventID}`);
-          this.fetchUserEvents();
-        } catch (error) {
-          console.error('There was a problem with the fetch operation:', error);
-        }
+      cancelRsvp(eventID) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = () => {
+          if (xhttp.readyState === 4) {
+            if (xhttp.status === 200) {
+              this.fetchUserEvents();
+              window.location.href = 'http://localhost:3000/myBranchPage.html';
+
+            } else {
+              console.error('There was a problem with the fetch operation:', xhttp.responseText);
+            }
+          }
+        };
+        xhttp.open('GET', `/api/leave/event/${eventID}`, true);
+        xhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+        xhttp.send();
       },
       formatDate(date) {
         if (!date) return '';

@@ -48,52 +48,90 @@ var appdiv = new Vue({
 
         xhttp.send();
       },
-      async join(EventID) {
-        try {
-          const [eventsResponse, userResponse] = await Promise.all([
-            fetch(`/api/join/events/${EventID}`),
-            fetch("/auth/getUser")
-          ]);
+      // async join(EventID) {
+      //   try {
+      //     const [eventsResponse, userResponse] = await Promise.all([
+      //       fetch(`/api/join/events/${EventID}`),
+      //       fetch("/auth/getUser")
+      //     ]);
 
-          if (!eventsResponse.ok || !userResponse.ok) {
-            throw new Error('Network response was not ok');
+      //     if (!eventsResponse.ok || !userResponse.ok) {
+      //       throw new Error('Network response was not ok');
+      //     }
+
+      //     const eventsData = await eventsResponse.json();
+      //     const userData = await userResponse.json();
+
+      //     console.log("Events:", eventsData);
+      //     console.log("User:", userData);
+
+      //     this.fetch_User_Events();
+      //   } catch (error) {
+      //     console.error('There was a problem with the fetch operation:', error);
+      //   }
+      // window.location.href = `http://localhost:3000/landingEventPage.html`;
+
+      // },
+      // async leave(EventID) {
+      //   try {
+      //     const [eventsResponse, userResponse] = await Promise.all([
+      //       fetch(`/api/leave/events/${EventID}`),
+      //       fetch("/auth/getUser")
+      //     ]);
+
+      //     if (!eventsResponse.ok || !userResponse.ok) {
+      //       throw new Error('Network response was not ok');
+      //     }
+
+      //     const eventsData = await eventsResponse.json();
+      //     const userData = await userResponse.json();
+
+      //     console.log("Events:", eventsData);
+      //     console.log("User:", userData);
+
+      //     this.fetch_User_Events();
+      //   } catch (error) {
+      //     console.error('There was a problem with the fetch operation:', error);
+      //   }
+      // },
+
+      leave(EventID) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = () => {
+          if (xhttp.readyState === 4) {
+            if (xhttp.status === 200) {
+
+        window.location.href = `http://localhost:3000/landingEventPage.html`;
+
+            } else {
+              console.error('There was a problem with the fetch operation:', xhttp.responseText);
+            }
           }
-
-          const eventsData = await eventsResponse.json();
-          const userData = await userResponse.json();
-
-          console.log("Events:", eventsData);
-          console.log("User:", userData);
-
-          this.fetch_User_Events();
-        } catch (error) {
-          console.error('There was a problem with the fetch operation:', error);
-        }
-      window.location.href = `http://localhost:3000/landingEventPage.html`;
-
+        };
+        xhttp.open('GET', `/api/leave/events/${EventID}`, true);
+        xhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+        xhttp.send();
       },
-      async leave(EventID) {
-        try {
-          const [eventsResponse, userResponse] = await Promise.all([
-            fetch(`/api/leave/events/${EventID}`),
-            fetch("/auth/getUser")
-          ]);
+      join(EventID) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = () => {
+          if (xhttp.readyState === 4) {
+            if (xhttp.status === 200) {
+        window.location.href = `http://localhost:3000/landingEventPage.html`;
 
-          if (!eventsResponse.ok || !userResponse.ok) {
-            throw new Error('Network response was not ok');
+
+            } else {
+              console.error('There was a problem with the fetch operation:', xhttp.responseText);
+            }
           }
-
-          const eventsData = await eventsResponse.json();
-          const userData = await userResponse.json();
-
-          console.log("Events:", eventsData);
-          console.log("User:", userData);
-
-          this.fetch_User_Events();
-        } catch (error) {
-          console.error('There was a problem with the fetch operation:', error);
-        }
+        };
+        xhttp.open('GET', `/api/join/events/${EventID}`, true);
+        xhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+        xhttp.send();
       },
+
+
+
       isUserInEvent(eventID) {
         return this.User_Event.some(item => item.EventID === eventID);
       },

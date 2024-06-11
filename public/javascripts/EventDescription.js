@@ -4,16 +4,17 @@ var appdiv = new Vue ({
       Branches: [],
       User_Event: [],
       User_Branch: [],
-        name: '',
-        description: '',
-        date: '',
-        location: '',
-        image: '',
-        comments: [],
-        newCommentText: '',
-        eventID: '',
-        BranchID: '',
-        BranchName: ''
+      name: '',
+      description: '',
+      date: '',
+      location: '',
+      image: '',
+      comments: [],
+      newCommentText: '',
+      eventID: '',
+      BranchID: '',
+      BranchName: '',
+      formattedDate: ''
     },
     mounted: function() {
         this.getQuerypara();
@@ -25,6 +26,26 @@ var appdiv = new Vue ({
 
     },
     methods: {
+      getDaySuffix(day) {
+        if (day > 3 && day < 21) return 'th';
+        switch (day % 10) {
+            case 1:  return 'st';
+            case 2:  return 'nd';
+            case 3:  return 'rd';
+            default: return 'th';
+        }
+      },
+      formatDate(inputDate) {
+        const date = new Date(inputDate);
+
+        const day = date.getDate();
+        const month = date.toLocaleString('default', { month: 'long' });
+
+        const daySuffix = this.getDaySuffix(day);
+
+        return `${day}${daySuffix}, ${month}`;
+      },
+
       fetch_Branch(BranchID) {
         var xhttp = new XMLHttpRequest();
 
@@ -85,12 +106,12 @@ var appdiv = new Vue ({
                     this.name = data[0]['Name'];
                     this.description = data[0]['Description'];
                     this.date = data[0]['Date'];
+                    this.formattedDate = this.formatDate(this.date);
                     this.location = data[0]['Location'];
                     this.image = `${data[0]['Image']}`;
                     this.eventID = data[0]['EventID'];
                     this.BranchID = data[0]['BranchID'];
                     this.fetch_Branch(this.BranchID);
-
                 }
             };
             xhttp.send();

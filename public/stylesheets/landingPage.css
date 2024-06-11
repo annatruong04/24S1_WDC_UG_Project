@@ -743,8 +743,9 @@ a.button-link:hover {
 
 .join-buttons button {
   border-radius: 0.5em;
-  padding: 0.5em 5em;
+  padding: 0.5em 1.7em;
   color: white;
+  margin-left: 15px;
   cursor: pointer;
   transition: transform 0.1s ease-in-out, background-color 0.1s ease-in-out;
   border: none;
@@ -754,3 +755,6 @@ a.button-link:hover {
 
 }
 
+.detail-btn {
+  background-color: #135D66 !important;
+}

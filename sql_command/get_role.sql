@@ -54,4 +54,26 @@ update UpdateTable set TypeID = 1 where UpdateID = 4;
 
 delete from JoinRequest where UserID = ? and BranchID = ?
 
+SELECT
+    u.UpdateID,
+    u.Time_stamp,
+    u.Message,
+    u.Title,
+    u.Manager_ID,
+    u.BranchID,
+    u.TypeID,
+    t.Type_name,
+    b.Branch_name
+FROM
+    UpdateTable u
+    JOIN User_Branch ub ON u.BranchID = ub.BranchID
+    JOIN Branch b ON u.BranchID = b.BranchID
+    JOIN Type t ON u.TypeID = t.TypeID
+WHERE
+    ub.User_ID = ? AND ub.BranchID = ? AND
+    (t.Type_name = 'public' OR t.Type_name = 'private')
+ORDER BY
+    u.Time_stamp DESC;
+
+
 Select U.Time_stamp, U.Title, U.Message, T.Type_name  from UpdateTable U join Type T on U.TypeID = T.TypeID join Branch B on B.BranchID = U.BranchID where B.Manager_ID = ?;

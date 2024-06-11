@@ -70,6 +70,11 @@
                             <div class="navbar-link">Event</div>
                         </a>
                     </li>
+                    <li class="" v-if="user.Name">
+                        <a href="../user/Update.html">
+                            <div class="navbar-link">Update</div>
+                        </a>
+                    </li>
                     <li class="">
                         <a href="aboutUs.html">
                             <div class="navbar-link">About us</div>
@@ -119,11 +124,11 @@
         </div>
         <div class="event-search-container">
             <i class="fa-solid fa-magnifying-glass event-search-icon"></i>
-            <input type="text" placeholder="Search for events" class="event-search-input">
+            <input type="text" v-model="query_name" @keydown.enter="search" placeholder="Search for events" class="event-search-input">
             <div class="separator"></div>
             <i class="fa-solid fa-location-dot event-search-icon"></i>
-            <input type="text" placeholder="Search places" class="event-search-input">
-            <i class="fa-solid fa-magnifying-glass event-search-btn"></i>
+            <input type="text" v-model="query_location" @keydown.enter="search" placeholder="Search places" class="event-search-input">
+            <i class="fa-solid fa-magnifying-glass event-search-btn" @click="search()"></i>
         </div>
 
         <div class="filters">
@@ -143,7 +148,7 @@
         </div>
         <hr>
         <div class="event-grid">
-            <div v-for="event in events" :key="event.EventID" class="event-card" @click="directEvent(event)">
+            <div v-for="event in events" :key="event.EventID" class="event-card" @click="directEvent(event)" v-if="!showSearch">
                 <img v-if="event.Image" :src="event.Image" :alt="event.Name">
                 <div class="fallback" v-if="imgErr"></div>
                 <div class="event-info">
@@ -158,6 +163,30 @@
 
                     </p>
                 </div>
+            </div>
+
+            <div v-for="event in filteredEvents" :key="event.EventID" class="event-card" @click="directEvent(event)" v-if="showSearch">
+                <img v-if="event.Image" :src="event.Image" :alt="event.Name">
+                <div class="fallback" v-if="imgErr"></div>
+                <div class="event-info">
+                    <p class="date-time">{{event.Date}}</p>
+                    <h2>{{event.Name}}</h2>
+                    <p class="location">{{event.Location}}, branch {{event.Branch_name}} </p>
+
+                    <p class="followers">
+                        <!-- <span><i class="fa-solid fa-user"></i></span> -->
+                        <!-- <span>{{event.Participant}} </span> -->
+
+
+                        <button type="button" class="join-button" @click.stop="join(event.EventID, event.BranchID)" v-if="!isUserInEvent(event.EventID)">RSVP</button>
+                        <button type="button" class="leave-button" @click.stop="leave(event.EventID)" v-else>Leave</button>
+
+                    </p>
+                </div>
+            </div>
+
+            <div v-if="showSearch && filteredEvents.length === 0">
+                <p>No result found.</p>
             </div>
         </div>
 

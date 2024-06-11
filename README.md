@@ -35,3 +35,25 @@ npm install
 npm start
 ```
 ## Accounts for testing
+To Log In into Manager and Admin pages, here are some available accounts for testing:
+
+**Manager**
+- Username
+```bash
+khanhle
+```
+- Password
+```bash
+password123
+```
+
+**Admin**
+- Username
+```bash
+testing
+```
+- Password
+```bash
+1
+```
+

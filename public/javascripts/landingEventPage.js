@@ -11,7 +11,11 @@ var appdiv = new Vue({
         location: '',
         date: '',
         description: ''
-      }
+      },
+      filteredEvents: [],
+      query_name: '',
+      query_location: '',
+      showSearch: false,
     },
     mounted: function() {
       this.fetch_event();
@@ -20,6 +24,29 @@ var appdiv = new Vue({
 
     },
     methods: {
+      search() {
+        const query_name = this.query_name ? this.query_name.toLowerCase() : "";
+        const query_location = this.query_location ? this.query_location.toLowerCase() : "";
+        if (query_name && query_location) {
+          this.filteredEvents = this.events.filter(event => {
+            return event.Name.toLowerCase().includes(query_name) ||
+                   event.Location.toLowerCase().includes(query_location);
+          });
+        }
+        else if (query_name && !query_location){
+          this.filteredEvents = this.events.filter(event => {
+            return event.Name.toLowerCase().includes(query_name);
+          });
+        } else if (!query_name && query_location) {
+          this.filteredEvents = this.events.filter(event => {
+            return event.Location.toLowerCase().includes(query_location);
+          });
+        } else{
+          this.filteredEvents = this.events;
+        }
+        this.showSearch = true;
+        console.log(this.filteredEvents);
+      },
       fetch_event() {
         var xhttp = new XMLHttpRequest();
 

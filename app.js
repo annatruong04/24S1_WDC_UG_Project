@@ -92,7 +92,7 @@ app.use(function (req, res, next) {
 // add branch id into session for manager
 app.use(function (req, res, next) {
   if (req.session.username) {
-    if (!req.session.BranchID) {
+    if (!req.session.BranchID && req.session.role === "Manager") {
       req.pool.getConnection(function (err, connection) {
         if (err) {
           res.sendStatus(500);
@@ -118,9 +118,34 @@ app.use(function (req, res, next) {
           }
         });
       });
-    } else {
-      next();
+    } else if (!req.session.BranchID) {
+      req.pool.getConnection(function (err, connection) {
+        if (err) {
+          res.sendStatus(500);
+          return;
+        }
+        var query = 'SELECT BranchID From User_Branch WHERE User_ID = ?';
+        connection.query(query, [req.session.userID], (error, results) => {
+          connection.release();
+          if (error) {
+            return res.status(401).send(error);
+          }
+          if (results.length === 0) {
+            next();
+          } else {
+            console.log("Add BranchID successfully: " + results[0].BranchID);
+            var BranchID_arr = [];
+            for (let i = 0; i < results.length; i++) {
+              BranchID_arr.push(results[i].BranchID);
+            }
+            // console.log(BranchID_arr);
+            req.session.BranchID = BranchID_arr;
+            next();
+          }
+        });
+      });
     }
+    else next();
   } else {
     next();
   }
@@ -184,6 +209,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 const authRoutes = require('./routes/authentication');
 const pageRoutes = require('./routes/pages');
 const apiRoute = require('./routes/api');
+const { reset } = require('nodemon');
 
 // Use routes for auth
 app.use('/', pageRoutes);

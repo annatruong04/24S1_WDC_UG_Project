@@ -11,7 +11,10 @@ var appdiv = new Vue({
       location: '',
       date: '',
       description: ''
-    }
+    },
+    filteredBranches: [],
+    query_name: '',
+    showSearch: false,
   },
   mounted: function () {
     this.fetch_Branch();
@@ -19,6 +22,20 @@ var appdiv = new Vue({
     this.fetch_User_BranchRequest();
   },
   methods: {
+    search() {
+      const query_name = this.query_name ? this.query_name.toLowerCase() : "";
+
+      if (query_name) {
+        this.filteredBranches = this.Branches.filter(branch => {
+          console.log(branch.Branch_name);
+          return branch.Branch_name.toLowerCase().includes(query_name)
+        });
+      } else{
+        this.filteredBranches = this.Branches;
+      }
+      this.showSearch = true;
+      console.log(this.filteredEvents);
+    },
     fetch_Branch() {
       var xhttp = new XMLHttpRequest();
 

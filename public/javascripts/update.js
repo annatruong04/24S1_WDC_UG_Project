@@ -1,5 +1,5 @@
 var appdiv = new Vue ({
-    el: "#app",
+    el: "#mydiv",
     data: {
         updates: [],
         User_Branch: [],
@@ -11,9 +11,7 @@ var appdiv = new Vue ({
         events: [],
     },
     mounted: function() {
-        this.getQuerypara();
         this.fetch_update();
-        this.fetch_event();
     },
     computed: {
         truncatedUpdates() {
@@ -26,6 +24,21 @@ var appdiv = new Vue ({
         }
     },
     methods: {
+      fetch_update() {
+        const queryParams = new URLSearchParams(window.location.search);
+        var xhttp = new XMLHttpRequest();
+
+        xhttp.open("GET", `/api/read/updates/`, true);
+
+        xhttp.onreadystatechange = () => {
+            if (xhttp.readyState == 4 && xhttp.status == 200) {
+                var data = JSON.parse(xhttp.responseText);
+                this.updates = data;
+                console.log(this.updates);
+            }
+        };
+        xhttp.send();
+      },
         sanitizeHTML(html) {
             const doc = new DOMParser().parseFromString(html, 'text/html');
             const allowedTags = ['b', 'i', 'u', 'p', 'strong', 'em', 'br'];
@@ -49,18 +62,6 @@ var appdiv = new Vue ({
               return words.slice(0, wordLimit).join(' ') + '...';
             }
             return message;
-          },
-        directEvent(event) {
-          const queryParams = new URLSearchParams({
-            id: event.EventID,
-            name: event.Name,
-            description: event.Description,
-            date: event.Date,
-            location: event.Location,
-            // Add other event details as needed
-          }).toString();
-
-          window.location.href = `http://localhost:3000/EventDescription.html?${queryParams}`;
         },
         directUpdate(update) {
           const queryParams = new URLSearchParams({
@@ -70,59 +71,7 @@ var appdiv = new Vue ({
 
           window.location.href = `http://localhost:3000/updateDetail.html?${queryParams}`;
         },
-        getQuerypara(){
-            const queryParams = new URLSearchParams(window.location.search);
-            var xhttp = new XMLHttpRequest();
 
-            xhttp.open("GET", `/api/read/branches/${queryParams.get('id')}`, true);
-
-            xhttp.onreadystatechange = () => {
-                if (xhttp.readyState == 4 && xhttp.status == 200) {
-                    var data = JSON.parse(xhttp.responseText);
-
-                    this.id = data[0]['BranchID'];
-                    this.name = data[0]['Branch_name'];
-                    this.description = data[0]['Description'];
-                    this.location = data[0]['Location'];
-                    this.MemberCount = data[0]['MemberCount'];
-
-                }
-            };
-            xhttp.send();
-        },
-        fetch_update() {
-            const queryParams = new URLSearchParams(window.location.search);
-            var xhttp = new XMLHttpRequest();
-            console.log(this.id);
-
-            xhttp.open("GET", `/api/read/updates/${queryParams.get('id')}`, true);
-
-            xhttp.onreadystatechange = () => {
-                if (xhttp.readyState == 4 && xhttp.status == 200) {
-                    var data = JSON.parse(xhttp.responseText);
-                    this.updates = data;
-                    console.log(this.updates);
-                }
-            };
-            xhttp.send();
-          },
-          fetch_event() {
-            const queryParams = new URLSearchParams(window.location.search);
-            var xhttp = new XMLHttpRequest();
-
-            xhttp.open("GET", `/api/read/branches/events/${queryParams.get('id')}`, true);
-
-            xhttp.onreadystatechange = () => {
-                if (xhttp.readyState == 4 && xhttp.status == 200) {
-                    var data = JSON.parse(xhttp.responseText);
-                    console.log(data[0]["EventID"]);
-                    this.events = data;
-                    console.log(this.events);
-                }
-            };
-
-            xhttp.send();
-          },
         getDaySuffix(day) {
           if (day > 3 && day < 21) return 'th';
           switch (day % 10) {
@@ -146,7 +95,7 @@ var appdiv = new Vue ({
 });
 
 var app = new Vue({
-    el: "#mydiv",
+    el: "#header-div",
     data: {
         clicked: false,
         loginStatus: false,

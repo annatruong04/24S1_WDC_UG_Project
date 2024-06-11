@@ -12,11 +12,10 @@
 
 
 <body>
-
   <header id="mydiv" class="page-header">
     <div class="upper-header">
       <div class="logo-container">
-        <a href="">
+        <a href="/">
           <h1>GreenEarth</h1>
         </a>
       </div>
@@ -46,11 +45,19 @@
     <div class="lower-header">
       <nav class="navbar">
         <ul>
-          <li class="active">
-            <a href="/">
-              <div class="navbar-link">Home</div>
+          <li class="">
+            <a href="/user/landingPage.html" v-if="user.Name">
+                <div class="navbar-link">Home</div>
             </a>
-          </li>
+            <a href="landingPage.html" v-else>
+                <div class="navbar-link">Home</div>
+            </a>
+        </li>
+        <li class="" v-if="user.Name">
+            <a href="/user/myBranchPage.html">
+                 <div class="navbar-link">My Branch</div>
+            </a>
+        </li>
           <li class="">
             <a href="/Branches.html">
               <div class="navbar-link">Branches</div>
@@ -61,6 +68,11 @@
               <div class="navbar-link">Event</div>
             </a>
           </li>
+          <li class="">
+            <a href="../Update.html">
+                <div class="navbar-link">Update</div>
+            </a>
+        </li>
           <li class="">
             <a href="/aboutUs.html">
               <div class="navbar-link">About us</div>

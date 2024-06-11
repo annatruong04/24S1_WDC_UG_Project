@@ -36,8 +36,10 @@ var appdiv = new Vue({
           this.filteredEvents = this.events.filter(event => {
             return event.Location.toLowerCase().includes(query_location);
           });
+        } else{
+          this.filteredEvents = this.events;
         }
-        this.showSearch = !this.showSearch;
+        this.showSearch = true;
         console.log(this.filteredEvents);
       },
       fetch_event() {

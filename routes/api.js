@@ -43,35 +43,85 @@ router.get('/read/events', (req, res) => {
   });
 });
 
-router.get('/read/events/:id', (req, res) => {
+router.get('/read/branches/events/:id', isAuthenticated, (req, res) => {
   req.pool.getConnection(function (err, connection) {
     if (err) {
       res.sendStatus(500);
       return;
     }
 
-    connection.query(`Select E.EventID, E.Name, E.Description, E.Date, E.Location, E.Participant, E.Image, E.BranchID from
-                      Event E where E.EventID = ?;`,
+    connection.query(`SELECT * FROM Event where BranchID = ?`, [req.params.id], (error, results) => {
+      connection.release();
+      if (error) {
+        console.log(error);
+        return res.status(500).send(error);
+      }
+
+      results.forEach(event => {
+        if (event.Image) {
+          event.Image = `data:${event.contentType};base64,${event.Image.toString('base64')}`;
+        }
+        if (event.Date) {
+          const date = new Date(event.Date);
+          const year = date.getUTCFullYear();
+          const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+          const day = String(date.getUTCDate()).padStart(2, '0');
+
+          event.Date = `${year}-${month}-${day}`;
+        }
+      });
+
+      res.json(results);
+    });
+  });
+});
+
+router.get('/read/branches/events/:id', isAuthenticated, (req, res) => {
+  req.pool.getConnection(function (err, connection) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    connection.query(`SELECT * FROM Event where BranchID = ?`, [req.params.id], (error, results) => {
+      connection.release();
+      if (error) {
+        console.log(error);
+        return res.status(500).send(error);
+      }
+
+      results.forEach(event => {
+        if (event.Image) {
+          event.Image = `data:${event.contentType};base64,${event.Image.toString('base64')}`;
+        }
+        if (event.Date) {
+          const date = new Date(event.Date);
+          const year = date.getUTCFullYear();
+          const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+          const day = String(date.getUTCDate()).padStart(2, '0');
+
+          event.Date = `${year}-${month}-${day}`;
+        }
+      });
+
+      res.json(results);
+    });
+  });
+});
+
+router.get('/read/branches/:id', (req, res) => {
+  req.pool.getConnection(function (err, connection) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    connection.query(`select BranchID, Branch_name, Location, Description, MemberCount from Branch where BranchID = ?`,
       [req.params.id], (error, results) => {
         connection.release();
         if (error) {
           return res.status(500).send(error);
         }
-
-        results.forEach(event => {
-          if (event.Image) {
-            event.Image = `data:${event.contentType};base64,${event.Image.toString('base64')}`;
-          }
-          if (event.Date) {
-            const date = new Date(event.Date);
-            const year = date.getUTCFullYear();
-            const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are zero-indexed
-            const day = String(date.getUTCDate()).padStart(2, '0');
-
-            event.Date = `${year}-${month}-${day}`;
-          }
-        });
-
         console.log(req.params.id);
 
         res.json(results);
@@ -739,17 +789,65 @@ router.get('/manager/read/updates/:id', isAuthenticated, (req, res) => {
   });
 });
 
-router.get('/manager/read/events/member/:id', isAuthenticated, (req, res) => {
+router.get('/read/updates-detail/:id', isAuthenticated, (req, res) => {
   req.pool.getConnection(function (err, connection) {
     if (err) {
       res.sendStatus(500);
       return;
     }
 
-    const query = `select U.First_name, U.Last_name from User U join User_Event UE on UE.User_ID = U.User_ID where UE.EventID = ?`;
+    connection.query(`Select U.Time_stamp, U.Title, U.Message, B.Branch_name, T.Type_name from UpdateTable U join Type T on U.TypeID = T.TypeID join Branch B on B.BranchID = U.BranchID where U.UpdateID = ?`,
+      [req.params.id], (error, results) => {
+        connection.release();
+        if (error) {
+          return res.status(500).send(error);
+        }
+
+        results.forEach(update => {
+          if (update.Time_stamp) {
+            const date = new Date(update.Time_stamp);
+            const year = date.getUTCFullYear();
+            const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+            const day = String(date.getUTCDate()).padStart(2, '0');
+
+            update.Time_stamp = `${year}-${month}-${day}`;
+          }
+        });
+
+        res.json(results);
+      });
+  });
+});
+
+router.get('/manager/read/events/member/:id', isAuthenticated, hasRole("Manager"),  (req, res) => {
+  req.pool.getConnection(function (err, connection) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    connection.query(`Select U.Time_stamp, U.Title, U.Message, B.Branch_name, T.Type_name from UpdateTable U join Type T on U.TypeID = T.TypeID join Branch B on B.BranchID = U.BranchID where U.UpdateID = ?`,
+      [req.params.id], (error, results) => {
+        connection.release();
+        if (error) {
+          return res.status(500).send(error);
+        }
+        res.json(results);
+      });
+  });
+});
+
+router.get('/manager/read/BranchRequest', isAuthenticated, hasRole("Manager"),  (req, res) => {
+  req.pool.getConnection(function (err, connection) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    const query = `select U.First_name, U.Last_name, J.RequestID from JoinRequest J join User U on J.UserID = U.User_ID where BranchID = ? and Status = "Pending"`;
 
     connection.query(query,
-      [req.params.id], (error, results) => {
+      [req.session.BranchID[0]], (error, results) => {
         connection.release();
         if (error) {
           console.log(error);
@@ -759,6 +857,53 @@ router.get('/manager/read/events/member/:id', isAuthenticated, (req, res) => {
       });
   });
 });
+
+router.post('/manager/approve/BranchRequest', isAuthenticated, hasRole("Manager"),  (req, res) => {
+  req.pool.getConnection(function (err, connection) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    const data = req.body;
+
+    const query = `CALL ApproveJoinRequest(?)`;
+
+    connection.query(query,
+      [data.RequestID], (error, results) => {
+        connection.release();
+        if (error) {
+          console.log(error);
+          return res.status(500).send(error);
+        }
+        res.sendStatus(200);
+      });
+  });
+});
+
+router.post('/manager/reject/BranchRequest', isAuthenticated, hasRole("Manager"),  (req, res) => {
+  req.pool.getConnection(function (err, connection) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    const data = req.body;
+
+    const query = `delete from JoinRequest where RequestID = ?`;
+
+    connection.query(query,
+      [data.RequestID], (error, results) => {
+        connection.release();
+        if (error) {
+          console.log(error);
+          return res.status(500).send(error);
+        }
+        res.sendStatus(200);
+      });
+  });
+});
+
 
 
 module.exports = router;

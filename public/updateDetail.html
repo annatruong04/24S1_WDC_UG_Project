@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <title>Event description</title>
-    <link rel="stylesheet" href="../stylesheets/UserEventDes.css">
+    <title>My_branches-page</title>
+    <link rel="stylesheet" href="../stylesheets/Branches.css">
     <script src="https://kit.fontawesome.com/4cf720d27e.js" crossorigin="anonymous"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+        rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
 
+
 <body>
-    <header id="mydiv" class="page-header">
+    <div id="mydiv-login" class="page-header">
         <div class="upper-header">
             <div class="logo-container">
                 <a href="">
@@ -44,16 +47,16 @@
             <nav class="navbar">
                 <ul>
                     <li class="">
-                      <a href="/user/landingPage.html" v-if="user.Name">
-                          <div class="navbar-link">Home</div>
-                      </a>
-                      <a href="landingPage.html" v-else>
-                          <div class="navbar-link">Home</div>
-                      </a>
+                        <a href="/user/landingPage.html" v-if="user.Name">
+                            <div class="navbar-link">Home</div>
+                        </a>
+                        <a href="landingPage.html" v-else>
+                            <div class="navbar-link">Home</div>
+                        </a>
                     </li>
                     <li class="" v-if="user.Name">
                         <a href="/user/myBranchPage.html">
-                            <div class="navbar-link">My Branch</div>
+                             <div class="navbar-link">My Branch</div>
                         </a>
                     </li>
                     <li class="active">
@@ -74,75 +77,13 @@
                 </ul>
             </nav>
         </div>
-    </header>
-    <div id="app">
-        <div class="img-div">
-          <img src="../images/meeting.jpg" alt="name">
-        </div>
-        <div  class="event-body-container">
-            <div class="event-detail">
-                <h1>
-                    {{name}}
-                </h1>
-                <h2>
-                    Location
-                </h2>
-                <div class="date-info">
-                    <i class="fa-solid fa-location-pin"></i>
-                    <p>{{location}}</p>
-                </div>
-                <div class="description">
-                  <h2>
-                      About this Branch
-                  </h2>
-                  <p>{{description}}</p>
-                </div>
-
-                <div class="section">
-                  <h2>Events</h2>
-                  <ul class="event-list">
-                      <li v-for="event in events" :key="event.event_ID" class="event-item">
-                          <div class="details">
-                              <h3>{{event.Name}}</h3>
-                              <p>Date: {{event.Date}}</p>
-                              <p>Location: {{event.Location}}</p>
-                          </div>
-                          <div class="actions">
-                              <button @click="directEvent(event)">Details</button>
-                          </div>
-                      </li>
-                      <!-- Add more event items as needed -->
-                  </ul>
-                  <p v-if="events.length === 0">No events yet.</p>
-              </div>
-
-                <div class="section">
-                  <h2>Updates</h2>
-                  <ul class="update-list">
-                      <li class="update-item" v-for="update in truncatedUpdates" :key="update.UpdateID">
-                          <div class="details">
-                              <h3>{{update.Title}} <span class="">({{update.Time_stamp}})</span></h3>
-                              <div v-html="sanitizeHTML(update.truncatedMessage)"></div>
-                          </div>
-                          <div class="actions">
-                              <button type="button" @click="directUpdate(update)">Read More</button>
-                          </div>
-                      </li>
-                  </ul>
-                  <p v-if="truncatedUpdates.length === 0">No Updates yet.</p>
-                </div>
-
-
-
-            </div>
-
-            <div class="ticket-selection">
-                <div class="price-display">
-                    <p>Price</p>
-                    <p style="font-weight: bold;">Free</p>
-                </div>
-                <button class="checkout-btn">Get ticket</button>
-            </div>
+    </div>
+    <div id="user-event-page" class="body-container">
+        <a href="javascript:history.back()" class="back-button"><i class="fa-solid fa-arrow-left"></i></a>
+        <div class="event-container">
+            <h1>Update details</h1>
+            <h2><b>{{Title}}</b></h2>
+            <div v-html="sanitizeHTML(Message)"></div>
         </div>
     </div>
     <footer class="site-footer">
@@ -192,6 +133,8 @@
           </div>
         </div>
       </footer>
-    <script src="../javascripts/BranchDetail.js"></script>
+    <script src="https://kit.fontawesome.com/4cf720d27e.js" crossorigin="anonymous"></script>
+    <script src="javascripts/updateDetail.js"></script>
 </body>
+
 </html>

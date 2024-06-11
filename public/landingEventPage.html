@@ -155,7 +155,7 @@
                         <span>{{event.Participant}} </span>
 
 
-                        <button type="button" class="join-button" @click.stop="join(event.EventID)" v-if="!isUserInEvent(event.EventID)">RSVP</button>
+                        <button type="button" class="join-button" @click.stop="join(event.EventID, event.BranchID)" v-if="!isUserInEvent(event.EventID)">RSVP</button>
                         <button type="button" class="leave-button" @click.stop="leave(event.EventID)" v-else>Leave</button>
 
                     </p>

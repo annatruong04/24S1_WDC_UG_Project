@@ -76,39 +76,36 @@ router.get('/read/branches/events/:id', isAuthenticated, (req, res) => {
   });
 });
 
-router.get('/read/events/:id', (req, res) => {
+router.get('/read/branches/events/:id', isAuthenticated, (req, res) => {
   req.pool.getConnection(function (err, connection) {
     if (err) {
       res.sendStatus(500);
       return;
     }
 
-    connection.query(`Select E.EventID, E.Name, E.Description, E.Date, E.Location, E.Participant, E.Image, E.BranchID from
-                      Event E where E.EventID = ?;`,
-      [req.params.id], (error, results) => {
-        connection.release();
-        if (error) {
-          return res.status(500).send(error);
+    connection.query(`SELECT * FROM Event where BranchID = ?`, [req.params.id], (error, results) => {
+      connection.release();
+      if (error) {
+        console.log(error);
+        return res.status(500).send(error);
+      }
+
+      results.forEach(event => {
+        if (event.Image) {
+          event.Image = `data:${event.contentType};base64,${event.Image.toString('base64')}`;
         }
+        if (event.Date) {
+          const date = new Date(event.Date);
+          const year = date.getUTCFullYear();
+          const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+          const day = String(date.getUTCDate()).padStart(2, '0');
 
-        results.forEach(event => {
-          if (event.Image) {
-            event.Image = `data:${event.contentType};base64,${event.Image.toString('base64')}`;
-          }
-          if (event.Date) {
-            const date = new Date(event.Date);
-            const year = date.getUTCFullYear();
-            const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are zero-indexed
-            const day = String(date.getUTCDate()).padStart(2, '0');
-
-            event.Date = `${year}-${month}-${day}`;
-          }
-        });
-
-        console.log(req.params.id);
-
-        res.json(results);
+          event.Date = `${year}-${month}-${day}`;
+        }
       });
+
+      res.json(results);
+    });
   });
 });
 
@@ -254,12 +251,10 @@ router.get('/join/branches/:id', isAuthenticated, (req, res) => {
       return;
     }
 
-    connection.query(`INSERT INTO JoinRequest (UserID, BranchID, RequestDate, Status, ManagerID)
-                    VALUES (?, ?, NOW(), 'Pending', (SELECT ManagerID FROM Branch WHERE BranchID = ?));`,
-      [req.session.userID, req.params.id, req.params.id], (error, results) => {
+    connection.query(`insert User_Branch (User_ID, BranchID) values(?,?)`,
+      [req.session.userID, req.params.id], (error, results) => {
         connection.release();
         if (error) {
-          console.log(error);
           return res.status(500).send(error);
         }
 
@@ -271,31 +266,6 @@ router.get('/join/branches/:id', isAuthenticated, (req, res) => {
       });
   });
 });
-
-router.post('/cancel/BranchRequest/', isAuthenticated, (req, res) => {
-  req.pool.getConnection(function (err, connection) {
-    if (err) {
-      res.sendStatus(500);
-      return;
-    }
-
-    const data = req.body;
-
-    connection.query(`delete from JoinRequest where UserID = ? and BranchID = ?`,
-      [req.session.userID, data.Branch_ID], (error, results) => {
-        connection.release();
-        if (error) {
-          console.log(error);
-          return res.status(500).send(error);
-        }
-
-        console.log("Cancel successfully");
-
-        res.json(results);
-      });
-  });
-});
-
 
 router.get('/leave/branches/:id', isAuthenticated, (req, res) => {
   req.pool.getConnection(function (err, connection) {
@@ -407,7 +377,7 @@ router.get('/read/your_branches', isAuthenticated, (req, res) => {
 });
 
 
-router.get('/manager/read/events/', isAuthenticated, hasRole("Manager"), (req, res) => {
+router.get('/manager/read/events/', isAuthenticated, (req, res) => {
   req.pool.getConnection(function (err, connection) {
     if (err) {
       res.sendStatus(500);
@@ -441,7 +411,7 @@ router.get('/manager/read/events/', isAuthenticated, hasRole("Manager"), (req, r
   });
 });
 
-router.get('/manager/read/events/:id', isAuthenticated, hasRole("Manager"),  (req, res) => {
+router.get('/manager/read/events/:id', isAuthenticated, (req, res) => {
   req.pool.getConnection(function (err, connection) {
     if (err) {
       res.sendStatus(500);
@@ -477,7 +447,7 @@ router.get('/manager/read/events/:id', isAuthenticated, hasRole("Manager"),  (re
   });
 });
 
-router.get('/manager/read/comments/:id', isAuthenticated, hasRole("Manager"),  (req, res) => {
+router.get('/manager/read/comments/:id', isAuthenticated, (req, res) => {
   req.pool.getConnection(function (err, connection) {
     if (err) {
       res.sendStatus(500);
@@ -588,7 +558,7 @@ router.post('/manager/post/comments/reply/', isAuthenticated, (req, res) => {
 });
 
 
-router.get('/manager/read/users', isAuthenticated, hasRole("Manager"),  (req, res) => {
+router.get('/manager/read/users', isAuthenticated, (req, res) => {
   req.pool.getConnection(function (err, connection) {
     if (err) {
       res.sendStatus(500);
@@ -605,7 +575,7 @@ router.get('/manager/read/users', isAuthenticated, hasRole("Manager"),  (req, re
 });
 
 
-router.post('/manager/create/events', isAuthenticated, upload.single('image'), hasRole("Manager"),  (req, res) => {
+router.post('/manager/create/events', isAuthenticated, upload.single('image'), (req, res) => {
   console.log('File:', req.file); // Log the file data
 
   req.pool.getConnection(function (err, connection) {
@@ -633,7 +603,7 @@ router.post('/manager/create/events', isAuthenticated, upload.single('image'), h
   });
 });
 
-router.post('/manager/edit/events', isAuthenticated, upload.single('image'), hasRole("Manager"),  (req, res) => {
+router.post('/manager/edit/events', isAuthenticated, upload.single('image'), (req, res) => {
   console.log('File:', req.file); // Log the file data
 
   req.pool.getConnection(function (err, connection) {
@@ -670,7 +640,7 @@ router.post('/manager/edit/events', isAuthenticated, upload.single('image'), has
   });
 });
 
-router.post('/manager/delete/events', isAuthenticated, hasRole("Manager"),  (req, res) => {
+router.post('/manager/delete/events', isAuthenticated, (req, res) => {
   req.pool.getConnection(function (err, connection) {
     if (err) {
       res.sendStatus(500);
@@ -687,7 +657,7 @@ router.post('/manager/delete/events', isAuthenticated, hasRole("Manager"),  (req
 });
 
 
-router.get('/manager/get/user', isAuthenticated, hasRole("Manager"),  (req, res) => {
+router.get('/manager/get/user', isAuthenticated, (req, res) => {
   req.pool.getConnection(function (err, connection) {
     if (err) {
       res.sendStatus(500);
@@ -703,7 +673,7 @@ router.get('/manager/get/user', isAuthenticated, hasRole("Manager"),  (req, res)
   });
 });
 
-router.post('/manager/delete/user', isAuthenticated, hasRole("Manager"),  (req, res) => {
+router.post('/manager/delete/user', isAuthenticated, (req, res) => {
   req.pool.getConnection(function (err, connection) {
     if (err) {
       console.log(err);
@@ -721,7 +691,7 @@ router.post('/manager/delete/user', isAuthenticated, hasRole("Manager"),  (req, 
   });
 });
 
-router.post('/manager/add/user', isAuthenticated, hasRole("Manager"),  (req, res) => {
+router.post('/manager/add/user', isAuthenticated, (req, res) => {
   req.pool.getConnection(function (err, connection) {
     if (err) {
       console.log(err);
@@ -757,7 +727,7 @@ router.post('/manager/add/user', isAuthenticated, hasRole("Manager"),  (req, res
   });
 });
 
-router.get('/manager/read/updates/', isAuthenticated, hasRole("Manager"),  (req, res) => {
+router.get('/manager/read/updates/', isAuthenticated, (req, res) => {
   req.pool.getConnection(function (err, connection) {
     if (err) {
       res.sendStatus(500);
@@ -788,39 +758,7 @@ router.get('/manager/read/updates/', isAuthenticated, hasRole("Manager"),  (req,
   });
 });
 
-router.get('/read/updates/:id', isAuthenticated, (req, res) => {
-  req.pool.getConnection(function (err, connection) {
-    if (err) {
-      res.sendStatus(500);
-      return;
-    }
-
-    connection.query(`Select U.UpdateID, U.Time_stamp, U.Title, U.Message, T.Type_name from UpdateTable U join Type T on U.TypeID = T.TypeID join Branch B on B.BranchID = U.BranchID where B.BranchID = ? and T.Type_name = "Public"`, [req.params.id], (error, results) => {
-      connection.release();
-      if (error) {
-        console.log(error);
-        return res.status(500).send(error);
-      }
-
-      results.forEach(update => {
-        if (update.Time_stamp) {
-          const date = new Date(update.Time_stamp);
-          const year = date.getUTCFullYear();
-          const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are zero-indexed
-          const day = String(date.getUTCDate()).padStart(2, '0');
-
-          update.Time_stamp = `${year}-${month}-${day}`;
-        }
-      });
-
-
-
-      res.json(results);
-    });
-  });
-});
-
-router.post('/manager/create/updates', isAuthenticated, upload.none(), hasRole("Manager"),  (req, res) => {
+router.post('/manager/create/updates', isAuthenticated, upload.none(), (req, res) => {
   req.pool.getConnection(function (err, connection) {
     if (err) {
       res.sendStatus(500);
@@ -842,7 +780,7 @@ values (?, ?, ?, ?, ?);`;
   });
 });
 
-router.get('/manager/read/updates/:id', isAuthenticated, hasRole("Manager"),  (req, res) => {
+router.get('/manager/read/updates/:id', isAuthenticated, (req, res) => {
   req.pool.getConnection(function (err, connection) {
     if (err) {
       res.sendStatus(500);
@@ -909,13 +847,10 @@ router.get('/manager/read/events/member/:id', isAuthenticated, hasRole("Manager"
       return;
     }
 
-    const query = `select U.First_name, U.Last_name from User U join User_Event UE on UE.User_ID = U.User_ID where UE.EventID = ?`;
-
-    connection.query(query,
+    connection.query(`Select U.Time_stamp, U.Title, U.Message, B.Branch_name, T.Type_name from UpdateTable U join Type T on U.TypeID = T.TypeID join Branch B on B.BranchID = U.BranchID where U.UpdateID = ?`,
       [req.params.id], (error, results) => {
         connection.release();
         if (error) {
-          console.log(error);
           return res.status(500).send(error);
         }
         res.json(results);

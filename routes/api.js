@@ -477,7 +477,7 @@ router.get('/manager/read/events/:id', isAuthenticated, hasRole("Manager"),  (re
   });
 });
 
-router.get('/manager/read/comments/:id', isAuthenticated, hasRole("Manager"),  (req, res) => {
+router.get('/manager/read/comments/:id', isAuthenticated, (req, res) => {
   req.pool.getConnection(function (err, connection) {
     if (err) {
       res.sendStatus(500);

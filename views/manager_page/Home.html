@@ -88,8 +88,9 @@
                     </div>
                 </li>
                 <!-- Add more event items as needed -->
+                <p v-if="events.length === 0">No events yet.</p>
             </ul>
-            <p v-if="events.length === 0">No events yet.</p>
+
         </div>
         <div id="left-container" class="container">
             <div class="section">
@@ -104,9 +105,10 @@
                             <button type="button" @click="directUpdate(update)">Read More</button>
                         </div>
                     </li>
+                    <p v-if="truncatedUpdates.length === 0">No Updates yet.</p>
                 </ul>
             </div>
-            <p v-if="truncatedUpdates.length === 0">No Updates yet.</p>
+
         </div>
         <div id="right-container" class="container">
             <!-- <div class="container-header">

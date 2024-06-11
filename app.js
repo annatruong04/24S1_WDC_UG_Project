@@ -126,6 +126,51 @@ app.use(function (req, res, next) {
   }
 });
 
+//add role for google login user
+app.use(function(req,res,next){
+  if (req.session.username) {
+    if (!req.session.role) {
+        req.pool.getConnection(function(err, connection) {
+            if (err) {
+                console.log("error");
+                return;
+            }
+
+            var query = 'SELECT B.User_ID, B.Phone_number, B.Email, B.First_name, B.Last_name, B.Username, B.Password,   A.Role_name FROM Role AS A INNER JOIN User AS B ON A.RoleID = B.Role_ID WHERE B.Username = ?';
+
+            connection.query(query, [req.session.username], async (error, results) => {
+                connection.release();
+                if (error) {
+                    console.log("error");
+                    return ;
+                }
+
+                if (results.length === 0) {
+                  console.log("error");
+                    return;
+                }
+
+                const user = results[0];
+                console.log(user);
+                req.session.firstname = user.First_name;
+                req.session.lastname = user.Last_name;
+
+                console.log(req.session.firstname + " " + req.session.lastname);
+
+                req.session.userID = user.User_ID;
+                req.session.role = user.Role_name;
+                req.session.name = user.First_name + ' ' + user.Last_name; // Assuming you want to set the name in session
+                req.session.phonenum = user.Phone_number;
+                req.session.email = user.Email;
+                req.session.username = user.Username;
+                req.session.password = user.Password;
+            });
+        });
+    }
+  }
+  next();
+});
+
 
 app.use(function (req, res, next) {
   console.log("Current user: " + req.session.name);

@@ -4,7 +4,7 @@
     <title>Home Page</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="stylesheets/landingPage.css">
+    <link rel="stylesheet" type="text/css" href="../stylesheets/landingPage.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
@@ -31,7 +31,7 @@
                     <img src="/images/profile.png" @click="toggleDropdown" alt="Profile Picture" onerror="this.onerror=null; this.src=''; this.style.backgroundColor='white'; this.style.borderRadius='50%';">
                     <div class="dropdown-menu" :data-show="clicked.toString()">
                         <ul>
-                            <li v-if="user.Role==='User'"><a href="/myBranchPage.html">My Branches</a></li>
+                            <li v-if="user.Role==='User'"><a href="/user/myBranchPage.html">My Branches</a></li>
                             <li v-if="user.Role==='Manager'"><a href="/manager/home.html">Dashboard</a></li>
                             <li v-if="user.Role==='Administrator'"><a href="/admin/admin.html">Dashboard</a></li>
                             <li><a href="/user/profile.html">Your Profile</a></li>
@@ -48,22 +48,27 @@
             <nav class="navbar">
                 <ul>
                     <li class="">
-                        <a href="/">
+                        <a href="/user/landingPage.html">
                             <div class="navbar-link">Home</div>
                         </a>
                     </li>
+                    <li class="active">
+                        <a href="/user/myBranchPage.html">
+                             <div class="navbar-link">My Branch</div>
+                        </a>
+                    </li>
                     <li class="">
-                        <a href="Branches.html">
+                        <a href="../Branches.html">
                             <div class="navbar-link">Branches</div>
                         </a>
                     </li>
                     <li class="">
-                        <a href="landingEventPage.html">
+                        <a href="../landingEventPage.html">
                             <div class="navbar-link">Event</div>
                         </a>
                     </li>
                     <li class="">
-                        <a href="aboutUs.html">
+                        <a href="../aboutUs.html">
                             <div class="navbar-link">About us</div>
                         </a>
                     </li>
@@ -144,6 +149,6 @@
             </div>
         </div>
     </footer>
-    <script src="javascripts/MyBranchPage.js"></script>
+    <script src="../javascripts/MyBranchPage.js"></script>
 </body>
 </html>

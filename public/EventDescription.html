@@ -27,7 +27,7 @@
                     <img src="/images/profile.png" @click="toggleDropdown" alt="Profile Picture" onerror="this.onerror=null; this.src=''; this.style.backgroundColor='white'; this.style.borderRadius='50%';">
                     <div class="dropdown-menu" :data-show="clicked.toString()">
                         <ul>
-                            <li v-if="user.Role==='User'"><a href="/myBranchPage.html">My Branches</a></li>
+                            <li v-if="user.Role==='User'"><a href="/user/myBranchPage.html">My Branches</a></li>
                             <li v-if="user.Role==='Manager'"><a href="/manager/home.html">Dashboard</a></li>
                             <li v-if="user.Role==='Administrator'"><a href="/admin/admin.html">Dashboard</a></li>
                             <li><a href="/user/profile.html">Your Profile</a></li>
@@ -44,8 +44,16 @@
             <nav class="navbar">
                 <ul>
                     <li class="">
-                        <a href="/">
-                            <div class="navbar-link">Home</div>
+                      <a href="/user/landingPage.html" v-if="user.Name">
+                          <div class="navbar-link">Home</div>
+                      </a>
+                      <a href="landingPage.html" v-else>
+                          <div class="navbar-link">Home</div>
+                      </a>
+                    </li>
+                    <li class="" v-if="user.Name">
+                        <a href="/user/myBranchPage.html">
+                            <div class="navbar-link">My Branch</div>
                         </a>
                     </li>
                     <li class="">

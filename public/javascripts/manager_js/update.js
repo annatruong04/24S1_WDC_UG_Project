@@ -1,4 +1,3 @@
-
 var appdiv = new Vue({
     el: "#manager-page",
     data: {

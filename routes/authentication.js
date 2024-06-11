@@ -113,7 +113,7 @@ router.get('/login', (req, res) => {
     if (req.session.username) {
         if (req.session.role == "Administrator") res.redirect("/admin/admin.html");
         else if (req.session.role == "Manager") res.redirect("/manager/Home.html");
-        else if (req.session.role == "User") res.redirect("/");
+        else if (req.session.role == "User") res.redirect("/user/landingPage.html");
     }
     res.sendFile(path.join(__dirname, '../views', 'login.html'));
 });

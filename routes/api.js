@@ -79,6 +79,26 @@ router.get('/read/events/:id', (req, res) => {
   });
 });
 
+router.get('/read/branches/:id', (req, res) => {
+  req.pool.getConnection(function (err, connection) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    connection.query(`select BranchID, Branch_name, Location, Description, MemberCount from Branch where BranchID = ?`,
+      [req.params.id], (error, results) => {
+        connection.release();
+        if (error) {
+          return res.status(500).send(error);
+        }
+        console.log(req.params.id);
+
+        res.json(results);
+      });
+  });
+});
+
 // Route to get user events
 router.get('/read/User_Events', isAuthenticated, (req, res) => {
   req.pool.getConnection(function (err, connection) {
@@ -179,7 +199,7 @@ router.get('/read/BranchRequest', isAuthenticated, (req, res) => {
       return;
     }
 
-    connection.query(`SELECT * FROM JoinRequest WHERE UserID = ?
+    connection.query(`SELECT * FROM JoinRequest WHERE UserID = ? and Status = "Pending"
     `,[req.session.userID], (error, results) => {
         connection.release();
         if (error) {
@@ -714,6 +734,38 @@ router.get('/manager/read/updates/', isAuthenticated, hasRole("Manager"),  (req,
     connection.query(`Select U.UpdateID, U.Time_stamp, U.Title, U.Message, T.Type_name  from UpdateTable U join Type T on U.TypeID = T.TypeID join Branch B on B.BranchID = U.BranchID where B.Manager_ID = ?`, [req.session.userID], (error, results) => {
       connection.release();
       if (error) {
+        return res.status(500).send(error);
+      }
+
+      results.forEach(update => {
+        if (update.Time_stamp) {
+          const date = new Date(update.Time_stamp);
+          const year = date.getUTCFullYear();
+          const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+          const day = String(date.getUTCDate()).padStart(2, '0');
+
+          update.Time_stamp = `${year}-${month}-${day}`;
+        }
+      });
+
+
+
+      res.json(results);
+    });
+  });
+});
+
+router.get('/read/updates/:id', isAuthenticated, (req, res) => {
+  req.pool.getConnection(function (err, connection) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    connection.query(`Select U.UpdateID, U.Time_stamp, U.Title, U.Message, T.Type_name from UpdateTable U join Type T on U.TypeID = T.TypeID join Branch B on B.BranchID = U.BranchID where B.BranchID = ? and T.Type_name = "Public"`, [req.params.id], (error, results) => {
+      connection.release();
+      if (error) {
+        console.log(error);
         return res.status(500).send(error);
       }
 

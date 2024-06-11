@@ -82,16 +82,17 @@ var appdiv = new Vue({
 
     },
 
-    directEvent(event) {
+    directBranch(branch) {
       const queryParams = new URLSearchParams({
-        name: event.Name,
-        description: event.Description,
-        date: event.Date,
-        location: event.Location,
-        // Add other event details as needed
-      }).toString();
+        id: branch.BranchID,
+        name: branch.Branch_name,
+        description: branch.Description,
+        date: branch.Date,
+        location: branch.Location,
+        // Add other branch details as needed
+    }).toString();
 
-      window.location.href = `http://localhost:3000/manager/event-description.html?${queryParams}`;
+      window.location.href = `http://localhost:3000/branchDetail.html?${queryParams}`;
     },
     popup() {
       this.showPopUp = true;

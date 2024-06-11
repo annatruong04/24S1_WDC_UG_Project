@@ -75,7 +75,7 @@
         </div>
         <div class="Branch-event Updates" v-for="request in requests" :key="request.RequestID">
             <div class="Branch-event-details">
-                <h2>{{request.First_name}}  {{request.Last_name}} would like to join the branch</h2>
+                <h2>{{request.First_name}}  {{request.Last_name}} <span style="color:#666;">would like to join the branch</span></h2>
                 <div class="buttons-event">
                     <button class="edit-button update-button-approve" type="button" @click="approve(request.RequestID)">Approve</button>
                     <button class="more-button update-button-reject" type="button" @click="reject(request.RequestID)">Reject</button>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Home Page</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="../stylesheets/landingPage.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+        <link href="https://fontawesome.com/icons/people-group?f=classic&s=solid" rel="stylesheet">
+        <link href="https://fontawesome.com/icons/rectangle-list?f=classic&s=solid" rel="stylesheet">
+        <link href="https://fontawesome.com/icons/globe?f=classic&s=solid" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/9e0292a87e.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    </head>
+
+    <body>
+        <header id="mydiv" class="page-header">
+            <div class="upper-header">
+                <div class="logo-container">
+                    <a href="">
+                        <h1>GreenEarth</h1>
+                    </a>
+                </div>
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="search" placeholder="Search..." class="search-bar">
+                </div>
+                <div class="rightcontent-container" id="login-div">
+                    <div v-if="loginStatus">
+                        <img src="/images/profile.png" @click="toggleDropdown" alt="Profile Picture" onerror="this.onerror=null; this.src=''; this.style.backgroundColor='white'; this.style.borderRadius='50%';">
+                        <div class="dropdown-menu" :data-show="clicked.toString()">
+                            <ul>
+                                <li v-if="user.Role==='User'"><a href="/user/myBranchPage.html">My Branches</a></li>
+                                <li v-if="user.Role==='Manager'"><a href="/manager/home.html">Dashboard</a></li>
+                                <li v-if="user.Role==='Administrator'"><a href="/admin/admin.html">Dashboard</a></li>
+                                <li><a href="/user/profile.html">Your Profile</a></li>
+                                <li><a href="/auth/logout">Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div v-else="loginStatus">
+                        <a href="/auth/login" class="login-btn">Login</a>
+                    </div>
+                </div>
+            </div>
+            <div class="lower-header">
+                <nav class="navbar">
+                    <ul>
+                        <li class="active">
+                            <a href="/">
+                                <div class="navbar-link">Home</div>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="/user/myBranchPage.html">
+                                 <div class="navbar-link">My Branch</div>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="../Branches.html">
+                                <div class="navbar-link">Branches</div>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="../landingEventPage.html">
+                                 <div class="navbar-link">Event</div>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="../aboutUs.html">
+                                <div class="navbar-link">About us</div>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <!--Welcome-->
+        <div class="welcome-container" id="welcome-div">
+
+            <div class="welcome-header">
+                <div class="header-flex">
+                  <div class="header-text">
+                    <h1>🎉 Hello {{user.Name}}, Welcome to GreenEarth Organisation!</h1>
+                    <h2>Have a good day!</h2>
+                    <p>Discover how Green Earth empowers future leaders with values that matter. Join us in making a difference!</p>
+                    <a href="/landingEventPage.html" class="explore-more-btn">Explore more</a>
+                  </div>
+                  <img src="../images/landingPage/welcome-image2.png" alt="Landing Page welcome image" class="header-image">
+                </div>
+            </div>
+        </div>
+
+
+        <div class="topHeadlines">
+            <div class="left">
+                <div class="title">
+                    <h2>Events</h2>
+                </div>
+                <div class="img">
+                    <img src="../images/landingPage/event.png" alt="Event image" class="eventsImg">
+                </div>
+                <div class="text" id="eventsText">
+                    <div class="title">
+                        <h2>2024 Waterhouse Natural Science art prize exhibition</h2>
+                    </div>
+                    <div class="eventsDescription">
+                        <p>From epic celestial canvases to salt-and-silk textile works, the shortlist for the 2024 Waterhouse Natural Science Art Prize brings together a rich and diverse survey of works that map the intersection of nature, science, and art.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="right">
+                <div class="title"><h2>Environmental News</h2></div>
+                <div class="topNews">
+                    <div class="news">
+                        <div class="img"><img src="../images/landingPage/news1.jpeg" alt="Image 1"></div>
+                        <div class="text">
+                            <div class="title">Protecting Biodiversity: A Global Effort</div>
+                            <p>Efforts to conserve biodiversity are increasing globally as awareness grows about the importance of preserving ecosystems and wildlife.</p>
+                        </div>
+                    </div>
+                    <div class="news">
+                        <div class="img"><img src="../images/landingPage/news2.jpeg" alt="Image 2"></div>
+                        <div class="text">
+                            <div class="title">Renewable Energy Revolution: Solar Power Surges Ahead</div>
+                            <p>Solar power adoption continues to surge worldwide, contributing significantly to reducing greenhouse gas emissions and combating climate change.</p>
+                        </div>
+                    </div>
+                    <div class="news">
+                        <div class="img"><img src="../images/landingPage/news3.jpeg" alt="Image 3"></div>
+                        <div class="text">
+                            <div class="title">Plastic Pollution Crisis: Urgent Action Needed</div>
+                            <p>The global plastic pollution crisis is worsening, threatening marine life and ecosystems. Urgent action is needed to curb plastic waste and promote sustainable alternatives.</p>
+                       </div>
+                    </div>
+                    <div class="news">
+                        <div class="img"><img src="../images/landingPage/news4.jpeg" alt="Image 4"></div>
+                        <div class="text">
+                            <div class="title">Rising Temperatures: Impact on Biodiversity</div>
+                            <p>Rising temperatures due to climate change are disrupting ecosystems and threatening biodiversity worldwide, leading to habitat loss and species extinction.</p>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <footer class="site-footer">
+            <div class="container">
+              <div class="footer-columns">
+                <div class="footer-column">
+                  <h6>About</h6>
+                  <p class="text-justify">GreenEarth <i>CONNECTING WITH NATURE</i> is dedicated to promoting environmental awareness and sustainability. We provide resources, articles, and tips on how to live an eco-friendly lifestyle. Join us in making a positive impact on our planet through education, conservation, and community engagement.</p>
+                </div>
+
+                <div class="footer-column">
+                  <h6>Categories</h6>
+                  <ul class="footer-links">
+                    <li><a href="#">Sustainability</a></li>
+                    <li><a href="#">Climate Change</a></li>
+                    <li><a href="#">Wildlife Conservation</a></li>
+                    <li><a href="#">Renewable Energy</a></li>
+                    <li><a href="#">Recycling</a></li>
+                    <li><a href="#">Green Living</a></li>
+                  </ul>
+                </div>
+
+                <div class="footer-column">
+                  <h6>Quick Links</h6>
+                  <ul class="footer-links">
+                    <li><a href="aboutUs.html">About Us</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="login.html">Get Involved</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Sitemap</a></li>
+                  </ul>
+                </div>
+              </div>
+              <hr>
+              <div class="footer-social">
+                <ul class="social-icons">
+                  <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                  <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                  <li><a class="instagram" href="#"><i class="fa fa-instagram"></i></a></li>
+                  <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
+                </ul>
+              </div>
+              <div class="copyright">
+                <p class="copyright-text">Copyright &copy; 2024 All Rights Reserved by
+                  <a href="#">GreenEarth</a>.
+                </p>
+              </div>
+            </div>
+          </footer>
+    <script src="../javascripts/landPage.js"></script>
+    </body>
+</html>
+

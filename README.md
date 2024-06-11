@@ -1,4 +1,7 @@
-# Template Repository for COMP SCI 2207/7207 Web & Database Computing (2023 Semester 1)
+# Project COMP SCI 2207/7207 Web & Database Computing (2023 Semester 1)
+## Green Earth - Group 92
+This is the...
+
 
 Contains environment files for WDC 2023. Copy this template for a general sandbox.
 

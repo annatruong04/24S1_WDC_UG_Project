@@ -92,7 +92,7 @@ var appdiv = new Vue({
         // Add other branch details as needed
     }).toString();
 
-      window.location.href = `http://localhost:3000/branchDetail.html?${queryParams}`;
+      window.location.href = `http://localhost:3000/BranchDetail.html?${queryParams}`;
     },
     popup() {
       this.showPopUp = true;

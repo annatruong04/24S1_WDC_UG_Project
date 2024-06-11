@@ -236,7 +236,7 @@ router.get('/read/BranchRequest', isAuthenticated, (req, res) => {
     `,[req.session.userID], (error, results) => {
         connection.release();
         if (error) {
-          conso
+          console.log(error);
           return res.status(500).send(error);
         }
 

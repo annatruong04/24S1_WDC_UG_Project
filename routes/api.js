@@ -18,7 +18,8 @@ router.get('/read/events', (req, res) => {
       return;
     }
 
-    connection.query(`SELECT * FROM Event`, (error, results) => {
+    connection.query(`SELECT Event.*, Branch.Branch_name FROM Event INNER JOIN Branch ON Event.BranchID = Branch.BranchID
+    `, (error, results) => {
       connection.release();
       if (error) {
         return res.status(500).send(error);

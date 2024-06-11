@@ -83,7 +83,7 @@
             <div class="event-detail">
                 <p>{{formattedDate}}</p>
                 <h1>
-                    {{name}}
+                    {{name}} (Organizer: branch {{BranchName}})
                 </h1>
                 <h2>
                     Date and time
@@ -188,7 +188,10 @@
                     <p>Price</p>
                     <p style="font-weight: bold;">Free</p>
                 </div>
-                <button class="checkout-btn">Get ticket</button>
+                <button type="button" class="join-button checkout-btn" @click.stop="join(eventID, BranchID)" v-if="!isUserInEvent(eventID)">RSVP</button>
+                <button type="button" class="leave-button checkout-btn" @click.stop="leave(eventID)" v-else>Leave</button>
+
+                <!-- <button class="checkout-btn">Get ticket</button> -->
 
 
             </div>

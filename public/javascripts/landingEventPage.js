@@ -1,6 +1,7 @@
 var appdiv = new Vue({
     el: "#user-event-page",
     data: {
+    User_Branch: [],
     User_Event: [],
       events: [],
       showPopUp: false,
@@ -15,6 +16,8 @@ var appdiv = new Vue({
     mounted: function() {
       this.fetch_event();
       this.fetch_User_Events();
+      this.fetch_User_Branch();
+
     },
     methods: {
       fetch_event() {
@@ -43,6 +46,21 @@ var appdiv = new Vue({
             var data = JSON.parse(xhttp.responseText);
             this.User_Event = data;
             console.log(this.User_Event);
+          }
+        };
+
+        xhttp.send();
+      },
+      fetch_User_Branch() {
+        var xhttp = new XMLHttpRequest();
+
+        xhttp.open("GET", "/api/read/User_Branch", true);
+
+        xhttp.onreadystatechange = () => {
+          if (xhttp.readyState == 4 && xhttp.status == 200) {
+            var data = JSON.parse(xhttp.responseText);
+            this.User_Branch = data;
+            console.log(this.User_Branch);
           }
         };
 
@@ -114,7 +132,7 @@ var appdiv = new Vue({
       },
       join(EventID, BranchID) {
         // Check if the user is in the branch of the event
-        var isUserInBranch = this.userBranches.some(userBranch => userBranch.BranchID === BranchID);
+        var isUserInBranch = this.User_Branch.some(userBranch => userBranch.BranchID === BranchID);
 
         if (!isUserInBranch) {
           alert("Cannot join the event because the user is not in that branch.");
@@ -129,7 +147,7 @@ var appdiv = new Vue({
               }
             }
           };
-          xhttp.open('POST', `/api/join/events/${EventID}`, true);
+          xhttp.open('get', `/api/join/events/${EventID}`, true);
           xhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
           xhttp.send();
         }
@@ -150,6 +168,7 @@ var appdiv = new Vue({
           description: event.Description,
           date: event.Date,
           location: event.Location,
+          BranchID: event.BranchID
           // Add other event details as needed
         }).toString();
 

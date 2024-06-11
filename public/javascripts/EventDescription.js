@@ -1,6 +1,9 @@
 var appdiv = new Vue ({
     el: "#app",
     data: {
+      Branches: [],
+      User_Event: [],
+      User_Branch: [],
         name: '',
         description: '',
         date: '',
@@ -8,13 +11,67 @@ var appdiv = new Vue ({
         image: '',
         comments: [],
         newCommentText: '',
-        eventID: ''
+        eventID: '',
+        BranchID: '',
+        BranchName: ''
     },
     mounted: function() {
         this.getQuerypara();
         this.getComments();
+      this.fetch_User_Branch();
+      this.fetch_User_Events();
+
+
+
     },
     methods: {
+      fetch_Branch(BranchID) {
+        var xhttp = new XMLHttpRequest();
+
+        xhttp.open("GET", `/api/read/branches/${BranchID}`, true);
+
+        xhttp.onreadystatechange = () => {
+          if (xhttp.readyState == 4 && xhttp.status == 200) {
+            var data = JSON.parse(xhttp.responseText);
+            console.log(data[0]["BranchID"]);
+            this.Branches = data;
+            this.BranchName = data[0]["Branch_name"];
+            console.log(this.BranchName);
+          }
+        };
+
+        xhttp.send();
+      },
+      fetch_User_Events() {
+        var xhttp = new XMLHttpRequest();
+
+        xhttp.open("GET", "/api/read/User_Events", true);
+
+        xhttp.onreadystatechange = () => {
+          if (xhttp.readyState == 4 && xhttp.status == 200) {
+            var data = JSON.parse(xhttp.responseText);
+            this.User_Event = data;
+            console.log(this.User_Event);
+          }
+        };
+
+        xhttp.send();
+      },
+      fetch_User_Branch() {
+        var xhttp = new XMLHttpRequest();
+
+        xhttp.open("GET", "/api/read/User_Branch", true);
+
+        xhttp.onreadystatechange = () => {
+          if (xhttp.readyState == 4 && xhttp.status == 200) {
+            var data = JSON.parse(xhttp.responseText);
+            this.User_Branch = data;
+            console.log(this.User_Branch);
+          }
+        };
+
+        xhttp.send();
+      },
         getQuerypara(){
             const queryParams = new URLSearchParams(window.location.search);
             var xhttp = new XMLHttpRequest();
@@ -31,6 +88,9 @@ var appdiv = new Vue ({
                     this.location = data[0]['Location'];
                     this.image = `${data[0]['Image']}`;
                     this.eventID = data[0]['EventID'];
+                    this.BranchID = data[0]['BranchID'];
+                    this.fetch_Branch(this.BranchID);
+
                 }
             };
             xhttp.send();
@@ -157,7 +217,57 @@ var appdiv = new Vue ({
               return null;
             };
             return find(this.comments);
-          }
+          },
+          leave(EventID) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = () => {
+              if (xhttp.readyState === 4) {
+                if (xhttp.status === 200) {
+            const queryParams = new URLSearchParams(window.location.search);
+
+
+        window.location.href = `http://localhost:3000/EventDescription.html?${queryParams}`;
+
+
+                } else {
+                  console.error('There was a problem with the fetch operation:', xhttp.responseText);
+                }
+              }
+            };
+            xhttp.open('GET', `/api/leave/events/${EventID}`, true);
+            xhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+            xhttp.send();
+          },
+          join(EventID, BranchID) {
+            // Check if the user is in the branch of the event
+            var isUserInBranch = this.User_Branch.some(userBranch => userBranch.BranchID === BranchID);
+
+            if (!isUserInBranch) {
+              alert("Cannot join the event because the user is not in that branch.");
+            } else {
+              var xhttp = new XMLHttpRequest();
+              xhttp.onreadystatechange = () => {
+                if (xhttp.readyState === 4) {
+                  if (xhttp.status === 200) {
+            const queryParams = new URLSearchParams(window.location.search);
+
+        window.location.href = `http://localhost:3000/EventDescription.html?${queryParams}`;
+
+                  } else {
+                    console.error('There was a problem with the fetch operation:', xhttp.responseText);
+                  }
+                }
+              };
+              xhttp.open('get', `/api/join/events/${EventID}`, true);
+              xhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+              xhttp.send();
+            }
+          },
+
+      isUserInEvent(eventID) {
+        return this.User_Event.some(item => item.EventID === eventID);
+      },
+
     }
 });
 

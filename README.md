@@ -6,9 +6,16 @@ Auto commit/push/sync to Github is disabled by default in this template reposito
 Enable the GitDoc extension to use this fucntionality (either in your VSCode settings, or in the Dev Container settings)
 
 
-#start mysql
-sudo usermod -d /var/lib/mysql/ mysql #change permission
-service mysql start #start mysql server
+# Start mysql
+```bash
+- Change permission
+sudo usermod -d /var/lib/mysql/ mysql
+```
+
+- Start mysql server
+```bash
+service mysql start
+```
 mysql < db_backup.sql #restore database backup
 mysql #access mysql database
 

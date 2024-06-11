@@ -76,14 +76,14 @@ if (!fs.existsSync('uploads')) {
 
 app.use(function (req, res, next) {
   req.pool = dbConnectionPool;
-  // req.session.firstname = 'a';
-  //   req.session.lastname = 'a';
-  //   req.session.userID = 8; // Simulate user ID
-  //   req.session.username = 'testing';
-  //   req.session.name = 'a a';
-  //   req.session.role = 'User';
-  //   req.session.email = 'k@gmail.com';
-  //   req.session.phonenum = '0';
+  req.session.firstname = 'duc';
+    req.session.lastname = 'Kieu';
+    req.session.userID = 11; // Simulate user ID
+    req.session.username = 'kieuduc2505@gmail.com';
+    req.session.name = 'duc Kieu';
+    req.session.role = 'User';
+    req.session.email = 'kieuduc2505@gmail.com';
+    req.session.phonenum = 'NULL';
   next();
 });
 

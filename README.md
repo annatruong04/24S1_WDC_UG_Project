@@ -4,12 +4,6 @@ This is the volunteer website of group 92 named **Green Earth**
 
 <img width="1500" alt="Screenshot 2024-06-11 at 5 42 42 pm" src="https://github.com/UAdelaide/24S1_WDC_UG_Group_92/assets/140358233/71263da1-2420-4a29-9a4e-b4730dda3875">
 
-Contains environment files for WDC 2023. Copy this template for a general sandbox.
-
-Auto commit/push/sync to Github is disabled by default in this template repository.
-Enable the GitDoc extension to use this fucntionality (either in your VSCode settings, or in the Dev Container settings)
-
-
 # Start mysql
 - Change permission
 ```bash

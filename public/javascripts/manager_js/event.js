@@ -2,6 +2,7 @@ var appdiv = new Vue({
     el: "#manager-home-page",
     data: {
       events: [],
+      filteredEvents: [],
       showPopUp: false,
       imgErr: false,
       form: {
@@ -9,12 +10,36 @@ var appdiv = new Vue({
         location: '',
         date: '',
         description: ''
-      }
+      },
+      query_name: '',
+      query_location: '',
+      showSearch: false,
     },
     mounted: function() {
       this.fetch_event();
     },
     methods: {
+      search() {
+        const query_name = this.query_name ? this.query_name.toLowerCase() : "";
+        const query_location = this.query_location ? this.query_location.toLowerCase() : "";
+        if (query_name && query_location) {
+          this.filteredEvents = this.events.filter(event => {
+            return event.Name.toLowerCase().includes(query_name) ||
+                   event.Location.toLowerCase().includes(query_location);
+          });
+        }
+        else if (query_name && !query_location){
+          this.filteredEvents = this.events.filter(event => {
+            return event.Name.toLowerCase().includes(query_name);
+          });
+        } else if (!query_name && query_location) {
+          this.filteredEvents = this.events.filter(event => {
+            return event.Location.toLowerCase().includes(query_location);
+          });
+        }
+        this.showSearch = !this.showSearch;
+        console.log(this.filteredEvents);
+      },
       fetch_event() {
         var xhttp = new XMLHttpRequest();
 

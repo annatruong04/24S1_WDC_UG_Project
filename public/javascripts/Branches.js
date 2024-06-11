@@ -207,7 +207,14 @@ var appdiv = new Vue({
         if (xhttp.readyState === 4) {
           if (xhttp.status === 200) {
       window.location.href = `http://localhost:3000/Branches.html`;
-
+    } else {
+      console.error('There was a problem with the fetch operation:', xhttp.responseText);
+          }
+        }
+      };
+      xhttp.open('GET', `/api/leave/branches/${branchID}`, true);
+      xhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+      xhttp.send();
     },
     cancelRequest(BranchID){
       var xhttp = new XMLHttpRequest();
@@ -225,14 +232,7 @@ var appdiv = new Vue({
         Branch_ID: BranchID
       }));
 
-          } else {
-            console.error('There was a problem with the fetch operation:', xhttp.responseText);
-          }
-        }
-      };
-      xhttp.open('GET', `/api/leave/branches/${branchID}`, true);
-      xhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-      xhttp.send();
+
     },
     join(branchID) {
       var xhttp = new XMLHttpRequest();

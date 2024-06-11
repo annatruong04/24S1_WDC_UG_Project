@@ -2,7 +2,7 @@
 ## Green Earth - Group 92
 This is the...
 
-<img width="1440" alt="Screenshot 2024-06-11 at 5 31 33 pm" src="https://github.com/UAdelaide/24S1_WDC_UG_Group_92/assets/140358233/eb8e0c07-9c70-4505-bf4b-841e974a3406">
+<img width="1540" alt="Screenshot 2024-06-11 at 5 31 33 pm" src="https://github.com/UAdelaide/24S1_WDC_UG_Group_92/assets/140358233/eb8e0c07-9c70-4505-bf4b-841e974a3406">
 
 Contains environment files for WDC 2023. Copy this template for a general sandbox.
 

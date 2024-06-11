@@ -273,6 +273,8 @@ width: 100%;
   font-weight: bold;
   font-size: 20px;
 }
+
+/* Header */
 .page-header {
   position: fixed;
   width: 100%;
@@ -423,7 +425,7 @@ width: 100%;
 .navbar-link {
   font-size: large;
 }
-
+/* Header */
 
 body {
   font-family: "Open Sans", sans-serif;

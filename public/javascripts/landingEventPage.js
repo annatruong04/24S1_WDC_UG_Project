@@ -112,23 +112,29 @@ var appdiv = new Vue({
         xhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
         xhttp.send();
       },
-      join(EventID) {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = () => {
-          if (xhttp.readyState === 4) {
-            if (xhttp.status === 200) {
-        window.location.href = `http://localhost:3000/landingEventPage.html`;
+      join(EventID, BranchID) {
+        // Check if the user is in the branch of the event
+        var isUserInBranch = this.userBranches.some(userBranch => userBranch.BranchID === BranchID);
 
-
-            } else {
-              console.error('There was a problem with the fetch operation:', xhttp.responseText);
+        if (!isUserInBranch) {
+          alert("Cannot join the event because the user is not in that branch.");
+        } else {
+          var xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = () => {
+            if (xhttp.readyState === 4) {
+              if (xhttp.status === 200) {
+                window.location.href = `http://localhost:3000/landingEventPage.html`;
+              } else {
+                console.error('There was a problem with the fetch operation:', xhttp.responseText);
+              }
             }
-          }
-        };
-        xhttp.open('GET', `/api/join/events/${EventID}`, true);
-        xhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-        xhttp.send();
+          };
+          xhttp.open('POST', `/api/join/events/${EventID}`, true);
+          xhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+          xhttp.send();
+        }
       },
+
 
 
 

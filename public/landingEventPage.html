@@ -155,12 +155,9 @@
                     <p class="date-time">{{event.Date}}</p>
                     <h2>{{event.Name}}</h2>
                     <p class="location">{{event.Location}}, branch {{event.Branch_name}} </p>
-
+                    <span><i class="fa-solid fa-user"></i>   100</span>
                     <p class="followers">
-                        <!-- <span><i class="fa-solid fa-user"></i></span> -->
                         <!-- <span>{{event.Participant}} </span> -->
-
-
                         <button type="button" class="join-button" @click.stop="join(event.EventID, event.BranchID)" v-if="!isUserInEvent(event.EventID)">RSVP</button>
                         <button type="button" class="leave-button" @click.stop="leave(event.EventID)" v-else>Leave</button>
 

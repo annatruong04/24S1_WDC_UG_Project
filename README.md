@@ -1,17 +1,36 @@
-# Template Repository for COMP SCI 2207/7207 Web & Database Computing (2023 Semester 1)
+# Project COMP SCI 2207/7207 Web & Database Computing (2023 Semester 1)
+## Green Earth - Group 92
+This is the volunteer website of group 92 named **Green Earth**
 
-Contains environment files for WDC 2023. Copy this template for a general sandbox.
+<img width="1500" alt="Screenshot 2024-06-11 at 5 42 42 pm" src="https://github.com/UAdelaide/24S1_WDC_UG_Group_92/assets/140358233/71263da1-2420-4a29-9a4e-b4730dda3875">
 
-Auto commit/push/sync to Github is disabled by default in this template repository.
-Enable the GitDoc extension to use this fucntionality (either in your VSCode settings, or in the Dev Container settings)
+# Start mysql
+- Change permission
+```bash
+sudo usermod -d /var/lib/mysql/ mysql
+```
 
+- Start mysql server
+```bash
+service mysql start
+```
 
-#start mysql
-sudo usermod -d /var/lib/mysql/ mysql #change permission
-service mysql start #start mysql server
-mysql < db_backup.sql #restore database backup
-mysql #access mysql database
+- Restore database backup
+```bash
+mysql < db_secondVer.sql
+```
 
-#run application
-npm install # install dependencies
-npm start # run application
+- Access mysql database
+```bash
+mysql
+```
+
+# Run application
+- Install dependencies
+```bash
+npm install
+```
+- Run application
+```bash
+npm start
+```

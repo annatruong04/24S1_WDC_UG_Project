@@ -7,8 +7,8 @@ Enable the GitDoc extension to use this fucntionality (either in your VSCode set
 
 
 # Start mysql
-```bash
 - Change permission
+```bash
 sudo usermod -d /var/lib/mysql/ mysql
 ```
 
@@ -16,9 +16,23 @@ sudo usermod -d /var/lib/mysql/ mysql
 ```bash
 service mysql start
 ```
-mysql < db_backup.sql #restore database backup
-mysql #access mysql database
 
-#run application
-npm install # install dependencies
-npm start # run application
+- Restore database backup
+```bash
+mysql < db_secondVer.sql
+```
+
+- Access mysql database
+```bash
+mysql
+```
+
+# Run application
+- Install dependencies
+```bash
+npm install
+```
+- Run application
+```bash
+npm start
+```

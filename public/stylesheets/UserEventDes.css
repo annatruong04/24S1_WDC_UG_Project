@@ -608,6 +608,7 @@ color: #00bcd4;
   margin-bottom: 20px;
   margin-top: 20px;
   max-height: 270px; /* Set a fixed height */
+  width: 670px;
   overflow-y: auto;  /* Enable vertical scrolling */
   transition: transform 0.3s, box-shadow 0.3s;
 }

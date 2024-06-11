@@ -89,6 +89,7 @@
                 </li>
                 <!-- Add more event items as needed -->
             </ul>
+            <p v-if="events.length === 0">No events yet.</p>
         </div>
         <div id="left-container" class="container">
             <div class="section">
@@ -105,6 +106,7 @@
                     </li>
                 </ul>
             </div>
+            <p v-if="truncatedUpdates.length === 0">No Updates yet.</p>
         </div>
         <div id="right-container" class="container">
             <!-- <div class="container-header">

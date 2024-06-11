@@ -12,6 +12,7 @@ var appdiv = new Vue ({
     mounted: function() {
         this.getQuerypara();
         this.fetch_update();
+        this.fetch_event();
     },
     computed: {
         truncatedUpdates() {
@@ -48,6 +49,26 @@ var appdiv = new Vue ({
             }
             return message;
           },
+        directEvent(event) {
+          const queryParams = new URLSearchParams({
+            id: event.EventID,
+            name: event.Name,
+            description: event.Description,
+            date: event.Date,
+            location: event.Location,
+            // Add other event details as needed
+          }).toString();
+
+          window.location.href = `http://localhost:3000/EventDescription.html?${queryParams}`;
+        },
+        directUpdate(update) {
+          const queryParams = new URLSearchParams({
+            id: update.UpdateID,
+            // Add other update details as needed
+          }).toString();
+
+          window.location.href = `http://localhost:3000/updateDetail.html?${queryParams}`;
+        },
         getQuerypara(){
             const queryParams = new URLSearchParams(window.location.search);
             var xhttp = new XMLHttpRequest();
@@ -86,9 +107,10 @@ var appdiv = new Vue ({
             xhttp.send();
           },
           fetch_event() {
+            const queryParams = new URLSearchParams(window.location.search);
             var xhttp = new XMLHttpRequest();
 
-            xhttp.open("GET", "/api/manager/read/events", true);
+            xhttp.open("GET", `/api/read/branches/events/${queryParams.get('id')}`, true);
 
             xhttp.onreadystatechange = () => {
                 if (xhttp.readyState == 4 && xhttp.status == 200) {
@@ -120,15 +142,6 @@ var appdiv = new Vue ({
 
           return `${day}${daySuffix}, ${month}`;
         },
-
-        directUpdate(update) {
-            const queryParams = new URLSearchParams({
-              id: update.UpdateID,
-              // Add other update details as needed
-            }).toString();
-
-            window.location.href = `http://localhost:3000/manager/update-detail.html?${queryParams}`;
-          },
     }
 });
 

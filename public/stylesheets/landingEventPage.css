@@ -529,7 +529,7 @@ body{
     background: white;
     border-radius: 6px;
     overflow: hidden;
-    height: 300px;
+    height: 360px;
     border: 1px solid #ddd;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     transition: transform 0.3s ease;
@@ -559,33 +559,37 @@ body{
   .event-info h2 {
     font-size: 18px;
     margin-top: 0;
+    height: 43px;
   }
 
   .event-info p {
     font-size: 14px;
-
   }
 
   .date-time, .location, .followers {
     font-weight: normal;
   }
 
+  .location{
+    height: 50px;
+  }
   .followers {
     display: flex;
+    width: 100%;
     border-top: 1px solid #ddd;
     padding-top: 10px;
     font-size: 14px;
     color: #666;
-    margin-top:70px;
-    position: absolute; /* Add this line */
+    margin-top: 70px;
+    position: absolute;
     bottom: 5px; /* Adjust this value to control the distance from the bottom */
     width: calc(100% - 30px); /* Adjust to ensure it fits within the padding */
-
+    padding-top: 12px;
   }
 
-  .followers i{
+  /* .followers i{
     padding-right: 5px;
-  }
+  } */
 
   .fallback{
     background-color: #135D66;
@@ -968,7 +972,8 @@ body{
     cursor: pointer;
     transition: transform 0.1s ease-in-out, background-color 0.1s ease-in-out;
     border: 50px  ;
-    margin-left:20px;
+
+    margin-left: 26px;
     outline: none;
     font-size: medium;
     background-color: #135D66;

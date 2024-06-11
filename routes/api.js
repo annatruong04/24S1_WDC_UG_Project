@@ -10,6 +10,24 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 //route for api
 
+function guessImageContentType(imageBuffer) {
+  if (!imageBuffer || imageBuffer.length < 4) {
+    return 'application/octet-stream';
+  }
+
+  // Check the first few bytes for known image file signatures
+  if (imageBuffer[0] === 0xff && imageBuffer[1] === 0xd8 && imageBuffer[2] === 0xff) {
+    return 'image/jpeg';
+  } else if (imageBuffer[0] === 0x89 && imageBuffer[1] === 0x50 && imageBuffer[2] === 0x4e && imageBuffer[3] === 0x47) {
+    return 'image/png';
+  } else if (imageBuffer[0] === 0x47 && imageBuffer[1] === 0x49 && imageBuffer[2] === 0x46) {
+    return 'image/gif';
+  } else if (imageBuffer[0] === 0x42 && imageBuffer[1] === 0x4d) {
+    return 'image/bmp';
+  }
+
+  return 'image/jpeg';
+}
 
 router.get('/read/events', (req, res) => {
   req.pool.getConnection(function (err, connection) {
@@ -27,7 +45,9 @@ router.get('/read/events', (req, res) => {
 
       results.forEach(event => {
         if (event.Image) {
-          event.Image = `data:${event.contentType};base64,${event.Image.toString('base64')}`;
+          const imageBuffer = event.Image;
+          const guessedContentType = guessImageContentType(imageBuffer);
+          event.Image = `data:${guessedContentType};base64,${imageBuffer.toString('base64')}`;
         }
         if (event.Date) {
           const date = new Date(event.Date);
@@ -478,7 +498,7 @@ router.get('/manager/read/events/:id', isAuthenticated, hasRole("Manager"),  (re
   });
 });
 
-router.get('/manager/read/comments/:id', isAuthenticated, hasRole("Manager"),  (req, res) => {
+router.get('/manager/read/comments/:id', isAuthenticated, (req, res) => {
   req.pool.getConnection(function (err, connection) {
     if (err) {
       res.sendStatus(500);

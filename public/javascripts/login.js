@@ -76,7 +76,8 @@ function do_google_login(response){
 
     xhttp.onreadystatechange = () => {
         if (xhttp.readyState === 4 && xhttp.status === 200) {
-             window.location.href = `http://localhost:3000/user/landingPage.html`;
+            this.WrongInfo = false;
+            window.location.href = `http://localhost:3000/user/landingPage.html`;
         }
     };
 

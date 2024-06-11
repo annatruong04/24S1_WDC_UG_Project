@@ -15,7 +15,7 @@ router.get('/getUser', function(req, res, next) {
             req.pool.getConnection(function(err, connection) {
                 if (err) {
                     res.sendStatus(500);
-                    return;
+                    return; // Exit after sending response
                 }
 
                 var query = 'SELECT B.User_ID, B.Phone_number, B.Email, B.First_name, B.Last_name, B.Username, B.Password, A.Role_name FROM Role AS A INNER JOIN User AS B ON A.RoleID = B.Role_ID WHERE B.Username = ?';
@@ -23,11 +23,11 @@ router.get('/getUser', function(req, res, next) {
                 connection.query(query, [req.session.username], async (error, results) => {
                     connection.release();
                     if (error) {
-                        return res.status(401).send(error);
+                        return res.status(401).send(error); // Exit after sending response
                     }
 
                     if (results.length === 0) {
-                        return res.status(400).send('User not found');
+                        return res.status(400).send('User not found'); // Exit after sending response
                     }
 
                     const user = results[0];
@@ -44,8 +44,7 @@ router.get('/getUser', function(req, res, next) {
                     req.session.username = user.Username;
                     req.session.password = user.Password;
 
-
-                    res.status(200).send(JSON.stringify({
+                    res.status(200).json({
                         First_name: req.session.firstname,
                         Last_name: req.session.lastname,
                         Username: req.session.username,
@@ -54,11 +53,11 @@ router.get('/getUser', function(req, res, next) {
                         Email: req.session.email,
                         Role: req.session.role,
                         Password: req.session.password,
-                    }));
+                    });
                 });
             });
         } else {
-            res.status(200).send(JSON.stringify({
+            return res.status(200).json({
                 First_name: req.session.firstname,
                 Last_name: req.session.lastname,
                 Username: req.session.username,
@@ -67,12 +66,13 @@ router.get('/getUser', function(req, res, next) {
                 Email: req.session.email,
                 Role: req.session.role,
                 Password: req.session.password,
-            }));
+            }); // Exit after sending response
         }
     } else {
-        res.sendStatus(401);
+        return res.sendStatus(401); // Exit after sending response
     }
 });
+
 
 router.post('/updateUser', async function(req, res, next) {
     if (!req.session.username) {

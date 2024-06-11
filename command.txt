@@ -8,3 +8,5 @@ mysql #access mysql database
 npm install # install dependencies
 npm start # run application
 
+mysqldump --routines --triggers --single-transaction --quick --lock-tables=false --hex-blob volunteer > db_secondVer.sql
+

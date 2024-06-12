@@ -26,7 +26,6 @@
         </div>
         <div class="rightcontent-container" id="login-div">
             <div v-if="loginStatus">
-                <img src="/images/profile.png" @click="toggleDropdown" alt="Profile Picture" onerror="this.onerror=null; this.src=''; this.style.backgroundColor='white'; this.style.borderRadius='50%';">
                 <div class="dropdown-menu" :data-show="clicked.toString()">
                     <ul>
                         <li v-if="user.Role==='User'"><a href="/myBranchPage.html">My Branches</a></li>
@@ -37,15 +36,12 @@
                     </ul>
                 </div>
             </div>
-            <div v-else="loginStatus">
-                <a href="/auth/login" class="login-btn">Login</a>
-            </div>
         </div>
     </div>
     <div class="lower-header">
         <nav class="navbar">
             <ul>
-                <li class="active">
+                <li class="">
                     <a href="/">
                         <div class="navbar-link">Home</div>
                     </a>

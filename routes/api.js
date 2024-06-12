@@ -654,6 +654,44 @@ router.post('/manager/create/events', isAuthenticated, upload.single('image'), h
   });
 });
 
+router.post('/admin/create/branches', isAuthenticated, hasRole("Administrator"), upload.none(), (req, res) => {
+
+  req.pool.getConnection(function (err, connection) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    const data = req.body;
+
+    const sql = `INSERT INTO Branch (Branch_name, Location, Description, Manager_ID)
+                   VALUES (?, ?, ?, (SELECT User_ID FROM User WHERE Email = ?))`;
+    connection.query(sql, [data.name, data.location, data.description, data.email], (error, results, fields) => {
+      connection.release();
+      if (error) return res.status(500).send(error);
+      res.send('Data inserted');
+    });
+  });
+});
+
+router.post('/admin/delete/branches', isAuthenticated, hasRole("Administator"),  (req, res) => {
+  req.pool.getConnection(function (err, connection) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    const sql = `delete from Branch where BranchID = ?;`;
+    connection.query(sql, [req.body.branchID], (error, results, fields) => {
+      connection.release();
+      if (error) return res.status(500).send(error);
+      res.sendStatus(200);
+    });
+  });
+});
+
+
+
 router.post('/manager/edit/events', isAuthenticated, upload.single('image'), hasRole("Manager"),  (req, res) => {
   console.log('File:', req.file); // Log the file data
 

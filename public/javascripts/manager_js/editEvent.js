@@ -59,3 +59,18 @@ var appdiv = new Vue ({
         },
     }
 });
+
+window.onload = function () {
+    var app = new Vue({
+      el: "#mydiv",
+      data: {
+        clicked: false
+      },
+      methods: {
+        toggleDropdown() {
+          console.log(this.clicked);
+          this.clicked = !this.clicked;
+        }
+      }
+    });
+  }

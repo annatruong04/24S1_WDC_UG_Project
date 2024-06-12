@@ -40,12 +40,6 @@ li {
 	list-style: none;
 }
 
-
-
-
-
-
-
 /* SIDEBAR */
 #sidebar {
 	position: absolute;
@@ -1123,3 +1117,393 @@ main .btn-send:hover {
   .back-button i:hover{
 	transform: translateY(4px);
   }
+
+  /*Profile*/
+  /* stylesheets/profile.css */
+
+body {
+	margin: 0;
+	font-family: 'Open Sans', sans-serif;
+
+	color: #003C43;
+  }
+
+  .body-container-profile{
+	background-color: #E3FEF7;
+  }
+  #app{
+	padding-top: 180px;
+  }
+
+  header {
+	background-color: #135D66;
+	color: #E3FEF7;
+	text-align: center;
+  }
+
+  h1 {
+	margin: 0;
+  }
+
+  main {
+	padding: 20px;
+  }
+
+  .profile {
+	position: relative;
+  }
+
+  .user-info {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	background-color: #77B0AA;
+	border-radius: 10px;
+	box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+	padding: 20px;
+  }
+
+  .avatar {
+	width: 150px;
+	height: 150px;
+	overflow: hidden;
+	border-radius: 50%;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .avatar img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+  }
+
+  .user-details {
+	margin-left: 20px;
+	flex: 1;
+  }
+
+  .user-details h2 {
+	margin-top: 0;
+	font-size: 24px;
+	color: #003C43;
+  }
+
+  .user-details p {
+	margin-bottom: 20px;
+	color: #003C43;
+  }
+
+  .info-columns {
+	display: flex;
+	flex-wrap: wrap;
+  }
+
+  .info-column {
+	flex: 1;
+  }
+
+  .info-column ul {
+	list-style: none;
+	padding: 0;
+  }
+
+  .info-column ul li {
+	margin-bottom: 10px;
+  }
+
+  .info-column ul li strong {
+	font-weight: bold;
+  }
+
+  .change-btn {
+	display: block;
+	width: 200px;
+	margin: 30px auto;
+	padding: 15px 20px;
+	font-size: 16px;
+	background-color: #135D66;
+	color: #E3FEF7;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+  }
+
+  .change-btn:hover {
+	background-color: #003C43;
+  }
+
+
+  /*
+  css for footer
+  */
+
+  body {
+	font-family: "Open Sans", sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 500;
+	font-style: normal;
+	font-variation-settings: "wdth" 100;
+  }
+
+  .site-footer {
+	background-color: #135D66;
+	color: white;
+	padding: 40px 0;
+  }
+
+  .site-footer .container {
+	text-align: center;
+  }
+
+  .footer-columns {
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+  }
+
+  .footer-column {
+	flex: 1;
+	min-width: 200px;
+	padding: 0 20px;
+  }
+
+  .footer-column h6 {
+	font-size: 16px;
+	text-transform: uppercase;
+	margin-bottom: 20px;
+  }
+
+  .footer-column .text-justify {
+	text-align: left;
+	padding-left: 50px;
+  }
+
+  .footer-links {
+	list-style: none;
+	padding: 0;
+  }
+
+  .footer-links li {
+	margin-bottom: 10px;
+  }
+
+  .footer-links a {
+	color: white;
+	text-decoration: none;
+	transition: color 0.3s;
+  }
+
+  .footer-links a:hover {
+	color: #00bcd4;
+  }
+
+  .footer-social {
+	margin-top: 20px;
+  }
+
+  .social-icons {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	justify-content: center;
+  }
+
+  .social-icons li {
+	margin: 0 10px;
+  }
+
+  .social-icons a {
+	color: white;
+	font-size: 20px;
+	transition: color 0.3s;
+  }
+
+  .social-icons a:hover {
+	color: #00bcd4;
+  }
+
+  @media (max-width: 768px) {
+	.footer-column {
+	  flex: 0 0 100%;
+	  margin-bottom: 20px;
+	}
+  }
+
+
+  .dropdown-menu {
+	position: absolute;
+	/* display: none; */
+	margin-top: 0.2em;
+	transform: translateX(-10%);
+	top: 50px; /* Adjust this value to position it below the profile image */
+	right: 0; /* Aligns the dropdown to the right edge of the profile container */
+	width: 100px; /* Control the width to avoid overflow */
+	background-color: rgba(255, 255, 255, 0.886);
+	border: 1px solid rgb(232, 232, 232);
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	z-index: 1;
+	visibility: hidden; /* Hide the menu initially */
+	opacity: 0; /* Start fully transparent */
+	transform: translateY(-10px) translateX(-10%); /* Start slightly above the final position */
+	transition: opacity 0.3s, transform 0.3s;
+  }
+
+  .dropdown-menu::after {
+	content: "";
+	position: absolute;
+	top: -8px; /* Slightly above the dropdown to show the pointer */
+	left: 50%; /* Center the pointer relative to the dropdown */
+	margin-left: 27px; /* This centers the triangle (half the total width of 10px) */
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 0 10px 10px 10px; /* Creates an upward-pointing triangle */
+	border-color: transparent transparent rgb(197, 194, 194) transparent; /* Bottom border is white, others are transparent */
+  }
+
+  .dropdown-menu[data-show="true"] { /* Added for Vue.js control */
+	visibility: visible;
+	opacity: 1;
+	transform: translateY(0) translateX(-10%);
+  }
+
+
+
+  .dropdown-menu ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+  }
+
+  .dropdown-menu ul li {
+	padding: 12px 16px;
+	text-align: left;
+  }
+
+  .dropdown-menu ul li a {
+	text-decoration: none;
+	color: black;
+	display: block;
+  }
+
+  .dropdown-menu ul li:hover {
+	background-color: #f1f1f1;
+  }
+
+  /*SIDEBAR ADMIN PROFILE*/
+  /* SIDEBAR */
+#sidebar-profile {
+	position: absolute;
+	max-width: 260px;
+	width: 100%;
+	background: var(--light);
+	top: 0;
+	left: 0;
+	height: 789px;
+	overflow-y: auto;
+	scrollbar-width: none;
+	transition: all .3s ease;
+    max-height: 1800px;
+	z-index: 200;
+}
+
+#sidebar-profile.hide {
+	max-width: 60px;
+}
+
+#sidebar-profile.hide:hover {
+	max-width: 260px;
+}
+#sidebar-profile::-webkit-scrollbar {
+	display: none;
+}
+#sidebar-profile .brand {
+	font-size: 24px;
+	display: flex;
+	align-items: center;
+	height: 64px;
+	font-weight: 700;
+	color: #135D66;
+	position: sticky;
+	top: 0;
+	left: 0;
+	z-index: 100;
+	background: var(--light);
+	transition: all .3s ease;
+	padding: 0 6px;
+}
+#sidebar-profile .icon {
+	min-width: 48px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-right: 6px;
+}
+#sidebar-profile .icon-right {
+	margin-left: auto;
+	transition: all .3s ease;
+}
+#sidebar-profile .side-menu {
+	margin: 36px 0;
+	padding: 0 20px;
+	transition: all .3s ease;
+}
+#sidebar-profile.hide .side-menu {
+	padding: 0 6px;
+}
+#sidebar-profile.hide:hover .side-menu {
+	padding: 0 20px;
+}
+#sidebar-profile .side-menu a {
+	display: flex;
+	align-items: center;
+	font-size: 14px;
+	color: var(--dark);
+	padding: 12px 16px 12px 0;
+	transition: all .3s ease;
+	border-radius: 10px;
+	margin: 4px 0;
+	white-space: nowrap;
+}
+#sidebar-profile .side-menu > li > a:hover {
+	background: var(--grey);
+}
+#sidebar-profile .side-menu > li > a.active .icon-right {
+	transform: rotateZ(90deg);
+}
+#sidebar-profile .side-menu > li > a.active,
+#sidebar-profile .side-menu > li > a.active:hover {
+	background: #135D66;
+	color: var(--light);
+}
+#sidebar-profile .divider {
+	margin-top: 24px;
+	font-size: 12px;
+	text-transform: uppercase;
+	font-weight: 700;
+	color: var(--dark-grey);
+	transition: all .3s ease;
+	white-space: nowrap;
+}
+#sidebar-profile.hide:hover .divider {
+	text-align: left;
+}
+#sidebar-profile.hide .divider {
+	text-align: center;
+}
+#sidebar-profile .side-dropdown {
+	padding-left: 54px;
+	max-height: 0;
+	overflow-y: hidden;
+	transition: all .15s ease;
+}
+#sidebar-profile .side-dropdown.show {
+	max-height: 1000px;
+}
+#sidebar-profile .side-dropdown a:hover {
+	color: var(--blue);
+}
+
+/* SIDEBAR ADMIN PROFILE */

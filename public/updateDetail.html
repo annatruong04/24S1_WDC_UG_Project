@@ -59,7 +59,7 @@
                              <div class="navbar-link">My Branch</div>
                         </a>
                     </li>
-                    <li class="active">
+                    <li class="">
                         <a href="Branches.html">
                             <div class="navbar-link">Branches</div>
                         </a>
@@ -69,7 +69,7 @@
                              <div class="navbar-link">Event</div>
                         </a>
                     </li>
-                    <li class="" v-if="user.Name">
+                    <li class="active" v-if="user.Name">
                         <a href="../user/Update.html">
                             <div class="navbar-link">Update</div>
                         </a>
@@ -84,6 +84,13 @@
         </div>
     </div>
     <div id="user-event-page" class="body-container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb" id="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item"><a href="/user/Update.html">Updates</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Update detail</li>
+            </ol>
+        </nav>
         <a href="javascript:history.back()" class="back-button"><i class="fa-solid fa-arrow-left"></i></a>
         <div class="event-container">
             <h1>Update details</h1>

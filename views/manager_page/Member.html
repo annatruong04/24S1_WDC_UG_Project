@@ -73,8 +73,8 @@
             <h1>Member</h1>
             <div class="search-and-invite">
                 <div class="member-searchbar">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" placeholder="Search by name or email">
+                    <i class="fa-solid fa-magnifying-glass" @click="search()"></i>
+                    <input v-model="query_name" @keydown.enter="search" type="text" placeholder="Search by name or email">
                 </div>
                 <div class="invite">
                     <input type="text" v-model="newUserEmail" placeholder="Add new member by Email">
@@ -93,7 +93,18 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="user in users" :key="user.User_ID">
+                <tr v-for="user in users" :key="user.User_ID" v-if="!showSearch">
+                    <td> {{user.Username}} </td>
+                    <td> <span>{{user.First_name}} {{user.Last_name}} </span>  </td>
+                    <td> {{user.Email}}</td>
+                    <td>
+                        <span v-if="user.First_name + ' ' + user.Last_name === my_user.Name " class="role manager">Manager</span>
+                        <span v-if="user.First_name + ' ' + user.Last_name !== my_user.Name" class="role member">Member</span>
+                        <span v-if="user.Role_name==='Administrator'" class="role admin">Admin</span>
+                    </td>
+                    <td><button type="button" @click="deleteUser(user.User_ID, user.First_name + ' ' + user.Last_name)" class="more-button"><i class="fa-solid fa-trash"></i></button></td>
+                </tr>
+                <tr v-for="user in filteredUsers" :key="user.User_ID" v-if="showSearch">
                     <td> {{user.Username}} </td>
                     <td> <span>{{user.First_name}} {{user.Last_name}} </span>  </td>
                     <td> {{user.Email}}</td>
@@ -106,6 +117,7 @@
                 </tr>
             </tbody>
         </table>
+        <p v-if="showSearch && filteredUsers.length === 0">No result found.</p>
     </div>
     <script src="https://kit.fontawesome.com/4cf720d27e.js" crossorigin="anonymous"></script>
     <script src="../javascripts/manager_js/member.js"></script>

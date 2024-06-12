@@ -176,6 +176,10 @@
                     </div>
                 </div>
             </div>
+
+            <div v-if="showSearch && filteredEvents.length === 0">
+                <p>No result found.</p>
+            </div>
         </div>
 
         <!-- <div class="container">

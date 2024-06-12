@@ -9,7 +9,10 @@ var appdiv = new Vue({
         location: '',
         date: '',
         description: ''
-      }
+      },
+      filteredUpdates: [],
+      query_name: '',
+      showSearch: false,
     },
     mounted: function() {
       this.fetch_update();
@@ -25,6 +28,20 @@ var appdiv = new Vue({
         }
     },
     methods: {
+      search() {
+        const query_name = this.query_name ? this.query_name.toLowerCase() : "";
+
+        if (query_name) {
+          this.filteredUpdates = this.truncatedUpdates.filter(update => {
+            console.log(update.Title);
+            return (update.Title).toLowerCase().includes(query_name);
+          });
+        } else{
+          this.filteredUpdates = this.truncatedUpdates;
+        }
+        this.showSearch = true;
+        console.log(this.filteredEvents);
+      },
       sanitizeHTML(html) {
         const doc = new DOMParser().parseFromString(html, 'text/html');
         const allowedTags = ['b', 'i', 'u', 'p', 'strong', 'em', 'br'];

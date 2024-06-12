@@ -10,7 +10,10 @@ var appdiv = new Vue({
         description: ''
       },
       my_user: [],
-      newUserEmail: ""
+      newUserEmail: "",
+      filteredUsers: [],
+      query_name: '',
+      showSearch: false,
     },
     mounted: function() {
       this.fetch_users();
@@ -21,6 +24,21 @@ var appdiv = new Vue({
       window: () => window,
     },
     methods: {
+      search() {
+        const query_name = this.query_name ? this.query_name.toLowerCase() : "";
+
+        if (query_name) {
+          this.filteredUsers = this.users.filter(user => {
+            console.log(user.First_name + user.Last_name);
+            return (user.First_name + user.Last_name).toLowerCase().includes(query_name) ||
+            user.Email.toLowerCase().includes(query_name);
+          });
+        } else{
+          this.filteredUsers = this.users;
+        }
+        this.showSearch = true;
+        console.log(this.filteredEvents);
+      },
       fetch_users() {
         var xhttp = new XMLHttpRequest();
 

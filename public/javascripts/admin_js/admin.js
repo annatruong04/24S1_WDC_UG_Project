@@ -8,19 +8,19 @@ allDropdown.forEach(item=> {
 		e.preventDefault();
 
 		if(!this.classList.contains('active')) {
+
 			allDropdown.forEach(i=> {
 				const aLink = i.parentElement.querySelector('a:first-child');
 
 				aLink.classList.remove('active');
 				i.classList.remove('show');
-			})
+			});
 		}
 
 		this.classList.toggle('active');
 		item.classList.toggle('show');
-	})
-})
-
+	});
+});
 
 
 
@@ -31,17 +31,17 @@ const allSideDivider = document.querySelectorAll('#sidebar .divider');
 
 if(sidebar.classList.contains('hide')) {
 	allSideDivider.forEach(item=> {
-		item.textContent = '-'
-	})
+		item.textContent = '-';
+	});
 	allDropdown.forEach(item=> {
 		const a = item.parentElement.querySelector('a:first-child');
 		a.classList.remove('active');
 		item.classList.remove('show');
-	})
+	});
 } else {
 	allSideDivider.forEach(item=> {
 		item.textContent = item.dataset.text;
-	})
+	});
 }
 
 toggleSidebar.addEventListener('click', function () {
@@ -49,20 +49,20 @@ toggleSidebar.addEventListener('click', function () {
 
 	if(sidebar.classList.contains('hide')) {
 		allSideDivider.forEach(item=> {
-			item.textContent = '-'
-		})
+			item.textContent = '-';
+		});
 
 		allDropdown.forEach(item=> {
 			const a = item.parentElement.querySelector('a:first-child');
 			a.classList.remove('active');
 			item.classList.remove('show');
-		})
+		});
 	} else {
 		allSideDivider.forEach(item=> {
 			item.textContent = item.dataset.text;
-		})
+		});
 	}
-})
+});
 
 
 
@@ -73,13 +73,12 @@ sidebar.addEventListener('mouseleave', function () {
 			const a = item.parentElement.querySelector('a:first-child');
 			a.classList.remove('active');
 			item.classList.remove('show');
-		})
+		});
 		allSideDivider.forEach(item=> {
-			item.textContent = '-'
-		})
+			item.textContent = '-';
+		});
 	}
-})
-
+});
 
 
 sidebar.addEventListener('mouseenter', function () {
@@ -88,12 +87,12 @@ sidebar.addEventListener('mouseenter', function () {
 			const a = item.parentElement.querySelector('a:first-child');
 			a.classList.remove('active');
 			item.classList.remove('show');
-		})
+		});
 		allSideDivider.forEach(item=> {
 			item.textContent = item.dataset.text;
-		})
+		});
 	}
-})
+});
 
 
 
@@ -105,7 +104,7 @@ const dropdownProfile = profile.querySelector('.profile-link');
 
 imgProfile.addEventListener('click', function () {
 	dropdownProfile.classList.toggle('show');
-})
+});
 
 
 
@@ -119,8 +118,8 @@ allMenu.forEach(item=> {
 
 	icon.addEventListener('click', function () {
 		menuLink.classList.toggle('show');
-	})
-})
+	});
+});
 
 
 
@@ -140,12 +139,12 @@ window.addEventListener('click', function (e) {
 		if(e.target !== icon) {
 			if(e.target !== menuLink) {
 				if (menuLink.classList.contains('show')) {
-					menuLink.classList.remove('show')
+					menuLink.classList.remove('show');
 				}
 			}
 		}
-	})
-})
+	});
+});
 
 
 
@@ -155,8 +154,8 @@ window.addEventListener('click', function (e) {
 const allProgress = document.querySelectorAll('main .card .progress');
 
 allProgress.forEach(item=> {
-	item.style.setProperty('--value', item.dataset.value)
-})
+	item.style.setProperty('--value', item.dataset.value);
+});
 
 
 

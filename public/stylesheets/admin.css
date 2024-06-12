@@ -1470,14 +1470,14 @@ body {
 #sidebar-profile .side-menu > li > a:hover {
 	background: var(--grey);
 }
-#sidebar-profile .side-menu > li > a.active .icon-right {
+/* #sidebar-profile .side-menu > li > a.active .icon-right {
 	transform: rotateZ(90deg);
 }
 #sidebar-profile .side-menu > li > a.active,
 #sidebar-profile .side-menu > li > a.active:hover {
 	background: #135D66;
 	color: var(--light);
-}
+} */
 #sidebar-profile .divider {
 	margin-top: 24px;
 	font-size: 12px;

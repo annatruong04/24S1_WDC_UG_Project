@@ -102,6 +102,7 @@ app.use(function (req, res, next) {
         connection.query(query, [req.session.userID], (error, results) => {
           connection.release();
           if (error) {
+            console.log(error);
             return res.status(401).send(error);
           }
           if (results.length === 0) {

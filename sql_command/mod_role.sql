@@ -48,3 +48,25 @@ delete from Event where Name = asdf;
 select EventID, Name, Description, BranchID, Location from Event;
 
 update Branch set Manager_ID = 7 where BranchID = 1;
+
+
+DELIMITER //
+
+CREATE PROCEDURE deleteBranch(IN branch_id INT)
+BEGIN
+    -- Disable foreign key checks
+    SET FOREIGN_KEY_CHECKS = 0;
+
+    -- Delete related records from dependent tables
+    DELETE FROM UpdateTable WHERE BranchID = branch_id;
+    DELETE FROM Event WHERE BranchID = branch_id;
+    DELETE FROM User_Branch WHERE BranchID = branch_id;
+    DELETE FROM JoinRequest WHERE BranchID = branch_id;
+    -- Delete the branch record
+    DELETE FROM Branch WHERE BranchID = branch_id;
+
+    -- Re-enable foreign key checks
+    SET FOREIGN_KEY_CHECKS = 1;
+END //
+
+DELIMITER ;

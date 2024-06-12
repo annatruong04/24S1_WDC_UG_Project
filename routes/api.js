@@ -681,7 +681,7 @@ router.post('/admin/delete/branches', isAuthenticated, hasRole("Administator"), 
       return;
     }
 
-    const sql = `delete from Branch where BranchID = ?;`;
+    const sql = `CALL deleteBranch(?)`;
     connection.query(sql, [req.body.branchID], (error, results, fields) => {
       connection.release();
       if (error) return res.status(500).send(error);

@@ -57,6 +57,17 @@ var appdiv = new Vue({
         }
         return message;
       },
+      editBranch(branch){
+        const queryParams = new URLSearchParams({
+          id: branch.BranchID,
+          name: branch.Branch_name,
+          description: branch.Description,
+          location: branch.Location,
+          // Add other event details as needed
+        }).toString();
+
+        window.location.href = `http://localhost:3000/admin/editBranch.html?${queryParams}`;
+      },
       fetch_Branch() {
         var xhttp = new XMLHttpRequest();
 

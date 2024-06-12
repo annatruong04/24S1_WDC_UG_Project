@@ -690,6 +690,30 @@ router.post('/admin/delete/branches', isAuthenticated, hasRole("Administator"), 
   });
 });
 
+router.post('/admin/edit/branches', isAuthenticated, upload.none(), hasRole("Administrator"),  (req, res) => {
+  req.pool.getConnection(function (err, connection) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    const data = req.body;
+
+    const sql = `Update Branch
+                  set Branch_name = ?, Description = ?, Location = ?
+                  where BranchID = ?`;
+    connection.query(sql, [data.name, data.description, data.location, data.id], (error, results, fields) => {
+      connection.release();
+      if (error) {
+        console.log(error);
+        return res.status(500).send(error);
+      }
+      res.send('Update branch Successfully');
+    });
+
+  });
+});
+
 
 
 router.post('/manager/edit/events', isAuthenticated, upload.single('image'), hasRole("Manager"),  (req, res) => {

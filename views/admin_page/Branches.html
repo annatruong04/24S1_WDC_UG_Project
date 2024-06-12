@@ -89,7 +89,7 @@
                         <p>Description: {{branch.truncatedMessage}}</p>
                     </div>
                     <div class="actions">
-                        <button type="button" @click="directEvent(branch)" class="edit-button"><i class="fa-solid fa-pen"></i></button>
+                        <button type="button" @click="editBranch(branch)" class="edit-button"><i class="fa-solid fa-pen"></i></button>
                         <button type="button" @click.stop="deleteBranch(branch.BranchID, branch.Branch_name)" class="trash-button"><i class="fa-solid fa-trash"></i></button>
                     </div>
                 </li>

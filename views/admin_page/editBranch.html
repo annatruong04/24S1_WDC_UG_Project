@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+	<link rel="stylesheet" href="/stylesheets/admin.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+	<title>Admin</title>
+</head>
+<body>
+    <div class="body-container">
+	<div class="main-section">
+        <!-- SIDEBAR -->
+	<section id="sidebar">
+		<a href="#" class="brand"><i class='bx bxs-smile icon'></i> Green Earth Admin</a>
+		<ul class="side-menu">
+			<li><a href="/admin/admin.html" class=""><i class='bx bxs-dashboard icon' ></i> Dashboard</a></li>
+			<li class="divider" data-text="main">Main</li>
+			<li><a href="#" class="active"><i class='bx bxs-chart icon' ></i> Branches</a></li>
+			<li><a href="#"><i class='bx bxs-widget icon' ></i> People</a></li>
+			<li class="divider" data-text="table and forms">Table and forms</li>
+			<li><a href="#"><i class='bx bx-table icon' ></i> Tables</a></li>
+			<li>
+				<a href="#"><i class='bx bxs-notepad icon' ></i> Forms <i class='bx bx-chevron-right icon-right' ></i></a>
+				<ul class="side-dropdown">
+					<li><a href="#">Basic</a></li>
+					<li><a href="#">Select</a></li>
+					<li><a href="#">Checkbox</a></li>
+					<li><a href="#">Radio</a></li>
+				</ul>
+			</li>
+		</ul>
+	</section>
+	<!-- SIDEBAR -->
+
+	<!-- NAVBAR -->
+	<section id="content">
+		<!-- NAVBAR -->
+		<nav>
+			<i class='bx bx-menu toggle-sidebar' ></i>
+			<form action="#">
+				<div class="form-group">
+					<input type="text" placeholder="Search...">
+					<i class='bx bx-search icon' ></i>
+				</div>
+			</form>
+			<a href="#" class="nav-link">
+				<i class='bx bxs-bell icon' ></i>
+				<span class="badge">5</span>
+			</a>
+			<a href="#" class="nav-link">
+				<i class='bx bxs-message-square-dots icon' ></i>
+				<span class="badge">8</span>
+			</a>
+			<span class="divider"></span>
+			<div class="profile">
+				<img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cGVvcGxlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="">
+				<ul class="profile-link">
+					<li><a href="/"><i class='bx bxs-user-circle icon' ></i> Home Page</a></li>
+					<li><a href="#"><i class='bx bxs-cog' ></i> Profile</a></li>
+					<li><a href="/auth/logout"><i class='bx bxs-log-out-circle' ></i> Logout</a></li>
+				</ul>
+			</div>
+		</nav>
+		<!-- NAVBAR -->
+
+		<!-- MAIN -->
+		<main id="mydiv">
+			<h1 class="title">Branches</h1>
+			<ul class="breadcrumbs">
+				<li><a href="/admin/admin.html">Home</a></li>
+				<li class="divider">/</li>
+				<li><a href="/admin/Branches.html">Branches</a></li>
+        <li class="divider">/</li>
+				<li><a href="" class="active">Edit Branch</a></li>
+			</ul>
+      <a href="javascript:history.back()" class="back-button"><i class="fa-solid fa-arrow-left"></i></a>
+      <div class="event-container">
+
+        <h1>Edit Branch</h1>
+        <form @submit.prevent="submitForm">
+
+            <div class="Branch-form-group">
+                <label for="event-name">Branch Name</label>
+                <input type="text" v-model="form.name" id="event-name" name="event-name" required>
+            </div>
+            <div class="Branch-form-group">
+                <label for="location">Location</label>
+                <input type="text" id="location" v-model="form.location" name="location" required>
+            </div>
+            <div class="Branch-form-group">
+              <label for="description">Manager Email</label>
+              <input type="text" id="manager" name="manager" v-model="form.manager" required>
+          </div>
+            <div class="Branch-form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" v-model="form.description" rows="4" required></textarea>
+            </div>
+            <button type="submit">Edit Branch</button>
+        </form>
+    </div>
+		</main>
+		<!-- MAIN -->
+	</section>
+	<!-- NAVBAR -->
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+          <div class="footer-columns">
+            <div class="footer-column">
+              <h6>About</h6>
+              <p class="text-justify">GreenEarth <i>CONNECTING WITH NATURE</i> is dedicated to promoting environmental awareness and sustainability. We provide resources, articles, and tips on how to live an eco-friendly lifestyle. Join us in making a positive impact on our planet through education, conservation, and community engagement.</p>
+            </div>
+
+            <div class="footer-column">
+              <h6>Categories</h6>
+              <ul class="footer-links">
+                <li><a href="#">Sustainability</a></li>
+                <li><a href="#">Climate Change</a></li>
+                <li><a href="#">Wildlife Conservation</a></li>
+                <li><a href="#">Renewable Energy</a></li>
+                <li><a href="#">Recycling</a></li>
+                <li><a href="#">Green Living</a></li>
+              </ul>
+            </div>
+
+            <div class="footer-column">
+              <h6>Quick Links</h6>
+              <ul class="footer-links">
+                <li><a href="aboutUs.html">About Us</a></li>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="login.html">Get Involved</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Sitemap</a></li>
+              </ul>
+            </div>
+          </div>
+          <hr>
+          <div class="footer-social">
+            <ul class="social-icons">
+              <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+              <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+              <li><a class="instagram" href="#"><i class="fa fa-instagram"></i></a></li>
+              <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
+            </ul>
+          </div>
+          <div class="copyright">
+            <p class="copyright-text">Copyright &copy; 2024 All Rights Reserved by
+              <a href="#">GreenEarth</a>.
+            </p>
+          </div>
+        </div>
+      </footer>
+      <!-- Footer -->
+
+    </div>
+	<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+	<script src="../javascripts/admin_js/editBranch.js"></script>
+</body>
+</html>

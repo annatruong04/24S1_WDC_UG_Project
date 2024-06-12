@@ -24,7 +24,6 @@ var appdiv = new Vue({
       showSearch: false,
     },
     mounted: function () {
-      this.fetch_Branch();
     },
     computed: {
         truncatedBranches() {
@@ -62,5 +61,5 @@ var appdiv = new Vue({
 
             xhr.send(formData);  // Send FormData instead of JSON
         },
-
+    }
   });

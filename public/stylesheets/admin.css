@@ -973,7 +973,8 @@ main .btn-send:hover {
 	margin-bottom: 20px;
 	margin-top: 20px;
 	max-height: 400px;
-	/* overflow-y: auto;
+	overflow-y: auto;
+	/*
 	transition: transform 0.3s, box-shadow 0.3s; */
 }
 .section h2 {

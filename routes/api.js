@@ -246,6 +246,8 @@ router.get('/read/User_Branch', isAuthenticated, (req, res) => {
   });
 });
 
+
+
 router.get('/read/BranchRequest', isAuthenticated, (req, res) => {
   req.pool.getConnection(function (err, connection) {
     if (err) {
@@ -625,6 +627,22 @@ router.get('/manager/read/users', isAuthenticated, hasRole("Manager"),  (req, re
   });
 });
 
+router.get('/admin/read/users', isAuthenticated, hasRole("Manager"),  (req, res) => {
+  req.pool.getConnection(function (err, connection) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+    connection.query(`SELECT *  FROM User `, (error, results) => {
+      connection.release();
+      if (error) {
+        return res.status(500).send(error);
+    }
+    res.json(results);
+    });
+  });
+});
+
 
 router.post('/manager/create/events', isAuthenticated, upload.single('image'), hasRole("Manager"),  (req, res) => {
   console.log('File:', req.file); // Log the file data
@@ -664,9 +682,19 @@ router.post('/admin/create/branches', isAuthenticated, hasRole("Administrator"),
 
     const data = req.body;
 
-    const sql = `INSERT INTO Branch (Branch_name, Location, Description, Manager_ID)
-                   VALUES (?, ?, ?, (SELECT User_ID FROM User WHERE Email = ?))`;
-    connection.query(sql, [data.name, data.location, data.description, data.email], (error, results, fields) => {
+    const sql = `START TRANSACTION;
+                  INSERT INTO Branch (Branch_name, Location, Description, Manager_ID)
+                   VALUES (?, ?, ?, (SELECT User_ID FROM User WHERE Email = ?));
+                   -- Update the User role to Manager
+                UPDATE User
+                SET Role_ID = "2"
+                WHERE User_ID = (
+                    SELECT UserID
+                    FROM (SELECT User_ID AS UserID FROM User WHERE Email = ?) AS temp
+                );
+
+                COMMIT;`;
+    connection.query(sql, [data.name, data.location, data.description, data.email, data.email], (error, results, fields) => {
       connection.release();
       if (error) return res.status(500).send(error);
       res.send('Data inserted');
@@ -699,10 +727,26 @@ router.post('/admin/edit/branches', isAuthenticated, upload.none(), hasRole("Adm
 
     const data = req.body;
 
-    const sql = `Update Branch
-                  set Branch_name = ?, Description = ?, Location = ?
-                  where BranchID = ?`;
-    connection.query(sql, [data.name, data.description, data.location, data.id], (error, results, fields) => {
+    const sql = `START TRANSACTION;
+
+                -- Update the Branch information and set the Manager_ID
+                UPDATE Branch
+                SET Branch_name = ?,
+                    Description = ?,
+                    Location = ?,
+                    Manager_ID = (SELECT User_ID FROM User WHERE Email = ?)
+                WHERE BranchID = ?;
+
+                -- Update the User role to Manager
+                UPDATE User
+                SET Role_ID = "2"
+                WHERE User_ID = (
+                    SELECT UserID
+                    FROM (SELECT User_ID AS UserID FROM User WHERE Email = ?) AS temp
+                );
+
+                COMMIT;`;
+    connection.query(sql, [data.name, data.description, data.location, data.email, data.id, data.email], (error, results, fields) => {
       connection.release();
       if (error) {
         console.log(error);
@@ -785,6 +829,32 @@ router.get('/manager/get/user', isAuthenticated, hasRole("Manager"),  (req, res)
     });
   });
 });
+
+
+router.post('/admin/update/user/:userId', isAuthenticated, hasRole("Admin"), (req, res) => {
+  const { userId } = req.params;
+
+  if (!userId) {
+    return res.status(400).send('User ID is required');
+  }
+
+  req.pool.getConnection(function (err, connection) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    const query = 'UPDATE User SET Role_ID = 1 WHERE User_ID = ?';
+    connection.query(query, [userId], (error, results) => {
+      connection.release();
+      if (error) {
+        return res.status(500).send(error);
+      }
+      res.json({ message: 'User role updated successfully' });
+    });
+  });
+});
+
 
 router.post('/manager/delete/user', isAuthenticated, hasRole("Manager"),  (req, res) => {
   req.pool.getConnection(function (err, connection) {
@@ -915,7 +985,7 @@ router.get('/read/updates/', isAuthenticated, (req, res) => {
       });
 
 
-
+console.log(results);
       res.json(results);
     });
   });

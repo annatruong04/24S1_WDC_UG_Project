@@ -87,7 +87,7 @@
         <div v-for="branch in truncatedBranches"  class="Branch-event">
             <div class="Branch-event-details">
                 <h2>{{ branch.Branch_name }}</h2>
-                <p>{{ formatDate(branch.Date) }}, {{ formatTime(branch.Time) }}</p>
+                <p>{{ formatDate(branch.Date) }} {{ formatTime(branch.Time) }}</p>
                 <p>{{ branch.Location }}</p>
                 <p>{{ branch.truncatedDescription }}</p>
             </div>

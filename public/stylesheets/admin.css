@@ -1141,9 +1141,14 @@ body {
 	/* padding-bottom: 130px; */
   }
 
+  .app-form{
+	padding-top: 100px !important;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+  }
+
   header {
-	background-color: #135D66;
-	color: #E3FEF7;
 	text-align: center;
   }
 
@@ -1513,3 +1518,156 @@ body {
 }
 
 /* SIDEBAR ADMIN PROFILE */
+
+.container-form{
+	max-width: 700px;
+	width: 100%;
+	background: #fff;
+	border-radius: 7px;
+	box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+	display: flex;
+	padding:0 !important;
+	justify-content: center;
+	max-height: 700px;
+	min-height: 50vh;
+  }
+.container-form .registration{
+display: block;
+}
+.container-form .form{
+  width: 600px;
+  padding: 2rem;
+}
+.email-noti{
+  margin-left:10px;
+  margin-bottom: 20px;
+}
+.form header{
+  font-size: 2rem;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+ .form .input-su{
+  height: 60px;
+  width: 100%;
+  padding: 0 15px;
+  font-size: 17px;
+  margin-bottom: 1.3rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  outline: none;
+}
+ .form input:focus{
+   box-shadow: 0 1px 0 rgba(0,0,0,0.2);
+ }
+.form a{
+  font-size: 16px;
+  color: #009579;
+  text-decoration: none;
+}
+.form a:hover{
+  text-decoration: underline;
+}
+.form input.button{
+  color: #fff;
+  background: #135D66;
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: 0.4s;
+}
+.form input.button:hover{
+  background: #05745f;
+}
+.signup{
+  font-size: 17px;
+  text-align: center;
+}
+.signup label{
+  color: #009579;
+  cursor: pointer;
+}
+.signup label:hover{
+  text-decoration: underline;
+}
+
+
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+
+}
+.option {
+  display: flex; /* Use flexbox to align items */
+  flex-direction: row; /* Stack items vertically */
+  justify-content:space-evenly;
+
+}
+
+.option input[type="radio"] {
+  width: 50%;
+  text-align: left;
+   /* Set a smaller width for the radio button */
+  height: 20px; /* Set a smaller height for the radio button */
+  margin-bottom: 10px; /* Add some spacing between radio buttons and labels */
+  width: 20px;
+}
+
+input[type="radio"] {
+text-align: left;
+box-sizing: unset;
+}
+.option label {
+  text-align: left; /* Align label text center */
+}
+
+.separator {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.separator::before,
+.separator::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #ccc;
+}
+
+.separator:not(:empty)::before {
+  margin-right: .25em;
+}
+
+.separator:not(:empty)::after {
+  margin-left: .25em;
+}
+
+
+.flex-row-left {
+  padding: 10px;
+  flex: 50%;
+}
+
+.flex-row-right {
+  padding: 10px;
+  flex: 50%;
+}
+
+.wrong-info{
+  color: red;
+  font-size: medium;
+  margin-bottom: 20px;
+}
+
+.google-signin{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+

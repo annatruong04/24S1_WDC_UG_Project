@@ -76,6 +76,41 @@ var appdiv = new Vue({
       xhttp.open("get", "/auth/getUser", true);
       xhttp.send();
     },
+    LogOut(){
+      window.location.href = `http://localhost:3000/auth/logout`;
+    },
+    Update() {
+      // Navigate to the desired page
+      window.location.href = 'updateUser.html';
+
+    },
+    updateUser() {
+
+
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = () => {
+        if (xhttp.readyState === 4) {
+          if (xhttp.status === 200) {
+    this.getUser();
+    setTimeout(() => {
+      window.location.href = `http://localhost:3000/manager/profile.html`;
+    }, 500);
+
+          } else {
+            this.invalid = true;
+            this.invalidMessage = 'Failed to update user information';
+          }
+        }
+      };
+
+      if (this.Receive_noti) {
+        this.user.Receive_noti = 1;
+      }
+
+      xhttp.open("post", "/auth/updateUser", true);
+      xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      xhttp.send(JSON.stringify(this.user));
+    },
     directUpdate(update) {
       const queryParams = new URLSearchParams({
         id: update.UpdateID,

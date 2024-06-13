@@ -41,8 +41,30 @@ var appdiv = new Vue({
                 console.error('Network error');
             };
 
-            xhr.send(formData);  // Send FormData instead of JSON
-        },
+            xhr.send(formData);
+
+
+            const formObject = {};
+          formData.forEach((value, key) => {
+            formObject[key] = value;
+          });
+
+          // Send the plain object as JSON to '/send-email'
+          const xhttp = new XMLHttpRequest();
+          xhttp.open('POST', '/send-email', true);
+          xhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+          xhttp.onreadystatechange = () => {
+            if (xhttp.readyState === 4) {
+              if (xhttp.status >= 200 && xhttp.status < 300) {
+                console.log('Email sent successfully');
+              } else {
+                console.error('Failed to send email:', xhttp.statusText);
+              }
+            }
+          };
+          xhttp.send(JSON.stringify(formObject));
+        }
+
     }
 });
 

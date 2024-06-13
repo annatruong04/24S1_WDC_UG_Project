@@ -6,11 +6,13 @@ var app = new Vue({
       Last_name: '',
       Phone_number: '',
       Email: '',
-      Password: ''
+      Password: '',
+      Receive_noti: 0
     },
     confirmPassword: '',
     invalid: false,
-    invalidMessage: ''
+    invalidMessage: '',
+    Receive_noti: false
   },
   mounted() {
     this.getUser();
@@ -56,6 +58,10 @@ var app = new Vue({
           }
         }
       };
+
+      if (this.Receive_noti) {
+        this.user.Receive_noti = 1;
+      }
 
       xhttp.open("post", "/auth/updateUser", true);
       xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");

@@ -54,7 +54,6 @@ var appdiv = new Vue({
         xhttp.onreadystatechange = () => {
             if (xhttp.readyState == 4 && xhttp.status == 200) {
                 var data = JSON.parse(xhttp.responseText);
-                console.log(data);
                 this.users = data;
             }
         };
@@ -79,9 +78,7 @@ var appdiv = new Vue({
 
           xhttp.onreadystatechange = () => {
               if (xhttp.readyState === 4 && xhttp.status === 200) {
-                  console.log(xhttp.responseText);
                   window.location.href = `http://localhost:3000/admin/Member.html`;
-                  console.log("Delete successfull");
               }
           };
           xhttp.open("post", `/api/admin/delete/user/${UserID}`, true);
@@ -109,7 +106,6 @@ var appdiv = new Vue({
         xhttp.onreadystatechange = () => {
             if (xhttp.readyState === 4 && xhttp.status === 200) {
                 window.location.href = `http://localhost:3000/admin/Member.html`;
-                console.log("Add new member successful successfull");
             }
         };
         xhttp.open("post", "/api/manager/add/user", true);
@@ -124,7 +120,6 @@ var appdiv = new Vue({
           if (xhttp.readyState === 4) {
             if (xhttp.status === 200) {
               window.location.href = `http://localhost:3000/admin/Member.html`;
-              console.log("Make member manager successful");
             } else {
               console.error("Failed to make member manager", xhttp.responseText);
             }

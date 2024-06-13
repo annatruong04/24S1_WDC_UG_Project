@@ -45,7 +45,6 @@ var appdiv = new Vue({
           this.filteredEvents = this.events;
         }
         this.showSearch = true;
-        console.log(this.filteredEvents);
       },
       fetch_event() {
         var xhttp = new XMLHttpRequest();
@@ -55,9 +54,7 @@ var appdiv = new Vue({
         xhttp.onreadystatechange = () => {
             if (xhttp.readyState == 4 && xhttp.status == 200) {
                 var data = JSON.parse(xhttp.responseText);
-                console.log(data[0]["EventID"]);
                 this.events = data;
-                console.log(this.events);
             }
         };
 
@@ -72,7 +69,6 @@ var appdiv = new Vue({
           if (xhttp.readyState == 4 && xhttp.status == 200) {
             var data = JSON.parse(xhttp.responseText);
             this.User_Event = data;
-            console.log(this.User_Event);
           }
         };
 
@@ -87,7 +83,6 @@ var appdiv = new Vue({
           if (xhttp.readyState == 4 && xhttp.status == 200) {
             var data = JSON.parse(xhttp.responseText);
             this.User_Branch = data;
-            console.log(this.User_Branch);
           }
         };
 
@@ -235,4 +230,4 @@ window.onload = function () {
             }
         }
     });
-}
+};

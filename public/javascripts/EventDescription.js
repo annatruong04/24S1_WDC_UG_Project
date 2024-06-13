@@ -54,10 +54,8 @@ var appdiv = new Vue ({
         xhttp.onreadystatechange = () => {
           if (xhttp.readyState == 4 && xhttp.status == 200) {
             var data = JSON.parse(xhttp.responseText);
-            console.log(data[0]["BranchID"]);
             this.Branches = data;
             this.BranchName = data[0]["Branch_name"];
-            console.log(this.BranchName);
           }
         };
 
@@ -72,7 +70,6 @@ var appdiv = new Vue ({
           if (xhttp.readyState == 4 && xhttp.status == 200) {
             var data = JSON.parse(xhttp.responseText);
             this.User_Event = data;
-            console.log(this.User_Event);
           }
         };
 
@@ -87,7 +84,6 @@ var appdiv = new Vue ({
           if (xhttp.readyState == 4 && xhttp.status == 200) {
             var data = JSON.parse(xhttp.responseText);
             this.User_Branch = data;
-            console.log(this.User_Branch);
           }
         };
 
@@ -102,7 +98,6 @@ var appdiv = new Vue ({
             xhttp.onreadystatechange = () => {
                 if (xhttp.readyState == 4 && xhttp.status == 200) {
                     var data = JSON.parse(xhttp.responseText);
-                    console.log(data);
                     this.name = data[0]['Name'];
                     this.description = data[0]['Description'];
                     this.date = data[0]['Date'];
@@ -168,7 +163,6 @@ var appdiv = new Vue ({
               if (xhttp.readyState === 4 && xhttp.status === 200) {
                 const rawComments = JSON.parse(xhttp.responseText);
                 const nestedComments = this.buildNestedComments(rawComments);
-                console.log(nestedComments);
                 this.comments = nestedComments;
               }
             };
@@ -217,7 +211,6 @@ var appdiv = new Vue ({
                 newComment.replies = [];
                 newComment.showReplyForm = false;
                 newComment.replyText = '';
-                console.log(newComment);
                 this.comments.unshift(newComment);
                 this.newCommentText = ''; // Clear the comment text area
               }

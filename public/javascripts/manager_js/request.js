@@ -17,7 +17,6 @@ var appdiv = new Vue({
             var data = JSON.parse(xhttp.responseText);
 
             this.requests = data;
-            console.log(this.requests);
           }
         };
         xhttp.send();
@@ -63,9 +62,8 @@ window.onload = function () {
       },
       methods: {
         toggleDropdown() {
-          console.log(this.clicked);
           this.clicked = !this.clicked;
         }
       }
     });
-}
+};

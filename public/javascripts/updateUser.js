@@ -25,7 +25,6 @@ var app = new Vue({
         if (xhttp.readyState === 4) {
           if (xhttp.status === 200) {
             var data = JSON.parse(xhttp.responseText);
-            console.log(data); // Debugging to check the data structure
             this.user.First_name = data.First_name || '';
             this.user.Last_name = data.Last_name || '';
             this.user.Phone_number = data.Phone_num || '';
@@ -33,7 +32,6 @@ var app = new Vue({
             this.user.Password = data.Password || ''; // Clear password fields
             this.confirmPassword = '';
             this.role = data.Role;
-            console.log(this.role);
           } else {
             console.error('Failed to fetch user data');
           }

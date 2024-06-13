@@ -29,7 +29,6 @@ var appdiv = new Vue({
 
         if (query_name) {
           this.filteredUsers = this.users.filter(user => {
-            console.log(user.First_name + user.Last_name);
             return (user.First_name + user.Last_name).toLowerCase().includes(query_name) ||
             user.Email.toLowerCase().includes(query_name);
           });
@@ -37,7 +36,6 @@ var appdiv = new Vue({
           this.filteredUsers = this.users;
         }
         this.showSearch = true;
-        console.log(this.filteredEvents);
       },
       fetch_users() {
         var xhttp = new XMLHttpRequest();
@@ -47,7 +45,6 @@ var appdiv = new Vue({
         xhttp.onreadystatechange = () => {
             if (xhttp.readyState == 4 && xhttp.status == 200) {
                 var data = JSON.parse(xhttp.responseText);
-                console.log(data);
                 this.users = data;
             }
         };
@@ -72,9 +69,7 @@ var appdiv = new Vue({
 
           xhttp.onreadystatechange = () => {
               if (xhttp.readyState === 4 && xhttp.status === 200) {
-                  console.log(xhttp.responseText);
                   window.location.href = `http://localhost:3000/manager/Member.html`;
-                  console.log("Delete successfull");
               }
           };
           xhttp.open("post", "/api/manager/delete/user", true);
@@ -102,7 +97,6 @@ var appdiv = new Vue({
         xhttp.onreadystatechange = () => {
             if (xhttp.readyState === 4 && xhttp.status === 200) {
                 window.location.href = `http://localhost:3000/manager/Member.html`;
-                console.log("Add new member successful successfull");
             }
         };
         xhttp.open("post", "/api/manager/add/user", true);
@@ -124,4 +118,4 @@ window.onload = function () {
       }
     }
   });
-}
+};

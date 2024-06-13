@@ -16,12 +16,37 @@ var appdiv = new Vue({
     query_name: '',
     showSearch: false,
   },
+  computed: {
+    truncatedBranches() {
+      return this.Branches.map(branch => {
+        return {
+          ...branch,
+          truncatedDescription: this.truncateMessage(branch.Description, 8), // Adjust the number of words as needed
+        };
+      });
+    },
+    filter_truncatedBranches() {
+      return this.filteredBranches.map(branch => {
+        return {
+          ...branch,
+          truncatedDescription: this.truncateMessage(branch.Description, 8), // Adjust the number of words as needed
+        };
+      });
+    }
+  },
   mounted: function () {
     this.fetch_Branch();
     this.fetch_User_Branch();
     this.fetch_User_BranchRequest();
   },
   methods: {
+    truncateMessage(message, wordLimit) {
+      const words = message.split(' ');
+      if (words.length > wordLimit) {
+        return words.slice(0, wordLimit).join(' ') + '...';
+      }
+      return message;
+  },
     search() {
       const query_name = this.query_name ? this.query_name.toLowerCase() : "";
 

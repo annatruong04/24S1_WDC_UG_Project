@@ -82,11 +82,11 @@ var appdiv = new Vue({
           xhttp.onreadystatechange = () => {
               if (xhttp.readyState === 4 && xhttp.status === 200) {
                   console.log(xhttp.responseText);
-                  window.location.href = `http://localhost:3000/manager/Member.html`;
+                  window.location.href = `http://localhost:3000/admin/Member.html`;
                   console.log("Delete successfull");
               }
           };
-          xhttp.open("post", "/api/manager/delete/user", true);
+          xhttp.open("post", `/api/admin/delete/user/${UserID}`, true);
           xhttp.setRequestHeader("Content-type", "application/json");
           xhttp.send(JSON.stringify({userID: UserID}));
         }

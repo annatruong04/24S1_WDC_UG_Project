@@ -831,7 +831,7 @@ router.get('/manager/get/user', isAuthenticated, hasRole("Manager"),  (req, res)
 });
 
 
-router.post('/admin/update/user/:userId', isAuthenticated, hasRole("Admin"), (req, res) => {
+router.post('/admin/update/user/:userId', isAuthenticated, hasRole("Administrator"), (req, res) => {
   const { userId } = req.params;
 
   if (!userId) {
@@ -873,6 +873,25 @@ router.post('/manager/delete/user', isAuthenticated, hasRole("Manager"),  (req, 
     });
   });
 });
+
+router.post('/admin/delete/user/:id', isAuthenticated, hasRole("Administrator"),  (req, res) => {
+  req.pool.getConnection(function (err, connection) {
+    if (err) {
+      console.log(err);
+      res.sendStatus(500);
+      return;
+    }
+    connection.query(`call DeleteUser(?)`, [req.params.id], (error, results) => {
+      connection.release();
+      if (error) {
+        console.log(error);
+        return res.status(500).send(error);
+      }
+      res.sendStatus(200);
+    });
+  });
+});
+
 
 router.post('/manager/add/user', isAuthenticated, hasRole("Manager"),  (req, res) => {
   req.pool.getConnection(function (err, connection) {

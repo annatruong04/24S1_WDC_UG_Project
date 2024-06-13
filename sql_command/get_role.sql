@@ -54,6 +54,31 @@ Khanh Le", 6, 3);
 
 
 
+DELIMITER //
+
+CREATE PROCEDURE DeleteUser(IN p_UserID INT)
+BEGIN
+    -- Start a transaction
+    START TRANSACTION;
+
+    -- Delete from related tables
+    DELETE FROM `Comment` WHERE `UserID` = p_UserID;
+    DELETE FROM `UpdateTable` WHERE `Manager` = p_UserID;
+    DELETE FROM `User_Event` WHERE `User_ID` = p_UserID;
+    DELETE FROM `JoinRequest` WHERE `UserID` = p_UserID;
+    DELETE FROM `JoinRequest` WHERE `ManagerID` = p_UserID;
+    DELETE FROM `User_Branch` WHERE `User_ID` = p_UserID;
+
+    -- Finally, delete from the User table
+    DELETE FROM `User` WHERE `User_ID` = p_UserID;
+
+    -- Commit the transaction
+    COMMIT;
+END //
+
+DELIMITER ;
+
+
 
 insert into Type(Type_name) value("Private"),("Public");
 update Type set TypeID = 2 where Type_name = "Public";

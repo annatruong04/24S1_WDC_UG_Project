@@ -246,6 +246,8 @@ router.get('/read/User_Branch', isAuthenticated, (req, res) => {
   });
 });
 
+
+
 router.get('/read/BranchRequest', isAuthenticated, (req, res) => {
   req.pool.getConnection(function (err, connection) {
     if (err) {
@@ -625,6 +627,22 @@ router.get('/manager/read/users', isAuthenticated, hasRole("Manager"),  (req, re
   });
 });
 
+router.get('/admin/read/users', isAuthenticated, hasRole("Manager"),  (req, res) => {
+  req.pool.getConnection(function (err, connection) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+    connection.query(`SELECT *  FROM User `, (error, results) => {
+      connection.release();
+      if (error) {
+        return res.status(500).send(error);
+    }
+    res.json(results);
+    });
+  });
+});
+
 
 router.post('/manager/create/events', isAuthenticated, upload.single('image'), hasRole("Manager"),  (req, res) => {
   console.log('File:', req.file); // Log the file data
@@ -785,6 +803,32 @@ router.get('/manager/get/user', isAuthenticated, hasRole("Manager"),  (req, res)
     });
   });
 });
+
+
+router.post('/admin/update/user/:userId', isAuthenticated, hasRole("Admin"), (req, res) => {
+  const { userId } = req.params;
+
+  if (!userId) {
+    return res.status(400).send('User ID is required');
+  }
+
+  req.pool.getConnection(function (err, connection) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    const query = 'UPDATE User SET Role_ID = 1 WHERE User_ID = ?';
+    connection.query(query, [userId], (error, results) => {
+      connection.release();
+      if (error) {
+        return res.status(500).send(error);
+      }
+      res.json({ message: 'User role updated successfully' });
+    });
+  });
+});
+
 
 router.post('/manager/delete/user', isAuthenticated, hasRole("Manager"),  (req, res) => {
   req.pool.getConnection(function (err, connection) {

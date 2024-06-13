@@ -286,6 +286,10 @@ body{
   font-size: medium;
 }
 
+.no_border{
+border: none;
+}
+
 #table td{
   font-size: medium;
 }
@@ -752,7 +756,6 @@ body{
 .member-table th, td {
   text-align: left;
   padding: 12px;
-  border-bottom: 1px solid #ddd;
 }
 
 .member-table th {

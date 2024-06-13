@@ -43,6 +43,7 @@ var appdiv = new Vue({
 
             xhr.send(formData);
 
+
             const formObject = {};
           formData.forEach((value, key) => {
             formObject[key] = value;
@@ -62,15 +63,8 @@ var appdiv = new Vue({
             }
           };
           xhttp.send(JSON.stringify(formObject));
-        },
+        }
 
-            sendEmail() {
-      // Make an AJAX call to your server to send the email with the updates
-      const xhttp = new XMLHttpRequest();
-      xhttp.open('POST', '/send-email', true);
-      xhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-      xhttp.send(JSON.stringify(this.updates));
-    }
     }
 });
 

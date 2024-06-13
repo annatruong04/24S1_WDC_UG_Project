@@ -15,17 +15,7 @@ require('dotenv').config();
 
 const cors = require('cors');
 
-// Nodemailer setup
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false,
-  auth: {
-    user: 'kieuduc2505@gmail.com',
-    pass: 'euoj kppd hfpe dxfv',
-  },
-});
+
 
 var app = express();
 // view engine setup
@@ -38,50 +28,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-// Route to send email
-app.post('/send-email', (req, res) => {
-  const { Title, Message, Type } = req.body; // Destructure the form data from the request body
 
-  const mailOptions = {
-    from: {
-      name: "Testing the email nodemailer",
-      address: 'kieuduc2505@gmail.com'
-    },
-    to: ["kieuduc2505@gmail.com"],
-    subject: `${Title}`,
-    text: `Title: ${Title}\nMessage: ${Message}\nType: ${Type}`, // Plain text version
-    html: `<p><strong>Message:</strong> ${Message}</p>` // HTML version
-  };
 
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.error('Error sending email:', error);
-      return res.status(500).send(error.toString());
-    }
-    res.send('Email sent: ' + info.response);
-  });
-});
 
-app.get('/test-email', (req, res) => {
-  const mailOptions = {
-    from: {
-      name: "Testing the email nodemailer",
-      address: 'kieuduc2505@gmail.com'
-    },
-    to: ["kieuduc2505@gmail.com"],
-    subject: "Test Email",
-    text: "This is a test email to check if the email sending is working.",
-    html: "<p>This is a test email to check if the email sending is working.</p>"
-  };
-
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.error('Error sending test email:', error);
-      return res.status(500).send(error.toString());
-    }
-    res.send('Test email sent: ' + info.response);
-  });
-});
 
 
 // view engine setup
@@ -112,6 +61,24 @@ dbConnectionPool.getConnection(function (err, connection) {
 if (!fs.existsSync('uploads')) {
   fs.mkdirSync('uploads');
 }
+
+
+
+// Nodemailer setup
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false,
+  auth: {
+    user: 'kieuduc2505@gmail.com',
+    pass: 'euoj kppd hfpe dxfv',
+  },
+});
+// Route to send email
+
+
+
 
 app.use(function (req, res, next) {
   req.pool = dbConnectionPool;
@@ -189,6 +156,97 @@ app.use(function (req, res, next) {
   } else {
     next();
   }
+});
+
+// app.post('/send-email', (req, res) => {
+
+//   var to = [];
+//   req.pool.getConnection(function (err, connection) {
+//     if (err) {
+//       res.sendStatus(500);
+//       return;
+//     }
+
+//     connection.query(`SELECT u.Email FROM User_Branch ub INNER JOIN User u ON ub.User_ID = u.User_ID WHERE ub.BranchID = ?;
+//     `,[req.session.BranchID[0]], (error, results) => {
+//         connection.release();
+//         if (error) {
+//           return res.status(500).send(error);
+//         }
+
+// to = results.map(user => user.Email);
+
+//         res.json(results);
+//       });
+//   });
+
+
+
+
+//   const { Title, Message, Type } = req.body; // Destructure the form data from the request body
+
+//   const mailOptions = {
+//     from: {
+//       name: "Testing the email nodemailer",
+//       address: 'kieuduc2505@gmail.com'
+//     },
+//     to: to,
+//     subject: `${Title}`,
+//     text: `Title: ${Title}\nMessage: ${Message}\nType: ${Type}`, // Plain text version
+//     html: `<p><strong>Message:</strong> ${Message}</p>` // HTML version
+//   };
+
+//   transporter.sendMail(mailOptions, (error, info) => {
+//     if (error) {
+//       console.error('Error sending email:', error);
+//       return res.status(500).send(error.toString());
+//     }
+//     res.send('Email sent: ' + info.response);
+//   });
+// });
+
+app.post('/send-email', (req, res) => {
+  req.pool.getConnection(function (err, connection) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    connection.query(`SELECT u.Email
+    FROM User_Branch ub
+    INNER JOIN User u ON ub.User_ID = u.User_ID
+    WHERE ub.BranchID = ? AND u.Receive_email = 1;
+    `, [req.session.BranchID[0]], (error, results) => {
+      connection.release();
+      if (error) {
+        return res.status(500).send(error);
+      }
+
+      // Convert the results array of objects to an array of email strings
+      var to = results.map(user => user.Email);
+
+      const { Title, Message, Type } = req.body; // Destructure the form data from the request body
+
+      const mailOptions = {
+        from: {
+          name: "Testing the email nodemailer",
+          address: 'kieuduc2505@gmail.com'
+        },
+        to: to,
+        subject: `${Title}`,
+        text: `Title: ${Title}\nMessage: ${Message}\nType: ${Type}`, // Plain text version
+        html: `<p><strong>Message:</strong> ${Message}</p>` // HTML version
+      };
+
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.error('Error sending email:', error);
+          return res.status(500).send(error.toString());
+        }
+        res.send('Email sent: ' + info.response);
+      });
+    });
+  });
 });
 
 //add role for google login user

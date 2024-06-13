@@ -45,14 +45,65 @@ var app = new Vue({
         location: '',
         date: '',
         description: ''
-      }
+      },
+
     },
     created() {
       this.getUser();
       this.fetchUserEvents();
       this.fetchUserBranches();
     },
+    computed: {
+      truncatedBranches() {
+        return this.userBranches.map(branch => {
+          return {
+            ...branch,
+            truncatedDescription: this.truncateMessage(branch.Description, 10), // Adjust the number of words as needed
+          };
+        });
+      },
+      truncatedEvents() {
+        return this.userEvents.map(event => {
+          return {
+            ...event,
+            truncatedDescription: this.truncateMessage(event.Description, 10), // Adjust the number of words as needed
+          };
+        });
+      }
+    },
     methods: {
+      directBranch(branch) {
+        const queryParams = new URLSearchParams({
+          id: branch.BranchID,
+          name: branch.Branch_name,
+          description: branch.Description,
+          date: branch.Date,
+          location: branch.Location,
+          // Add other branch details as needed
+      }).toString();
+
+        window.location.href = `http://localhost:3000/BranchDetail.html?${queryParams}`;
+      },
+      directEvent(event) {
+        const queryParams = new URLSearchParams({
+          id: event.EventID,
+          name: event.Name,
+          description: event.Description,
+          date: event.Date,
+          location: event.Location,
+          BranchID: event.BranchID
+          // Add other event details as needed
+        }).toString();
+
+        window.location.href = `http://localhost:3000/EventDescription.html?${queryParams}`;
+      },
+      truncateMessage(message, wordLimit) {
+        const words = message.split(' ');
+        if (words.length > wordLimit) {
+          return words.slice(0, wordLimit).join(' ') + '...';
+        }
+        return message;
+    },
       toggleDropdown() {
         this.clicked = !this.clicked;
       },

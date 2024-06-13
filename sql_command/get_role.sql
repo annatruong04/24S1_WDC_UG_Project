@@ -3,6 +3,10 @@ inner join User as B
 on A.RoleID = B.Role_ID
 where B.User_ID = 2;
 
+Update Branch
+set Branch_name = "asd", Description = "asdf", Location = "asdf"
+where BranchID = 9;
+
 Update User
 set Password = "$argon2id$v=19$m=65536,t=3,p=4$SA2BmoNzIfHtYzIEX1CSZg$LD2nFmBiAnoq/O6TDkpjyUaJ1AnQoz7qB+fSvD3D5NI"
 where User_ID = 6;
@@ -53,5 +57,27 @@ update Type set TypeID = 2 where Type_name = "Public";
 update UpdateTable set TypeID = 1 where UpdateID = 4;
 
 delete from JoinRequest where UserID = ? and BranchID = ?
+
+SELECT
+    u.UpdateID,
+    u.Time_stamp,
+    u.Message,
+    u.Title,
+    u.Manager_ID,
+    u.BranchID,
+    u.TypeID,
+    t.Type_name,
+    b.Branch_name
+FROM
+    UpdateTable u
+    JOIN User_Branch ub ON u.BranchID = ub.BranchID
+    JOIN Branch b ON u.BranchID = b.BranchID
+    JOIN Type t ON u.TypeID = t.TypeID
+WHERE
+    ub.User_ID = ? AND ub.BranchID = ? AND
+    (t.Type_name = 'public' OR t.Type_name = 'private')
+ORDER BY
+    u.Time_stamp DESC;
+
 
 Select U.Time_stamp, U.Title, U.Message, T.Type_name  from UpdateTable U join Type T on U.TypeID = T.TypeID join Branch B on B.BranchID = U.BranchID where B.Manager_ID = ?;

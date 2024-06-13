@@ -654,6 +654,68 @@ router.post('/manager/create/events', isAuthenticated, upload.single('image'), h
   });
 });
 
+router.post('/admin/create/branches', isAuthenticated, hasRole("Administrator"), upload.none(), (req, res) => {
+
+  req.pool.getConnection(function (err, connection) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    const data = req.body;
+
+    const sql = `INSERT INTO Branch (Branch_name, Location, Description, Manager_ID)
+                   VALUES (?, ?, ?, (SELECT User_ID FROM User WHERE Email = ?))`;
+    connection.query(sql, [data.name, data.location, data.description, data.email], (error, results, fields) => {
+      connection.release();
+      if (error) return res.status(500).send(error);
+      res.send('Data inserted');
+    });
+  });
+});
+
+router.post('/admin/delete/branches', isAuthenticated, hasRole("Administator"),  (req, res) => {
+  req.pool.getConnection(function (err, connection) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    const sql = `CALL deleteBranch(?)`;
+    connection.query(sql, [req.body.branchID], (error, results, fields) => {
+      connection.release();
+      if (error) return res.status(500).send(error);
+      res.sendStatus(200);
+    });
+  });
+});
+
+router.post('/admin/edit/branches', isAuthenticated, upload.none(), hasRole("Administrator"),  (req, res) => {
+  req.pool.getConnection(function (err, connection) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    const data = req.body;
+
+    const sql = `Update Branch
+                  set Branch_name = ?, Description = ?, Location = ?
+                  where BranchID = ?`;
+    connection.query(sql, [data.name, data.description, data.location, data.id], (error, results, fields) => {
+      connection.release();
+      if (error) {
+        console.log(error);
+        return res.status(500).send(error);
+      }
+      res.send('Update branch Successfully');
+    });
+
+  });
+});
+
+
+
 router.post('/manager/edit/events', isAuthenticated, upload.single('image'), hasRole("Manager"),  (req, res) => {
   console.log('File:', req.file); // Log the file data
 
@@ -808,6 +870,57 @@ router.get('/manager/read/updates/', isAuthenticated, hasRole("Manager"),  (req,
     });
   });
 });
+router.get('/read/updates/', isAuthenticated, (req, res) => {
+  req.pool.getConnection(function (err, connection) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    connection.query(`SELECT
+                        u.UpdateID,
+                        u.Time_stamp,
+                        u.Message,
+                        u.Title,
+                        u.Manager,
+                        u.BranchID,
+                        u.TypeID,
+                        t.Type_name,
+                        b.Branch_name
+                    FROM
+                        UpdateTable u
+                        JOIN Branch b ON u.BranchID = b.BranchID
+                        JOIN Type t ON u.TypeID = t.TypeID
+                        JOIN User_Branch ub ON u.BranchID = ub.BranchID
+                    WHERE
+                        ub.User_ID = ?
+                    ORDER BY
+                        u.Time_stamp DESC;
+                    `, [req.session.userID], (error, results) => {
+      connection.release();
+      if (error) {
+        console.log(error);
+        return res.status(500).send(error);
+      }
+
+      results.forEach(update => {
+        if (update.Time_stamp) {
+          const date = new Date(update.Time_stamp);
+          const year = date.getUTCFullYear();
+          const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+          const day = String(date.getUTCDate()).padStart(2, '0');
+
+          update.Time_stamp = `${year}-${month}-${day}`;
+        }
+      });
+
+
+
+      res.json(results);
+    });
+  });
+});
+
 
 router.get('/read/updates/:id', isAuthenticated, (req, res) => {
   req.pool.getConnection(function (err, connection) {
@@ -816,7 +929,27 @@ router.get('/read/updates/:id', isAuthenticated, (req, res) => {
       return;
     }
 
-    connection.query(`Select U.UpdateID, U.Time_stamp, U.Title, U.Message, T.Type_name from UpdateTable U join Type T on U.TypeID = T.TypeID join Branch B on B.BranchID = U.BranchID where B.BranchID = ? and T.Type_name = "Public"`, [req.params.id], (error, results) => {
+    connection.query(`SELECT
+                        u.UpdateID,
+                        u.Time_stamp,
+                        u.Message,
+                        u.Title,
+                        u.Manager,
+                        u.BranchID,
+                        u.TypeID,
+                        t.Type_name,
+                        b.Branch_name
+                    FROM
+                        UpdateTable u
+                        JOIN Branch b ON u.BranchID = b.BranchID
+                        JOIN Type t ON u.TypeID = t.TypeID
+                        LEFT JOIN User_Branch ub ON u.BranchID = ub.BranchID AND ub.User_ID = ?
+                    WHERE
+                        (ub.User_ID IS NOT NULL AND ub.BranchID = ? AND t.Type_name = 'private')
+                        OR (u.BranchID = ? AND t.Type_name = 'public')
+                    ORDER BY
+                        u.Time_stamp DESC;
+                    `, [req.session.userID, req.params.id, req.params.id], (error, results) => {
       connection.release();
       if (error) {
         console.log(error);

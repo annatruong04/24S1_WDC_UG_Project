@@ -11,6 +11,7 @@
 </head>
 
 <body>
+
     <header id="mydiv" class="page-header">
         <div class="upper-header">
             <div class="logo-container">
@@ -66,6 +67,11 @@
                              <div class="navbar-link">Event</div>
                         </a>
                     </li>
+                    <li class="" v-if="user.Name">
+                      <a href="../user/Update.html">
+                          <div class="navbar-link">Update</div>
+                      </a>
+                  </li>
                     <li class="">
                         <a href="aboutUs.html">
                             <div class="navbar-link">About us</div>
@@ -81,6 +87,13 @@
         </div>
         <div  class="event-body-container">
             <div class="event-detail">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb" id="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/landingEventPage.html">Event</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Event Description</li>
+                </ol>
+              </nav>
                 <p>{{formattedDate}}</p>
                 <h1>
                     {{name}} (Organizer: branch {{BranchName}})

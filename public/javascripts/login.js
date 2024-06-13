@@ -86,3 +86,18 @@ function do_google_login(response){
     xhttp.send(JSON.stringify(response));
 }
 
+
+window.onload = function () {
+    var app = new Vue({
+      el: "#mydiv",
+      data: {
+        clicked: false
+      },
+      methods: {
+        toggleDropdown() {
+          console.log(this.clicked);
+          this.clicked = !this.clicked;
+        }
+      }
+    });
+};

@@ -73,8 +73,8 @@
             <h1>Updates</h1>
             <div class="search-and-invite">
                 <div class="member-searchbar">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" placeholder="Search for updates">
+                    <i class="fa-solid fa-magnifying-glass" @click="search()"></i>
+                    <input v-model="query_name" @keydown.enter="search" type="text" placeholder="Search for updates">
                 </div>
                 <div class="buttons-event">
                     <button type="button" @click="gotoPostUpdate()">Post Update +</button>
@@ -82,7 +82,7 @@
             </div>
             <hr>
         </div>
-        <div class="Branch-event" v-for="update in truncatedUpdates" :key="update.UpdateID" @click="directUpdate(update)">
+        <div class="Branch-event" v-for="update in truncatedUpdates" :key="update.UpdateID" @click="directUpdate(update)" v-if="!showSearch">
             <div class="Branch-event-details">
                 <div v-if='update.Type_name==="Private"' class="status-box status-private">Private</div>
                 <div v-if='update.Type_name==="Public"' class="status-box">Public</div>
@@ -91,6 +91,17 @@
                 <div v-html="sanitizeHTML(update.truncatedMessage)"></div>
             </div>
         </div>
+
+        <div class="Branch-event" v-for="update in filteredUpdates" :key="update.UpdateID" @click="directUpdate(update)" v-if="showSearch">
+            <div class="Branch-event-details">
+                <div v-if='update.Type_name==="Private"' class="status-box status-private">Private</div>
+                <div v-if='update.Type_name==="Public"' class="status-box">Public</div>
+                <h2>{{update.Title}}</h2>
+                <p>{{update.Time_stamp}}</p>
+                <div v-html="sanitizeHTML(update.truncatedMessage)"></div>
+            </div>
+        </div>
+        <p v-if="showSearch && filteredUpdates.length === 0">No result found.</p>
     </div>
     <script src="https://kit.fontawesome.com/4cf720d27e.js" crossorigin="anonymous"></script>
     <script src="../javascripts/manager_js/update.js"></script>

@@ -21,7 +21,6 @@ body{
   height: 50%;
   width: 100%;
   background-color: #135D66;
-  padding: 0 20px;
 }
 
 .logo-container {
@@ -95,7 +94,6 @@ body{
   background-color: white;
   border-bottom: 1px solid rgb(232, 232, 232);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding-left: 50px;
   padding-right: 8px;
 }
 
@@ -864,6 +862,7 @@ body{
   color: white;
   padding: 40px 0;
   margin-top: 100px;
+  width: 100%;
 }
 
 .site-footer .container {
@@ -1043,3 +1042,35 @@ input[type="file"] {
 .event-container button:hover {
   background-color: #218838;
 }
+
+.breadcrumb {
+  list-style: none;
+  display: flex;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 40px;
+}
+
+.breadcrumb-item {
+  margin: 0;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+  content: "/";
+  padding: 0 8px;
+  color: #6c757d;
+}
+
+.breadcrumb-item a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+.breadcrumb-item a:hover {
+  text-decoration: underline;
+}
+
+.breadcrumb-item.active {
+  color: #6c757d;
+}
+

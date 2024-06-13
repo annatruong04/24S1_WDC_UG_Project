@@ -69,6 +69,11 @@
                              <div class="navbar-link">Event</div>
                         </a>
                     </li>
+                    <li class="" v-if="user.Name">
+                        <a href="../user/Update.html">
+                            <div class="navbar-link">Update</div>
+                        </a>
+                    </li>
                     <li class="">
                         <a href="aboutUs.html">
                             <div class="navbar-link">About us</div>
@@ -83,13 +88,13 @@
             <h1>GreenEarth Branches</h1>
             <div class="branch-search-container">
 
-                <i class="fa-solid fa-magnifying-glass branch-search-icon"></i>
-                <input type="text" placeholder="Search for Branches" class="branch-search-input">
+                <i  class="fa-solid fa-magnifying-glass branch-search-icon" @click="search()"></i>
+                <input v-model="query_name" @keydown.enter="search" type="text" placeholder="Search for Branches" class="branch-search-input">
             </div>
         </div>
         <hr>
         <div class="event-grid">
-            <div v-for="branch in Branches" :key="branch.BranchID" class="event-card" @click="directBranch(branch)">
+            <div v-for="branch in Branches" :key="branch.BranchID" class="event-card" @click="directBranch(branch)" v-if="!showSearch">
                 <img src="../images/meeting.jpg" alt="Event Image" @error="imgErr = true" v-show="!imgErr">
                 <div class="fallback" v-if="imgErr"></div>
                 <div class="event-info">
@@ -106,6 +111,29 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div v-for="branch in filteredBranches" :key="branch.BranchID" class="event-card" @click="directBranch(branch)" v-if="showSearch">
+                <img src="../images/meeting.jpg" alt="Event Image" @error="imgErr = true" v-show="!imgErr">
+                <div class="fallback" v-if="imgErr"></div>
+                <div class="event-info">
+                    <h2>{{branch.Branch_name}}</h2>
+                    <p class="location">{{branch.Location}}</p>
+                    <p>{{branch.Description}}</p>
+                    <span><i class="fa-solid fa-user"></i></span>
+                    <span>{{branch.MemberCount}} </span>
+                    <div class="followers">
+                        <div class="join-buttons" >
+                            <button @click.stop="join(branch.BranchID)" v-if="!isUserInBranch(branch.BranchID) && !isUserInBranchRequest(branch.BranchID)"  class="join-button" type="button">Join</button>
+                            <button @click.stop="cancelRequest(branch.BranchID)" v-if="isUserInBranchRequest(branch.BranchID) && !isUserInBranch(branch.BranchID)"  class="pending-button" type="button">Request Pending</button>
+                            <button @click.stop="leave(branch.BranchID)" v-if="isUserInBranch(branch.BranchID)" class="leave-button" type="button">Leave</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div v-if="showSearch && filteredBranches.length === 0">
+                <p>No result found.</p>
             </div>
         </div>
 

@@ -157,7 +157,7 @@
                 </div>
             </div>
 
-            <div v-for="event in filteredEvents" :key="event.EventID" class="event-card" @click="directEvent(event)" v-else>
+            <div v-for="event in filteredEvents" :key="event.EventID" class="event-card" @click="directEvent(event)" v-if="showSearch">
                 <img v-if="event.Image" :src="event.Image" :alt="event.Name">
                 <div class="fallback" v-if="imgErr"></div>
                 <div class="event-info">
@@ -175,6 +175,10 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div v-if="showSearch && filteredEvents.length === 0">
+                <p>No result found.</p>
             </div>
         </div>
 

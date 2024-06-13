@@ -68,6 +68,11 @@
                         </a>
                     </li>
                     <li class="">
+                        <a href="../user/Update.html">
+                            <div class="navbar-link">Update</div>
+                        </a>
+                    </li>
+                    <li class="">
                         <a href="../aboutUs.html">
                             <div class="navbar-link">About us</div>
                         </a>
@@ -79,27 +84,29 @@
     <div id="mydiv" class="Branch-main-div" >
         <h1>My Branches</h1>
         <hr>
-        <div v-for="branch in userBranches"  class="Branch-event">
+        <div v-for="branch in truncatedBranches"  class="Branch-event">
             <div class="Branch-event-details">
                 <h2>{{ branch.Branch_name }}</h2>
                 <p>{{ formatDate(branch.Date) }}, {{ formatTime(branch.Time) }}</p>
                 <p>{{ branch.Location }}</p>
-                <p>{{ branch.Description }}</p>
+                <p>{{ branch.truncatedDescription }}</p>
             </div>
             <div class="join-buttons">
+                <button class="detail-btn" @click="directBranch(branch)" type="button">Details</button>
                 <button @click="leave(branch.BranchID)" class="leave-button" type="button">Leave</button>
             </div>
         </div>
         <h1>My Events</h1>
         <hr>
-        <div v-for="event in userEvents" :key="event.EventID" class="Branch-event">
+        <div v-for="event in truncatedEvents" :key="event.EventID" class="Branch-event">
             <div class="Branch-event-details">
                 <h2>{{ event.Name }}</h2>
                 <p>{{ formatDate(event.Date) }}, {{ formatTime(event.Time) }}</p>
                 <p>{{ event.Location }}</p>
-                <p>{{ event.Description }}</p>
+                <p>{{ event.truncatedDescription }}</p>
             </div>
             <div class="join-buttons">
+                <button class="detail-btn" @click="directEvent(event)" type="button">Read more</button>
                 <button @click="cancelRsvp(event.EventID)"  class="Branch-cancel-rsvp" type="button">Cancel RSVP</button>
             </div>
         </div>

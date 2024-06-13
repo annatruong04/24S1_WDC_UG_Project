@@ -2,6 +2,7 @@ var appdiv = new Vue ({
     el: "#app",
     data: {
         updates: [],
+        User_Branch: [],
         id: '',
         name: '',
         description: '',
@@ -103,7 +104,6 @@ var appdiv = new Vue ({
                     console.log(this.updates);
                 }
             };
-
             xhttp.send();
           },
           fetch_event() {

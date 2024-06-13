@@ -52,6 +52,9 @@ We are thrilled to announce the launch of our new Environmental Education Progra
 Warm regards,
 Khanh Le", 6, 3);
 
+
+
+
 insert into Type(Type_name) value("Private"),("Public");
 update Type set TypeID = 2 where Type_name = "Public";
 update UpdateTable set TypeID = 1 where UpdateID = 4;

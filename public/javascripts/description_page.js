@@ -25,7 +25,6 @@ var appdiv = new Vue ({
             xhttp.onreadystatechange = () => {
                 if (xhttp.readyState == 4 && xhttp.status == 200) {
                     var data = JSON.parse(xhttp.responseText);
-                    console.log(data);
                     this.name = data[0]['Name'];
                     this.description = data[0]['Description'];
                     this.date = data[0]['Date'];
@@ -90,7 +89,6 @@ var appdiv = new Vue ({
               if (xhttp.readyState === 4 && xhttp.status === 200) {
                 const rawComments = JSON.parse(xhttp.responseText);
                 const nestedComments = this.buildNestedComments(rawComments);
-                console.log(nestedComments);
                 this.comments = nestedComments;
               }
             };
@@ -139,7 +137,6 @@ var appdiv = new Vue ({
                 newComment.replies = [];
                 newComment.showReplyForm = false;
                 newComment.replyText = '';
-                console.log(newComment);
                 this.comments.unshift(newComment);
                 this.newCommentText = ''; // Clear the comment text area
               }
@@ -203,14 +200,12 @@ window.onload = function () {
               if (xhttp.readyState === 4 && xhttp.status === 200) {
                   var data = JSON.parse(xhttp.responseText);
                   this.users = data;
-                  console.log("Read Event member successfull");
               }
           };
           xhttp.open("get", `/api/manager/read/events/member/${queryParams.get('id')}`, true);
           xhttp.send();
       },
       toggleDropdown() {
-        console.log(this.clicked);
         this.clicked = !this.clicked;
       },
       deleteEvent(){
@@ -221,7 +216,6 @@ window.onload = function () {
           xhttp.onreadystatechange = () => {
               if (xhttp.readyState === 4 && xhttp.status === 200) {
                   window.location.href = `http://localhost:3000/manager/Event.html`;
-                  console.log("Delete Event successfull");
               }
           };
           xhttp.open("post", "/api/manager/delete/events", true);
@@ -236,4 +230,4 @@ window.onload = function () {
     },
     }
   });
-}
+};

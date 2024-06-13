@@ -74,7 +74,6 @@ router.get('/read/branches/events/:id', (req, res) => {
     connection.query(`SELECT * FROM Event where BranchID = ?`, [req.params.id], (error, results) => {
       connection.release();
       if (error) {
-        console.log(error);
         return res.status(500).send(error);
       }
 
@@ -126,7 +125,6 @@ router.get('/read/events/:id', (req, res) => {
           }
         });
 
-        console.log(req.params.id);
 
         res.json(results);
       });
@@ -146,7 +144,6 @@ router.get('/read/branches/:id', (req, res) => {
         if (error) {
           return res.status(500).send(error);
         }
-        console.log(req.params.id);
 
         res.json(results);
       });
@@ -259,7 +256,6 @@ router.get('/read/BranchRequest', isAuthenticated, (req, res) => {
     `,[req.session.userID], (error, results) => {
         connection.release();
         if (error) {
-          console.log(error);
           return res.status(500).send(error);
         }
 
@@ -282,13 +278,9 @@ router.get('/join/branches/:id', isAuthenticated, (req, res) => {
       [req.session.userID, req.params.id, req.params.id], (error, results) => {
         connection.release();
         if (error) {
-          console.log(error);
           return res.status(500).send(error);
         }
 
-        console.log('hello');
-
-        console.log(req.params.id);
 
         res.json(results);
       });
@@ -308,11 +300,9 @@ router.post('/cancel/BranchRequest/', isAuthenticated, (req, res) => {
       [req.session.userID, data.Branch_ID], (error, results) => {
         connection.release();
         if (error) {
-          console.log(error);
           return res.status(500).send(error);
         }
 
-        console.log("Cancel successfully");
 
         res.json(results);
       });
@@ -335,9 +325,7 @@ router.get('/leave/branches/:id', isAuthenticated, (req, res) => {
           return res.status(500).send(error);
         }
 
-        console.log('hello');
 
-        console.log(req.params.id);
 
         res.json(results);
       });
@@ -360,7 +348,6 @@ router.get('/leave/event/:id', isAuthenticated, (req, res) => {
           return res.status(500).send(error);
         }
 
-        console.log('RSVP cancelled for event:', req.params.id);
         res.json(results);
       }
     );
@@ -493,7 +480,6 @@ router.get('/manager/read/events/:id', isAuthenticated, hasRole("Manager"),  (re
           }
         });
 
-        console.log(req.params.id);
 
         res.json(results);
       });
@@ -523,7 +509,6 @@ router.get('/manager/read/comments/:id', isAuthenticated, (req, res) => {
       [req.params.id], (error, results) => {
         connection.release();
         if (error) {
-          console.log(error);
           return res.status(500).send(error);
         }
         res.json(results);
@@ -545,20 +530,17 @@ router.post('/manager/post/comments/', isAuthenticated, (req, res) => {
                 [req.body.EventID, req.session.userID, req.body.CommentText], (error, results) => {
         connection.release();
         if (error) {
-          console.log(error);
           return res.status(500).send(error);
         }
         const newCommentID = results.insertId;
         req.pool.getConnection(function(err,connection2) {
           if (err) {
-              console.log("Database connection error" + error);
               return res.sendStatus(401);
           }
           var query2 = `SELECT c.CommentID, c.CommentText, c.Timestamp, u.First_name, u.Last_name FROM Comment c JOIN User u ON c.UserID = u.User_ID WHERE c.CommentID = ?`;
           connection2.query(query2, [newCommentID], (error, results2) => {
               connection.release();
               if (error){
-                  console.log("Query error" + error);
                   return res.sendStatus(401);
               }
 
@@ -584,21 +566,18 @@ router.post('/manager/post/comments/reply/', isAuthenticated, (req, res) => {
                 [req.body.ParentID, req.body.EventID, req.session.userID, req.body.CommentText], (error, results) => {
         connection.release();
         if (error) {
-          console.log(error);
           return res.status(500).send(error);
         }
 
         const newCommentID = results.insertId;
         req.pool.getConnection(function(err,connection2) {
           if (err) {
-              console.log("Database connection error" + error);
               return res.sendStatus(401);
           }
           var query2 = `SELECT c.CommentID, c.CommentText, c.Timestamp, u.First_name, u.Last_name FROM Comment c JOIN User u ON c.UserID = u.User_ID WHERE c.CommentID = ?`;
           connection2.query(query2, [newCommentID], (error, results2) => {
               connection.release();
               if (error){
-                  console.log("Query error" + error);
                   return res.sendStatus(401);
               }
 
@@ -645,7 +624,6 @@ router.get('/admin/read/users', isAuthenticated, hasRole("Manager"),  (req, res)
 
 
 router.post('/manager/create/events', isAuthenticated, upload.single('image'), hasRole("Manager"),  (req, res) => {
-  console.log('File:', req.file); // Log the file data
 
   req.pool.getConnection(function (err, connection) {
     if (err) {
@@ -656,7 +634,6 @@ router.post('/manager/create/events', isAuthenticated, upload.single('image'), h
     const data = req.body;
     const image = req.file ? req.file.buffer : null; // Get the uploaded file buffer
 
-    console.log('Image Buffer:', image); // Log the buffer data to verify
 
     if (!image) {
       return res.status(400).send('No image uploaded');
@@ -749,7 +726,6 @@ router.post('/admin/edit/branches', isAuthenticated, upload.none(), hasRole("Adm
     connection.query(sql, [data.name, data.description, data.location, data.email, data.id, data.email], (error, results, fields) => {
       connection.release();
       if (error) {
-        console.log(error);
         return res.status(500).send(error);
       }
       res.send('Update branch Successfully');
@@ -761,7 +737,6 @@ router.post('/admin/edit/branches', isAuthenticated, upload.none(), hasRole("Adm
 
 
 router.post('/manager/edit/events', isAuthenticated, upload.single('image'), hasRole("Manager"),  (req, res) => {
-  console.log('File:', req.file); // Log the file data
 
   req.pool.getConnection(function (err, connection) {
     if (err) {
@@ -772,7 +747,6 @@ router.post('/manager/edit/events', isAuthenticated, upload.single('image'), has
     const data = req.body;
     const image = req.file ? req.file.buffer : null; // Get the uploaded file buffer
 
-    console.log('Image Buffer:', image); // Log the buffer data to verify
 
     if (!image) {
       const sql = `Update Event
@@ -859,14 +833,12 @@ router.post('/admin/update/user/:userId', isAuthenticated, hasRole("Administrato
 router.post('/manager/delete/user', isAuthenticated, hasRole("Manager"),  (req, res) => {
   req.pool.getConnection(function (err, connection) {
     if (err) {
-      console.log(err);
       res.sendStatus(500);
       return;
     }
     connection.query(`Delete from User_Branch where User_ID = ?`, [req.body.userID], (error, results) => {
       connection.release();
       if (error) {
-        console.log(error);
         return res.status(500).send(error);
       }
       res.sendStatus(200);
@@ -877,14 +849,12 @@ router.post('/manager/delete/user', isAuthenticated, hasRole("Manager"),  (req, 
 router.post('/admin/delete/user/:id', isAuthenticated, hasRole("Administrator"),  (req, res) => {
   req.pool.getConnection(function (err, connection) {
     if (err) {
-      console.log(err);
       res.sendStatus(500);
       return;
     }
     connection.query(`call DeleteUser(?)`, [req.params.id], (error, results) => {
       connection.release();
       if (error) {
-        console.log(error);
         return res.status(500).send(error);
       }
       res.sendStatus(200);
@@ -896,14 +866,12 @@ router.post('/admin/delete/user/:id', isAuthenticated, hasRole("Administrator"),
 router.post('/manager/add/user', isAuthenticated, hasRole("Manager"),  (req, res) => {
   req.pool.getConnection(function (err, connection) {
     if (err) {
-      console.log(err);
       res.sendStatus(500);
       return;
     }
     connection.query(`select BranchID from Branch where Manager_ID = ?`, [req.session.userID], (error, results) => {
       connection.release();
       if (error) {
-        console.log(error);
         return res.status(500).send(error);
       }
 
@@ -911,17 +879,14 @@ router.post('/manager/add/user', isAuthenticated, hasRole("Manager"),  (req, res
 
       req.pool.getConnection(function (err, connection2) {
         if (err) {
-          console.log("Database connection error" + error);
           return;
         }
         var query2 = `INSERT INTO User_Branch (User_ID, BranchID) SELECT User_ID, ? FROM User WHERE Email = ?`;
         connection2.query(query2, [branchid, req.body.userEmail], (error, results2) => {
           connection.release();
           if (error) {
-            console.log("Query error" + error);
             return;
           }
-          console.log("Add new member to branch successfully");
           res.sendStatus(200);
         });
       });
@@ -988,7 +953,6 @@ router.get('/read/updates/', isAuthenticated,  (req, res) => {
                     `, [req.session.userID], (error, results) => {
       connection.release();
       if (error) {
-        console.log(error);
         return res.status(500).send(error);
       }
 
@@ -1004,7 +968,6 @@ router.get('/read/updates/', isAuthenticated,  (req, res) => {
       });
 
 
-console.log(results);
       res.json(results);
     });
   });
@@ -1041,7 +1004,6 @@ router.get('/read/updates/:id', (req, res) => {
                     `, [req.session.userID, req.params.id, req.params.id], (error, results) => {
       connection.release();
       if (error) {
-        console.log(error);
         return res.status(500).send(error);
       }
 
@@ -1077,7 +1039,6 @@ values (?, ?, ?, ?, ?);`;
     connection.query(sql, [data.Title, data.Message, req.session.userID, req.session.BranchID[0], data.Type], (error, results, fields) => {
       connection.release();
       if (error) {
-        console.log(error);
         return res.status(500).send(error);
       }
       res.send('Data inserted');
@@ -1158,7 +1119,6 @@ router.get('/manager/read/events/member/:id', isAuthenticated, hasRole("Manager"
       [req.params.id], (error, results) => {
         connection.release();
         if (error) {
-          console.log(error);
           return res.status(500).send(error);
         }
         res.json(results);
@@ -1179,7 +1139,6 @@ router.get('/manager/read/BranchRequest', isAuthenticated, hasRole("Manager"),  
       [req.session.BranchID[0]], (error, results) => {
         connection.release();
         if (error) {
-          console.log(error);
           return res.status(500).send(error);
         }
         res.json(results);
@@ -1202,7 +1161,6 @@ router.post('/manager/approve/BranchRequest', isAuthenticated, hasRole("Manager"
       [data.RequestID], (error, results) => {
         connection.release();
         if (error) {
-          console.log(error);
           return res.status(500).send(error);
         }
         res.sendStatus(200);
@@ -1225,7 +1183,6 @@ router.post('/manager/reject/BranchRequest', isAuthenticated, hasRole("Manager")
       [data.RequestID], (error, results) => {
         connection.release();
         if (error) {
-          console.log(error);
           return res.status(500).send(error);
         }
         res.sendStatus(200);

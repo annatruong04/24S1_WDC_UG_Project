@@ -60,7 +60,7 @@ npm install
 npm start
 ```
 ## Accounts for testing
-To Log In into Manager and Admin pages, here are some available accounts for testing:
+To Log In into Member, Manager and Admin pages, here are some available accounts for testing:
 
 **Member**
 - Username

@@ -19,8 +19,8 @@ const transporter = nodemailer.createTransport({
   port: 587,
   secure: false,
   auth: {
-    user: "kieuduc2505@gmail.com", //ir process.env.USER
-    pass: "euoj kppd hfpe dxfv" //app password from Gmail Account or process.env.APP_PASSWORD
+    user: process.env.USER,
+    pass: process.env.APP_PASSWORD,
   },
 
 });
@@ -31,7 +31,8 @@ const mailOptions = {
     name: "Testing the email nodemailer",
     address: "kieuduc2505@gmail.com"
   },
-  to: ["kieuduc2505@gmail.com", "khanhnamld@gmail.com"],
+  to: ["kieuduc2505@gmail.com", "khanhnamld@gmail.com", 'thaotruong090604@gmail.com'
+],
   subject: "send email using nodemailder and gmail...",
   text: "hello world",
   html: "<b>hello world</b>",

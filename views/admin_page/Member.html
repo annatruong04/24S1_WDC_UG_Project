@@ -82,10 +82,6 @@
                         <i class="fa-solid fa-magnifying-glass" @click="search()"></i>
                         <input v-model="query_name" @keydown.enter="search" type="text" placeholder="Search by name or email">
                     </div>
-                    <div class="invite">
-                        <input type="text" v-model="newUserEmail" placeholder="Add new member by Email">
-                        <button type="button" class="invite-btn" @click="addMember()">+</button>
-                    </div>
                 </div>
             </div>
             <table class="member-table">

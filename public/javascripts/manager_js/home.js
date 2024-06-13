@@ -11,7 +11,8 @@ var appdiv = new Vue({
       description: '',
     },
     user: [],
-    members: []
+    members: [],
+    my_branch: []
   },
   computed: {
     truncatedUpdates() {
@@ -28,6 +29,7 @@ var appdiv = new Vue({
     this.getUser();
     this.fetch_member();
     this.fetch_update();
+    this.getBranch();
   },
   methods: {
     sanitizeHTML(html) {
@@ -70,6 +72,7 @@ var appdiv = new Vue({
               var data = JSON.parse(xhttp.responseText);
               console.log(data);
               this.user = data;
+              this.getBranch();
           }
       };
 
@@ -171,6 +174,19 @@ var appdiv = new Vue({
           }
       };
 
+      xhttp.send();
+    },
+    getBranch(){
+      var xhttp = new XMLHttpRequest();
+
+      xhttp.onreadystatechange = () => {
+          if (xhttp.readyState === 4 && xhttp.status === 200) {
+              var data = JSON.parse(xhttp.responseText);
+              console.log(data);
+              this.my_branch = data;
+          }
+      };
+      xhttp.open("get", `/api/read/branches/${this.user.BranchID}`, true);
       xhttp.send();
     },
   }

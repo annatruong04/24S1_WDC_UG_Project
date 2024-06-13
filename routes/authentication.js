@@ -53,6 +53,7 @@ router.get('/getUser', function(req, res, next) {
                         Email: req.session.email,
                         Role: req.session.role,
                         Password: req.session.password,
+                        BranchID: req.session.BranchID[0]
                     });
                 });
             });
@@ -66,6 +67,7 @@ router.get('/getUser', function(req, res, next) {
                 Email: req.session.email,
                 Role: req.session.role,
                 Password: req.session.password,
+                BranchID: req.session.BranchID[0]
             }); // Exit after sending response
         }
     } else {

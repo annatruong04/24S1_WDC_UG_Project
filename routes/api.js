@@ -64,7 +64,7 @@ router.get('/read/events', (req, res) => {
   });
 });
 
-router.get('/read/branches/events/:id', isAuthenticated, (req, res) => {
+router.get('/read/branches/events/:id', (req, res) => {
   req.pool.getConnection(function (err, connection) {
     if (err) {
       res.sendStatus(500);
@@ -940,7 +940,7 @@ router.get('/manager/read/updates/', isAuthenticated, hasRole("Manager"),  (req,
     });
   });
 });
-router.get('/read/updates/', isAuthenticated, (req, res) => {
+router.get('/read/updates/', isAuthenticated,  (req, res) => {
   req.pool.getConnection(function (err, connection) {
     if (err) {
       res.sendStatus(500);
@@ -992,7 +992,7 @@ console.log(results);
 });
 
 
-router.get('/read/updates/:id', isAuthenticated, (req, res) => {
+router.get('/read/updates/:id', (req, res) => {
   req.pool.getConnection(function (err, connection) {
     if (err) {
       res.sendStatus(500);

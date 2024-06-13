@@ -966,11 +966,12 @@ main .btn-send:hover {
 	padding: 20px;
 	margin-bottom: 20px;
 	margin-top: 20px;
-	max-height: 400px;
+	max-height: 600px;
 	overflow-y: auto;
 	/*
 	transition: transform 0.3s, box-shadow 0.3s; */
 }
+
 .section h2 {
 	margin-top: 0;
 	font-size: 1.4em;

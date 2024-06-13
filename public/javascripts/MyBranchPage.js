@@ -171,7 +171,7 @@ var app = new Vue({
           if (xhttp.readyState === 4) {
             if (xhttp.status === 200) {
               this.fetchUserBranches();
-              window.location.href = 'http://localhost:3000/myBranchPage.html';
+              window.location.href = 'http://localhost:3000/user/myBranchPage.html';
 
             } else {
               console.error('There was a problem with the fetch operation:', xhttp.responseText);
@@ -188,7 +188,7 @@ var app = new Vue({
           if (xhttp.readyState === 4) {
             if (xhttp.status === 200) {
               this.fetchUserEvents();
-              window.location.href = 'http://localhost:3000/myBranchPage.html';
+              window.location.href = 'http://localhost:3000/user/myBranchPage.html';
 
             } else {
               console.error('There was a problem with the fetch operation:', xhttp.responseText);

@@ -865,6 +865,38 @@ main .btn-send:hover {
     justify-content: space-between;
 }
 
+
+.search-and-invite{
+	display: flex;
+	justify-content: space-between;
+  }
+.member-searchbar{
+background-color: white;
+width: 30%;
+height: 40px;
+border: 1px solid #ccc;
+border-radius: 5px;
+display: flex;
+align-items: center;
+}
+
+.member-searchbar input{
+flex: 1;
+border: none;
+padding: 8px 16px;
+padding-left: 0;
+font-size: 16px;
+outline: none;
+}
+
+.no_border{
+	border: none !important;
+}
+
+.member-searchbar i{
+padding: 0 15px;
+font-size: larger;
+}
 .search{
     display: flex;
     background-color:#EAEAEA;
@@ -966,7 +998,7 @@ main .btn-send:hover {
 	padding: 20px;
 	margin-bottom: 20px;
 	margin-top: 20px;
-	max-height: 400px;
+	max-height: 570px;
 	overflow-y: auto;
 	/*
 	transition: transform 0.3s, box-shadow 0.3s; */

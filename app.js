@@ -46,6 +46,7 @@ app.use(session({
 // Create a connection object
 const dbConnectionPool = mysql.createPool({
   database: 'volunteer', // the name of the database you want to connect to
+  multipleStatements: true
 });
 
 dbConnectionPool.getConnection(function (err, connection) {

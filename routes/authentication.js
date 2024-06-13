@@ -79,7 +79,7 @@ router.post('/updateUser', async function(req, res, next) {
         return res.sendStatus(401);
     }
 
-    const { First_name, Last_name, Phone_number, Email, Password } = req.body;
+    const { First_name, Last_name, Phone_number, Email, Password, Receive_noti } = req.body;
     const hash = await argon2.hash(Password);
 
     req.session.firstname = First_name;
@@ -96,8 +96,8 @@ router.post('/updateUser', async function(req, res, next) {
         return;
         }
 
-        const query = 'UPDATE User SET First_name = ?, Last_name = ?, Phone_number = ?, Email = ?, Password = ? WHERE Username = ?';
-        connection.query(query, [First_name, Last_name, Phone_number, Email, hash, req.session.username], function(error, results) {
+        const query = 'UPDATE User SET First_name = ?, Last_name = ?, Phone_number = ?, Email = ?, Password = ?, Receive_email = ? WHERE Username = ?';
+        connection.query(query, [First_name, Last_name, Phone_number, Email, hash, Receive_noti, req.session.username], function(error, results) {
         connection.release();
         if (error) {
             return res.status(500).send(error);

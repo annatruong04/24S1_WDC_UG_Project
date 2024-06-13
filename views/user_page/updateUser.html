@@ -14,23 +14,26 @@
 <body>
   <div class="container" id="app">
     <input type="checkbox" id="check">
-
     <div class="registration form">
       <header>Update User Information</header>
       <form @submit.prevent="updateUser">
         <div class="flex-container">
           <div class="flex-row-right">
-            <input type="text" v-model="user.First_name" placeholder="First name">
-            <input type="text" v-model="user.Last_name" placeholder="Last name">
+            <input class="input-su" type="text" v-model="user.First_name" placeholder="First name">
+            <input class="input-su" type="text" v-model="user.Last_name" placeholder="Last name">
           </div>
           <div class="flex-row-left">
-            <input type="tel" v-model="user.Phone_number" placeholder="Phone Number">
-            <input type="email" v-model="user.Email" placeholder="Enter your email">
-            <input type="password" v-model="user.Password" placeholder="Change password">
+            <input class="input-su" type="tel" v-model="user.Phone_number" placeholder="Phone Number">
+            <input class="input-su" type="email" v-model="user.Email" placeholder="Enter your email">
+            <input class="input-su" type="password" v-model="user.Password" placeholder="Change password">
           </div>
         </div>
+        <div class="email-noti">
+          <input v-model="Receive_noti" type="checkbox" id="email_noti" name="email_noti" value="email_noti">
+          <label for="email_noti">I want to receive emails for new updates and events.</label><br>
+        </div>
         <p v-if="invalid" class="wrong-info">{{ invalidMessage }}</p>
-        <input type="submit" class="button" value="Update">
+        <input type="submit" class="input-su button" value="Update">
       </form>
     </div>
   </div>

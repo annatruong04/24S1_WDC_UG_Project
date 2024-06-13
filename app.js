@@ -230,7 +230,7 @@ app.post('/send-email', (req, res) => {
 
       const mailOptions = {
         from: {
-          name: "Testing the email nodemailer",
+          name: `Green Earth Organization`,
           address: 'kieuduc2505@gmail.com'
         },
         to: to,

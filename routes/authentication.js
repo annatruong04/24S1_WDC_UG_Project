@@ -44,20 +44,35 @@ router.get('/getUser', function(req, res, next) {
                     req.session.username = user.Username;
                     req.session.password = user.Password;
 
-                    res.status(200).json({
-                        First_name: req.session.firstname,
-                        Last_name: req.session.lastname,
-                        Username: req.session.username,
-                        Name: req.session.name,
-                        Phone_num: req.session.phonenum,
-                        Email: req.session.email,
-                        Role: req.session.role,
-                        Password: req.session.password,
-                        BranchID: req.session.BranchID[0]
-                    });
+                    if (req.session.BranchID) {
+                        return res.status(200).json({
+                            First_name: req.session.firstname,
+                            Last_name: req.session.lastname,
+                            Username: req.session.username,
+                            Name: req.session.name,
+                            Phone_num: req.session.phonenum,
+                            Email: req.session.email,
+                            Role: req.session.role,
+                            Password: req.session.password,
+                            BranchID: req.session.BranchID[0]
+                        }); // Exit after sending response
+                        }
+                        else {
+                            return res.status(200).json({
+                                First_name: req.session.firstname,
+                                Last_name: req.session.lastname,
+                                Username: req.session.username,
+                                Name: req.session.name,
+                                Phone_num: req.session.phonenum,
+                                Email: req.session.email,
+                                Role: req.session.role,
+                                Password: req.session.password,
+                            });
+                        }
                 });
             });
         } else {
+            if (req.session.BranchID) {
             return res.status(200).json({
                 First_name: req.session.firstname,
                 Last_name: req.session.lastname,
@@ -69,6 +84,19 @@ router.get('/getUser', function(req, res, next) {
                 Password: req.session.password,
                 BranchID: req.session.BranchID[0]
             }); // Exit after sending response
+            }
+            else {
+                return res.status(200).json({
+                    First_name: req.session.firstname,
+                    Last_name: req.session.lastname,
+                    Username: req.session.username,
+                    Name: req.session.name,
+                    Phone_num: req.session.phonenum,
+                    Email: req.session.email,
+                    Role: req.session.role,
+                    Password: req.session.password,
+                });
+            }
         }
     } else {
         return res.sendStatus(401); // Exit after sending response

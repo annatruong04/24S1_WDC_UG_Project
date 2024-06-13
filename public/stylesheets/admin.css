@@ -48,7 +48,7 @@ li {
 	background: var(--light);
 	top: 0;
 	left: 0;
-	height: 937px;
+	height: 100%;
 	overflow-y: auto;
 	scrollbar-width: none;
 	transition: all .3s ease;
@@ -401,8 +401,11 @@ nav .profile .profile-link a:hover {
 /* MAIN */
 main {
 	width: 100%;
-	padding: 24px 20px 20px 20px;
+	height: 2000px;
+	overflow: hidden;
+	padding: 24px 20px 20px 20px !important;
     flex: 1;
+	margin-bottom: 40px;
 }
 .mydiv {
 	padding-bottom: 300px;
@@ -1413,8 +1416,7 @@ body {
 	background: var(--light);
 	top: 0;
 	left: 0;
-	height: 100vh;
-	overflow-y: auto;
+	height: 100%;
 	scrollbar-width: none;
 	transition: all .3s ease;
     max-height: 1800px;

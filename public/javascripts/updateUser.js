@@ -9,6 +9,7 @@ var app = new Vue({
       Password: '',
       Receive_noti: 0
     },
+    role: '',
     confirmPassword: '',
     invalid: false,
     invalidMessage: '',
@@ -31,6 +32,8 @@ var app = new Vue({
             this.user.Email = data.Email || '';
             this.user.Password = data.Password || ''; // Clear password fields
             this.confirmPassword = '';
+            this.role = data.Role;
+            console.log(this.role);
           } else {
             console.error('Failed to fetch user data');
           }
@@ -49,7 +52,9 @@ var app = new Vue({
           if (xhttp.status === 200) {
     this.getUser();
     setTimeout(() => {
-      window.location.href = `http://localhost:3000/user/profile.html`;
+      if (this.role === "Administrator") window.location.href = `http://localhost:3000/admin/adminProfile.html`;
+      else if (this.role === "Manager") window.location.href = `http://localhost:3000/manager/profile.html`;
+      else window.location.href = `http://localhost:3000/user/profile.html`;
     }, 500);
 
           } else {

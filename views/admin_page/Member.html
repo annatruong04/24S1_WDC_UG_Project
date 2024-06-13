@@ -3,7 +3,7 @@
 
 <head>
     <title>Manager-page</title>
-    <link rel="stylesheet" href="../stylesheets/manager.css">
+    <link rel="stylesheet" href="../stylesheets/manageUser.css">
     <script src="https://kit.fontawesome.com/4cf720d27e.js" crossorigin="anonymous"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,118 +13,180 @@
 </head>
 
 
+
 <body>
-    <div id="mydiv" class="page-header">
-        <div class="upper-header">
-            <div class="logo-container">
-                <a href="/">
-                    <h1>GreenEarth</h1>
-                </a>
-            </div>
-            <div class="search-box">
-                <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                <input type="search" placeholder="Search..." class="search-bar">
-            </div>
-            <div class="rightcontent-container">
-                <img src="../images/profile.png" @click="toggleDropdown" alt="Profile Picture" onerror="this.onerror=null; this.src=''; this.style.backgroundColor='white'; this.style.borderRadius='50%';">
-                <div class="dropdown-menu" :data-show="clicked.toString()">
-                    <ul>
-                        <li><a href="/">Home Page</a></li>
-                        <li><a href="/user/profile.html">Your Profile</a></li>
-                        <li><a href="/auth/logout">Logout</a></li>
-                    </ul>
+    <div class="body-container">
+	<div class="main-section">
+        <!-- SIDEBAR -->
+	<section id="sidebar">
+		<a href="#" class="brand"><i class='bx bxs-smile icon'></i> Green Earth Admin</a>
+		<ul class="side-menu">
+			<li><a href="#" class="active"><i class='bx bxs-dashboard icon' ></i> Dashboard</a></li>
+			<li class="divider" data-text="main">Main</li>
+			<li><a href="/admin/Branches.html"><i class='bx bxs-chart icon' ></i> Branches</a></li>
+			<li><a href="Member.html"><i class='bx bxs-widget icon' ></i> People</a></li>
+			<li class="divider" data-text="table and forms">Table and forms</li>
+			<li><a href="#"><i class='bx bx-table icon' ></i> Tables</a></li>
+			<li>
+				<a href="#"><i class='bx bxs-notepad icon' ></i> Forms <i class='bx bx-chevron-right icon-right' ></i></a>
+				<ul class="side-dropdown">
+					<li><a href="#">Basic</a></li>
+					<li><a href="#">Select</a></li>
+					<li><a href="#">Checkbox</a></li>
+					<li><a href="#">Radio</a></li>
+				</ul>
+			</li>
+		</ul>
+	</section>
+	<!-- SIDEBAR -->
+
+	<!-- NAVBAR -->
+	<section id="content">
+		<!-- NAVBAR -->
+		<nav>
+			<i class='bx bx-menu toggle-sidebar' ></i>
+			<form action="#">
+				<div class="form-group">
+					<input type="text" placeholder="Search...">
+					<i class='bx bx-search icon' ></i>
+				</div>
+			</form>
+			<a href="#" class="nav-link">
+				<i class='bx bxs-bell icon' ></i>
+				<span class="badge">5</span>
+			</a>
+			<a href="#" class="nav-link">
+				<i class='bx bxs-message-square-dots icon' ></i>
+				<span class="badge">8</span>
+			</a>
+			<span class="divider"></span>
+			<div class="profile">
+				<img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cGVvcGxlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="">
+				<ul class="profile-link">
+					<li><a href="/"><i class='bx bxs-user-circle icon' ></i> Home Page</a></li>
+					<li><a href="/admin/adminProfile.html"><i class='bx bxs-cog' ></i> Profile</a></li>
+					<li><a href="/auth/logout"><i class='bx bxs-log-out-circle' ></i> Logout</a></li>
+				</ul>
+			</div>
+		</nav>
+		<!-- NAVBAR -->
+
+		<!-- MAIN -->
+        <main id="manager-page" class="body-container">
+            <div class="member-header">
+                <h1>Member</h1>
+                <div class="search-and-invite">
+                    <div class="member-searchbar">
+                        <i class="fa-solid fa-magnifying-glass" @click="search()"></i>
+                        <input v-model="query_name" @keydown.enter="search" type="text" placeholder="Search by name or email">
+                    </div>
+                    <div class="invite">
+                        <input type="text" v-model="newUserEmail" placeholder="Add new member by Email">
+                        <button type="button" class="invite-btn" @click="addMember()">+</button>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="lower-header">
-            <nav class="navbar">
-                <ul>
-                    <li class="">
-                        <a href="Home.html">
-                            <div class="navbar-link">Home</div>
-                        </a>
-                    </li>
-                    <li class="">
-                        <a href="Event.html">
-                             <div class="navbar-link">Event</div>
-                        </a>
-                    </li>
-                    <li class="active">
-                        <a href="Member.html">
-                            <div class="navbar-link">Member</div>
-                        </a>
-                    </li>
-                    <li class="">
-                        <a href="Update.html">
-                            <div class="navbar-link">Update</div>
-                        </a>
-                    </li>
-                    <li class="">
-                        <a href="Request.html">
-                            <div class="navbar-link">Request</div>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
+            <table class="member-table">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="user in users" :key="user.User_ID" v-if="!showSearch">
+                        <td> {{user.Username}} </td>
+                        <td> <span>{{user.First_name}} {{user.Last_name}} </span>  </td>
+                        <td> {{user.Email}}</td>
+                        <td>
+                            <!-- <span v-if="user.First_name + ' ' + user.Last_name === my_user.Name " class="role manager">Manager</span>
+                            <span v-if="user.First_name + ' ' + user.Last_name !== my_user.Name" class="role member">Member</span> -->
+                            <span v-if="user.Role_ID===3" class="role member">User</span>
+                            <span v-if="user.Role_ID===2" class="role manager">Manager</span>
+
+                            <span v-if="user.Role_ID===1" class="role admin">Admin</span>
+
+                        </td>
+                        <td><button v-if="user.Role_ID!==1" type="button" @click="makeManager(user.User_ID)" class="role admin no_border">Assign as admin</button></td>
+
+                        <td><button type="button" @click="deleteUser(user.User_ID, user.First_name + ' ' + user.Last_name)" class="more-button"><i class="fa-solid fa-trash"></i></button></td>
+                    <!-- </tr>
+                    <tr v-for="user in filteredUsers" :key="user.User_ID" v-if="showSearch">
+                        <td> {{user.Username}} </td>
+                        <td> <span>{{user.First_name}} {{user.Last_name}} </span>  </td>
+                        <td> {{user.Email}}</td>
+                        <td>
+                            <span v-if="user.First_name + ' ' + user.Last_name === my_user.Name " class="role manager">Manager</span>
+                            <span v-if="user.First_name + ' ' + user.Last_name !== my_user.Name" class="role member">Member</span>
+                            <span v-if="user.Role_name==='Administrator'" class="role admin">Admin</span>
+                        </td>
+                        <td><button type="button" @click="deleteUser(user.User_ID, user.First_name + ' ' + user.Last_name)" class="more-button"><i class="fa-solid fa-trash"></i></button></td>
+                    </tr> -->
+                </tbody>
+            </table>
+            <p v-if="showSearch && filteredUsers.length === 0">No result found.</p>
+        </main>
+		<!-- MAIN -->
+	</section>
+	<!-- NAVBAR -->
     </div>
-    <div id="manager-page" class="body-container">
-        <div class="member-header">
-            <h1>Member</h1>
-            <div class="search-and-invite">
-                <div class="member-searchbar">
-                    <i class="fa-solid fa-magnifying-glass" @click="search()"></i>
-                    <input v-model="query_name" @keydown.enter="search" type="text" placeholder="Search by name or email">
-                </div>
-                <div class="invite">
-                    <input type="text" v-model="newUserEmail" placeholder="Add new member by Email">
-                    <button type="button" class="invite-btn" @click="addMember()">+</button>
-                </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+          <div class="footer-columns">
+            <div class="footer-column">
+              <h6>About</h6>
+              <p class="text-justify">GreenEarth <i>CONNECTING WITH NATURE</i> is dedicated to promoting environmental awareness and sustainability. We provide resources, articles, and tips on how to live an eco-friendly lifestyle. Join us in making a positive impact on our planet through education, conservation, and community engagement.</p>
             </div>
+
+            <div class="footer-column">
+              <h6>Categories</h6>
+              <ul class="footer-links">
+                <li><a href="#">Sustainability</a></li>
+                <li><a href="#">Climate Change</a></li>
+                <li><a href="#">Wildlife Conservation</a></li>
+                <li><a href="#">Renewable Energy</a></li>
+                <li><a href="#">Recycling</a></li>
+                <li><a href="#">Green Living</a></li>
+              </ul>
+            </div>
+
+            <div class="footer-column">
+              <h6>Quick Links</h6>
+              <ul class="footer-links">
+                <li><a href="aboutUs.html">About Us</a></li>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="login.html">Get Involved</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Sitemap</a></li>
+              </ul>
+            </div>
+          </div>
+          <hr>
+          <div class="footer-social">
+            <ul class="social-icons">
+              <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+              <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+              <li><a class="instagram" href="#"><i class="fa fa-instagram"></i></a></li>
+              <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
+            </ul>
+          </div>
+          <div class="copyright">
+            <p class="copyright-text">Copyright &copy; 2024 All Rights Reserved by
+              <a href="#">GreenEarth</a>.
+            </p>
+          </div>
         </div>
-        <table class="member-table">
-            <thead>
-                <tr>
-                    <th>Username</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="user in users" :key="user.User_ID" v-if="!showSearch">
-                    <td> {{user.Username}} </td>
-                    <td> <span>{{user.First_name}} {{user.Last_name}} </span>  </td>
-                    <td> {{user.Email}}</td>
-                    <td>
-                        <!-- <span v-if="user.First_name + ' ' + user.Last_name === my_user.Name " class="role manager">Manager</span>
-                        <span v-if="user.First_name + ' ' + user.Last_name !== my_user.Name" class="role member">Member</span> -->
-                        <span v-if="user.Role_ID===3" class="role member">User</span>
-                        <span v-if="user.Role_ID===2" class="role manager">Manager</span>
+      </footer>
+      <!-- Footer -->
 
-                        <span v-if="user.Role_ID===1" class="role admin">Admin</span>
-
-                    </td>
-                    <td><button v-if="user.Role_ID!==1" type="button" @click="makeManager(user.User_ID)" class="role admin no_border">Assign as admin</button></td>
-
-                    <td><button type="button" @click="deleteUser(user.User_ID, user.First_name + ' ' + user.Last_name)" class="more-button"><i class="fa-solid fa-trash"></i></button></td>
-                <!-- </tr>
-                <tr v-for="user in filteredUsers" :key="user.User_ID" v-if="showSearch">
-                    <td> {{user.Username}} </td>
-                    <td> <span>{{user.First_name}} {{user.Last_name}} </span>  </td>
-                    <td> {{user.Email}}</td>
-                    <td>
-                        <span v-if="user.First_name + ' ' + user.Last_name === my_user.Name " class="role manager">Manager</span>
-                        <span v-if="user.First_name + ' ' + user.Last_name !== my_user.Name" class="role member">Member</span>
-                        <span v-if="user.Role_name==='Administrator'" class="role admin">Admin</span>
-                    </td>
-                    <td><button type="button" @click="deleteUser(user.User_ID, user.First_name + ' ' + user.Last_name)" class="more-button"><i class="fa-solid fa-trash"></i></button></td>
-                </tr> -->
-            </tbody>
-        </table>
-        <p v-if="showSearch && filteredUsers.length === 0">No result found.</p>
     </div>
+	<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
     <script src="https://kit.fontawesome.com/4cf720d27e.js" crossorigin="anonymous"></script>
     <script src="../javascripts/admin_js/member.js"></script>
 </body>

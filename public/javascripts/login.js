@@ -13,6 +13,7 @@ var app = new Vue({
         SU_passwordCF: "",
         SU_invalid: false,
         SU_invalid_name: "",
+        SU_email_noti: false,
     },
     methods: {
         login(){
@@ -23,7 +24,7 @@ var app = new Vue({
                     this.WrongInfo = false;
                     console.log(xhttp.responseText);
                     if (xhttp.responseText === "User") window.location.href = `http://localhost:3000/user/landingPage.html`;
-                    else if (xhttp.responseText === "Manager") window.location.href = `http://localhost:3000/manager/home.html`;
+                    else if (xhttp.responseText === "Manager") window.location.href = `http://localhost:3000/manager/Home.html`;
                     else if (xhttp.responseText === "Administrator") window.location.href = `http://localhost:3000/admin/admin.html`;
                     console.log("Login successfull");
                 }
@@ -58,6 +59,10 @@ var app = new Vue({
                 }
             };
 
+            let email_noti = 0;
+
+            if (this.SU_email_noti) email_noti = 1;
+
             xhttp.open("post", "/auth/signup", true);
             xhttp.setRequestHeader("Content-type", "application/json");
             xhttp.send(JSON.stringify({param1: this.SU_username,
@@ -65,7 +70,8 @@ var app = new Vue({
                                        param3: this.SU_lastname,
                                        param4: this.SU_phonenum,
                                        param5: this.SU_email,
-                                       param6: this.SU_password
+                                       param6: this.SU_password,
+                                       param7: email_noti
                                     }));
         }
     }

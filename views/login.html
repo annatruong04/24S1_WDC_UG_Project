@@ -47,11 +47,11 @@
     <div class="login form">
       <header>Login</header>
       <form @submit.prevent="login">
-        <input type="text" v-model="username" placeholder="Enter your User name">
-        <input type="password" v-model="password" placeholder="Enter your password">
+        <input class="input-su" type="text" v-model="username" placeholder="Enter your User name">
+        <input class="input-su" type="password" v-model="password" placeholder="Enter your password">
         <p v-if="WrongInfo" class="wrong-info">Wrong Username or Password !</p>
         <a href="#">Forgot password?</a>
-        <input type="submit" class="button" value="Login">
+        <input type="submit" class="button input-su" value="Login">
 
         <div class="separator">or</div>
 
@@ -87,9 +87,9 @@
       <form  @submit.prevent="signup">
         <div class="flex-container">
           <div class="flex-row-right">
-            <input type="text" v-model="SU_username" placeholder="Username">
-            <input type="text" v-model="SU_firstname" placeholder="First name">
-            <input type="text" v-model="SU_lastname" placeholder="Last name">
+            <input class="input-su" type="text" v-model="SU_username" placeholder="Username">
+            <input class="input-su" type="text" v-model="SU_firstname" placeholder="First name">
+            <input class="input-su" type="text" v-model="SU_lastname" placeholder="Last name">
             <!-- <p>Sign in as</p>
 
             <div class="option">
@@ -100,14 +100,18 @@
 
           </div>
           <div class="flex-row-left">
-            <input type="tel" v-model="SU_phonenum" placeholder="Phone number">
-            <input type="email" v-model="SU_email" placeholder="Enter your email">
-            <input type="password" v-model="SU_password" placeholder="Create a password">
-            <input type="password" v-model="SU_passwordCF" placeholder="Confirm your password">
+            <input class="input-su" type="tel" v-model="SU_phonenum" placeholder="Phone number">
+            <input class="input-su" type="email" v-model="SU_email" placeholder="Enter your email">
+            <input class="input-su" type="password" v-model="SU_password" placeholder="Create a password">
+            <input class="input-su" type="password" v-model="SU_passwordCF" placeholder="Confirm your password">
           </div>
         </div>
+        <div class="email-noti">
+          <input v-model="SU_email_noti" type="checkbox" id="email_noti" name="email_noti" value="email_noti">
+          <label for="email_noti">I want to receive emails for new updates and events.</label><br>
+        </div>
         <p v-if="SU_invalid" class="wrong-info">{{SU_invalid_name}}</p>
-        <input type="submit" class="button" value="Sign up">
+        <input type="submit" class="button input-su" value="Sign up">
 
       </form>
       <div class="signup">

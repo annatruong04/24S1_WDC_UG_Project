@@ -178,8 +178,10 @@ box-sizing: unset;
 /* Header */
 .page-header {
   position: fixed;
+  display: flex;
+  align-items: center;
   width: 100%;
-  height: 110px;
+  height: 60px;
   background-color:  #135D66;
   z-index: 1000;
 }

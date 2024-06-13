@@ -320,6 +320,10 @@ body{
     font-weight: bold;
 }
 
+.leave-button{
+  background-color: rgb(224, 108, 108) !important;
+}
+
 .date-info{
     display: flex;
     align-items: center;

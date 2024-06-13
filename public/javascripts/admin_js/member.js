@@ -110,7 +110,7 @@ var appdiv = new Vue({
 
         xhttp.onreadystatechange = () => {
             if (xhttp.readyState === 4 && xhttp.status === 200) {
-                window.location.href = `http://localhost:3000/manager/Member.html`;
+                window.location.href = `http://localhost:3000/admin/Member.html`;
                 console.log("Add new member successful successfull");
             }
         };

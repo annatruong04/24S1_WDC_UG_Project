@@ -38,7 +38,6 @@ var appdiv = new Vue({
 
         if (query_name) {
           this.filteredUsers = this.users.filter(user => {
-            console.log(user.First_name + user.Last_name);
             return (user.First_name + user.Last_name).toLowerCase().includes(query_name) ||
             user.Email.toLowerCase().includes(query_name);
           });
@@ -46,7 +45,6 @@ var appdiv = new Vue({
           this.filteredUsers = this.users;
         }
         this.showSearch = true;
-        console.log(this.filteredEvents);
       },
       fetch_users() {
         var xhttp = new XMLHttpRequest();
@@ -154,4 +152,4 @@ window.onload = function () {
       }
     }
   });
-}
+};

@@ -164,7 +164,7 @@ li {
 	background: var(--light);
 	top: 0;
 	left: 0;
-	height: 718px;
+	height: 100vh;
 	overflow-y: auto;
 	scrollbar-width: none;
 	transition: all .3s ease;
@@ -1124,15 +1124,21 @@ main .btn-send:hover {
 body {
 	margin: 0;
 	font-family: 'Open Sans', sans-serif;
-
+	height: 100vh; /* Ensure the body takes full height */
+    overflow: hidden;
 	color: #003C43;
   }
 
   .body-container-profile{
 	background-color: #E3FEF7;
+	max-height: 100vh;
   }
   #app{
-	padding-top: 180px;
+	padding-top: 150px;
+	height: 100vh;
+	display: relative;
+	overflow: hidden;
+	/* padding-bottom: 130px; */
   }
 
   header {
@@ -1401,7 +1407,7 @@ body {
 	background: var(--light);
 	top: 0;
 	left: 0;
-	height: 789px;
+	height: 100vh;
 	overflow-y: auto;
 	scrollbar-width: none;
 	transition: all .3s ease;

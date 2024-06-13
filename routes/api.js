@@ -915,7 +915,7 @@ router.get('/read/updates/', isAuthenticated, (req, res) => {
       });
 
 
-
+console.log(results);
       res.json(results);
     });
   });

@@ -6,6 +6,7 @@ var logger = require('morgan');
 const mysql = require('mysql2');
 const session = require('express-session');
 const nodemailer = require('nodemailer');
+const bodyParser = require('body-parser');
 
 
 
@@ -13,41 +14,78 @@ const fs = require('fs');
 require('dotenv').config();
 
 const cors = require('cors');
+
+// Nodemailer setup
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   host: "smtp.gmail.com",
   port: 587,
   secure: false,
   auth: {
-    user: process.env.USER,
-    pass: process.env.APP_PASSWORD,
+    user: 'kieuduc2505@gmail.com',
+    pass: 'euoj kppd hfpe dxfv',
   },
-
 });
 
-
-const mailOptions = {
-  from: {
-    name: "Testing the email nodemailer",
-    address: "kieuduc2505@gmail.com"
-  },
-  to: ["kieuduc2505@gmail.com", "khanhnamld@gmail.com", 'thaotruong090604@gmail.com'
-],
-  subject: "send email using nodemailder and gmail...",
-  text: "hello world",
-  html: "<b>hello world</b>",
-};
-
 var app = express();
-
-
 // view engine setup
+app.use(bodyParser.json());
+
 app.use(cors());
 app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+// Route to send email
+app.post('/send-email', (req, res) => {
+  const { Title, Message, Type } = req.body; // Destructure the form data from the request body
+
+  const mailOptions = {
+    from: {
+      name: "Testing the email nodemailer",
+      address: 'kieuduc2505@gmail.com'
+    },
+    to: ["kieuduc2505@gmail.com"],
+    subject: `${Title}`,
+    text: `Title: ${Title}\nMessage: ${Message}\nType: ${Type}`, // Plain text version
+    html: `<p><strong>Message:</strong> ${Message}</p>` // HTML version
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error('Error sending email:', error);
+      return res.status(500).send(error.toString());
+    }
+    res.send('Email sent: ' + info.response);
+  });
+});
+
+app.get('/test-email', (req, res) => {
+  const mailOptions = {
+    from: {
+      name: "Testing the email nodemailer",
+      address: 'kieuduc2505@gmail.com'
+    },
+    to: ["kieuduc2505@gmail.com"],
+    subject: "Test Email",
+    text: "This is a test email to check if the email sending is working.",
+    html: "<p>This is a test email to check if the email sending is working.</p>"
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error('Error sending test email:', error);
+      return res.status(500).send(error.toString());
+    }
+    res.send('Test email sent: ' + info.response);
+  });
+});
+
+
+// view engine setup
+
 
 app.use(session({
   secret: process.env.SESSION_SECRET,

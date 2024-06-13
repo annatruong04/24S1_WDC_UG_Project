@@ -3,7 +3,7 @@ var app = new Vue({
   data: {
       clicked: false,
       loginStatus: true,
-      user: []
+      user: [],
   },
   mounted(){
     this.getUser();
@@ -32,10 +32,14 @@ var app = new Vue({
 var main_app = new Vue({
   el: "#app",
   data: {
-    user: []
+    user: [],
+    updates: [],
+
   },
   mounted: function(){
     this.getUser();
+    this.fetchUpdates();
+
   },
 
   methods: {
@@ -59,7 +63,25 @@ var main_app = new Vue({
     Update() {
       // Navigate to the desired page
       window.location.href = 'updateUser.html';
-      
+
+    },
+    fetchUpdates() {
+      const xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = () => {
+        if (xhttp.readyState === 4 && xhttp.status === 200) {
+          this.updates = JSON.parse(xhttp.responseText);
+          console.log(this.updates);
+        }
+      };
+      xhttp.open('GET', '/api/read/updates', true);
+      xhttp.send();
+    },
+    sendEmail() {
+      // Make an AJAX call to your server to send the email with the updates
+      const xhttp = new XMLHttpRequest();
+      xhttp.open('POST', '/send-email', true);
+      xhttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+      xhttp.send(JSON.stringify(this.updates));
     }
 
   }

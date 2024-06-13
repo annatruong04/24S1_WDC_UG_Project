@@ -53,9 +53,10 @@ Warm regards,
 Khanh Le", 6, 3);
 
 CREATE DATABASE IF NOT EXISTS `volunteer` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
-mysqldump --routines --triggers --single-transaction --quick --lock-tables=false --hex-blob volunteer > db_secondVer.sql
+
 USE `volunteer`;
 
+mysqldump --routines --triggers --single-transaction --quick --lock-tables=false --hex-blob volunteer > db_secondVer.sql
 DELIMITER //
 
 CREATE PROCEDURE DeleteUser(IN p_UserID INT)

@@ -129,8 +129,7 @@ router.post('/signup', function(req,res,next){
     const phonenum = req.body.param4;
     const su_email = req.body.param5;
     const su_password = req.body.param6;
-
-
+    const SU_email_noti = req.body.param7;
 
     req.pool.getConnection(async function(err,connection) {
         if (err) {
@@ -152,8 +151,8 @@ router.post('/signup', function(req,res,next){
                         console.log("Database connection error" + error);
                         return res.sendStatus(401);
                     }
-                    var query2 = `insert into User(Username, First_name, Last_name, Phone_number, Email, Role_ID, Password) values(?, ?, ?, ?, ?, '3', ?)`;
-                    connection2.query(query2, [username, firstname, lastname, phonenum, su_email, hash], (error, results) => {
+                    var query2 = `insert into User(Username, First_name, Last_name, Phone_number, Email, Role_ID, Password, Receive_email) values(?, ?, ?, ?, ?, '3', ?, ?)`;
+                    connection2.query(query2, [username, firstname, lastname, phonenum, su_email, hash, SU_email_noti], (error, results) => {
                         connection.release();
                         if (error){
                             console.log("Query error" + error);

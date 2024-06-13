@@ -1380,6 +1380,8 @@ input[type="file"] {
   top: 10px;
   right: 10px;
 }
+<<<<<<< HEAD
+=======
 
 .profile {
   position: relative;
@@ -1553,5 +1555,4 @@ input[type="file"] {
 .signup label:hover{
   text-decoration: underline;
 }
-
-
+>>>>>>> refs/remotes/origin/main

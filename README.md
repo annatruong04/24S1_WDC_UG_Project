@@ -4,6 +4,7 @@ This is the volunteer website of group 92 named **Green Earth**. This platform h
 
 <img width="1500" alt="Screenshot 2024-06-11 at 5 42 42 pm" src="https://github.com/UAdelaide/24S1_WDC_UG_Group_92/assets/140358233/71263da1-2420-4a29-9a4e-b4730dda3875">
 
+https://www.figma.com/community/file/1491387464703230128
 # Key Features
 ### General Users
 - Sign Up/Log In: Users can create an account and log in to the system
